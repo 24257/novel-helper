@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>WiFi 传输</title>
+    <link rel="stylesheet" href="./css/wifi_send.css">
+</head><body>
+<div style="display: none"><img src="./img/wrong.png"></div>
+<div id="pc" class="pc" style="display: block;">
+    <div class="title_wrap">
+        <div class="s_title">
+            <span class="f_36 black">阅读</span>
+            <span class="gray ml_25 f_14 up">|</span>
+            <span class="gray f_20 ml_25">WiFi传输</span>
+        </div>
+    </div>
+    <div class="main_wrap">
+        <div class="top_cont">
+            <div class="inline-block">
+                <!--<p class="status">已与同局域网的电纸书<span id="status"></span>连接</p>-->
+                <p class="status">可支持文件格式： </p>
+                <p class="type">TXT、EPUB、UMD、PDF、MOBI、AZW3、AZW</p>
+            </div>
+            <div class="inline">
+                <span class="warning" id="warning" style="display: none">请<a href="https://get.adobe.com/cn/flashplayer/" target="_blank">点击</a>安装flash插件</span>
+                <span class="btn" id="flash_btn" style="display: none;"><span id="spanButtonPlaceHolder"></span></span>
+                <form class="select_btn" id="h5_btn" style="display: inline-block;">
+                    选择文件
+                    <input type="file" id="click" multiple="">
+                </form>
+            </div>
+        </div>
+
+        <div class="s_table" id="drag">
+            <table>
+                <thead>
+                <tr>
+                    <td></td>
+                    <td><span>文件名</span></td>
+                    <td><span>大小</span></td>
+                    <td><span>操作</span></td>
+                </tr>
+                </thead>
+                <tbody><tr data-js="item" data-status="init"><td><span></span></td><td><span></span></td><td><span></span></td><td><span><i></i></span></td></tr><tr data-js="item" data-status="init"><td><span></span></td><td><span></span></td><td><span></span></td><td><span><i></i></span></td></tr><tr data-js="item" data-status="init"><td><span></span></td><td><span></span></td><td><span></span></td><td><span><i></i></span></td></tr><tr data-js="item" data-status="init"><td><span></span></td><td><span></span></td><td><span></span></td><td><span><i></i></span></td></tr><tr data-js="item" data-status="init"><td><span></span></td><td><span></span></td><td><span></span></td><td><span><i></i></span></td></tr><tr data-js="item" data-status="init"><td><span></span></td><td><span></span></td><td><span></span></td><td><span><i></i></span></td></tr><tr data-js="item" data-status="init"><td><span></span></td><td><span></span></td><td><span></span></td><td><span><i></i></span></td></tr><tr data-js="item" data-status="init"><td><span></span></td><td><span></span></td><td><span></span></td><td><span><i></i></span></td></tr>
+                <tr>
+                    <td colspan="4"><span class="last_row">请将图书或字体拖拽至此即可上传</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="h5" class="h5" style="display: none">
+    <div class="s_title">
+        <i class="s_logo"></i>
+        <span class="f_18 black">阅读</span>
+        <span class="gray ml_15 f_14 up">|</span>
+        <span class="gray f_15 ml_15">WiFi传输</span>
+    </div>
+    <div class="s_table">
+        <table>
+            <thead>
+            <tr>
+                <td></td>
+                <td>文件名</td>
+                <td>大小</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+            <tbody id="show">
+
+            </tbody>
+        </table>
+    </div>
+    <div class="bottom_c">
+        <div class="type">TXT、EPUB、UMD</div>
+        <form class="bottom_btn_wrap">
+            选择文件
+            <input type="file" id="tap">
+        </form>
+    </div>
+</div>
+<!-- ios 暂不支持提示 start -->
+<div class="mask" id="mask_1">
+    <div class="close" id="close"></div>
+    <div class="c_tc"></div>
+</div>
+<!-- ios 暂不支持提示 start -->
+
+<!-- 浏览器打开提示 start -->
+<div class="mask" id="mask_2">
+    <div class="t_tc" id="safari"></div>
+</div>
+<!-- 浏览器打开提示 end -->
+
+<script>
+    //alert(navigator.userAgent)
+    var browser={
+        versions:function(){
+            var u = navigator.userAgent;
+            return {//移动终端浏览器版本信息
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1 , //是否为iPhone或者QQHD浏览器
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+                webApp: u.indexOf('Safari') == -1, //是否web应该程序，没有头部与底部
+                ie8: u.indexOf('MSIE 8.0') > -1, //是否是ie8
+                ie7: u.indexOf('MSIE 7.0') > -1  //是否是ie7
+            };
+        }()
+    };
+
+    var isH5 = browser.versions.mobile || browser.versions.ios || browser.versions.android
+            || browser.versions.iPhone || browser.versions.iPad;
+
+    var ie = browser.versions.ie7 || browser.versions.ie8;
+
+    var ios = browser.versions.ios;
+
+    var ua = navigator.userAgent.toLowerCase();
+
+    var src = [];
+
+
+    if(ie){
+        try{
+            var swf = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+            document.getElementById('flash_btn').style.display = 'inline-block';
+        }
+        catch(e){
+            document.getElementById('warning').style.display = 'inline-block';
+        }
+
+    }else{
+        document.getElementById('h5_btn').style.display = 'inline-block';
+    }
+
+    function addScript(src){
+        var s;
+        for(s in src){
+            var myScript= document.createElement('script');
+            myScript.setAttribute('src', src[s]);
+            document.body.appendChild(myScript);
+        }
+    }
+    var maskDom = document.getElementById('mask_1');
+    var maskDom2 = document.getElementById('mask_2');
+    if(ios){
+        maskDom.style.display="block";
+    }
+ 
+    if(ua.match(/MicroMessenger/i)=="micromessenger") {
+        maskDom2.style.display="block";
+        if(ios){
+            maskDom.style.display="none";
+            var safariDom = document.getElementById("safari");
+            if ((" " + safariDom.className + " ").indexOf(" safariWarn ") === -1) {
+                safariDom.className += (safariDom.className ? " " : "") + "safariWarn";
+            }
+        }
+    }
+
+    document.getElementById("close").addEventListener("click", function () {
+        maskDom.style.display="none"
+    })
+</script><script src="./js/common.js"></script><script src="./js/html5_fun.js"></script>
+</body></html>

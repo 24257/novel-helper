@@ -1,0 +1,81 @@
+name: Build Web
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '**/modules/web/**'
+      - '.github/workflows/web.yml'
+      - '.github/scripts/push-web-assets.sh'
+  pull_request:
+    paths:
+      - '**/modules/web/**'
+      - '.github/workflows/web.yml'
+      - '.github/scripts/push-web-assets.sh'
+  workflow_dispatch:
+
+concurrency:
+  group: build-web-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  UPSTREAM_REPOSITORY: LegadoTeam/legado
+
+permissions:
+  actions: write
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Install Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - uses: pnpm/action-setup@v6.0.10
+        name: Install pnpm
+        with:
+          version: 9.15.9
+          run_install: false
+          cache: true
+          cache_dependency_path: modules/web/pnpm-lock.yaml
+
+      - name: Build and move files
+        working-directory: modules/web
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build
+          version="v$(date -d "8 hour" -u +3.%y.%m%d%H)"
+          echo "APP_VER=$version" >> $GITHUB_ENV
+
+      - name: Commit web assets
+        id: web-commit
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && github.repository == env.UPSTREAM_REPOSITORY }}
+        uses: stefanzweifel/git-auto-commit-action@v7.2.0
+        with:
+          commit_message: Bump web ${{ env.APP_VER}}
+          file_pattern: app/src/main/assets/web/vue/ modules/web/src/components.d.ts
+          skip_fetch: true
+          skip_push: true
+
+      - name: Push web assets
+        if: ${{ steps.web-commit.outputs.changes_detected == 'true' }}
+        run: bash .github/scripts/push-web-assets.sh
+
+      - name: Dispatch Test Release
+        if: ${{ steps.web-commit.outputs.changes_detected == 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run TestRelease.yml --ref master \
+            -f commit_sha="$(git rev-parse HEAD)"
+

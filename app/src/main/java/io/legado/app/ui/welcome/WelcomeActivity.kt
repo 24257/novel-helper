@@ -1,0 +1,129 @@
+package io.legado.app.ui.welcome
+
+import android.content.Intent
+import android.os.Bundle
+import androidx.core.graphics.drawable.toDrawable
+import androidx.lifecycle.lifecycleScope
+import io.legado.app.base.BaseActivity
+import io.legado.app.constant.PreferKey
+import io.legado.app.constant.Theme
+import io.legado.app.data.appDb
+import io.legado.app.databinding.ActivityWelcomeBinding
+import io.legado.app.help.config.AppConfig
+import io.legado.app.help.config.ThemeConfig
+import io.legado.app.lib.theme.accentColor
+import io.legado.app.lib.theme.backgroundColor
+import io.legado.app.ui.book.read.ReadBookActivity
+import io.legado.app.ui.main.MainActivity
+import io.legado.app.utils.BitmapUtils
+import io.legado.app.utils.fullScreen
+import io.legado.app.utils.getPrefBoolean
+import io.legado.app.utils.getPrefInt
+import io.legado.app.utils.getPrefString
+import io.legado.app.utils.setStatusBarColorAuto
+import io.legado.app.utils.startActivity
+import io.legado.app.utils.viewbindingdelegate.viewBinding
+import io.legado.app.utils.visible
+import io.legado.app.utils.windowSize
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+open class WelcomeActivity : BaseActivity<ActivityWelcomeBinding>() {
+
+    override val binding by viewBinding(ActivityWelcomeBinding::inflate)
+    private var startMainJob: Job? = null
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        if (intent.flags and Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT != 0) {
+            // 避免从桌面启动程序后，会重新实例化入口类的activity
+            finish()
+        } else {
+            val welcomeShowTime = getPrefInt(PreferKey.welcomeShowTime, 500)
+            if (welcomeShowTime == 0) {
+                startMainActivity()
+            } else {
+                startMainJob = lifecycleScope.launch {
+                    delay(welcomeShowTime.toLong())
+                    startMainActivity()
+                }
+            }
+        }
+        binding.ivBook.setColorFilter(accentColor)
+        binding.vwTitleLine.setBackgroundColor(accentColor)
+    }
+
+    override fun setupSystemBar() {
+        fullScreen()
+        setStatusBarColorAuto(backgroundColor, true, fullScreen)
+        upNavigationBarColor()
+    }
+
+    override fun finish() {
+        startMainJob?.cancel()
+        startMainJob = null
+        super.finish()
+    }
+
+    override fun upBackgroundImage() {
+        val isDarkTheme = ThemeConfig.getTheme() == Theme.Dark
+        val showText = if (isDarkTheme) AppConfig.welcomeShowTextDark else AppConfig.welcomeShowText
+        val showIcon = if (isDarkTheme) AppConfig.welcomeShowIconDark else AppConfig.welcomeShowIcon
+        binding.tvLegado.visible(showText)
+        binding.ivBook.visible(showIcon)
+        binding.tvGzh.visible(showText)
+        if (getPrefBoolean(PreferKey.customWelcome)) {
+            kotlin.runCatching {
+                when (ThemeConfig.getTheme()) {
+                    Theme.Dark -> {
+                        getPrefString(PreferKey.welcomeImageDark)?.let { path ->
+                            if (path.endsWith(".9.png")) {
+                                BitmapUtils.decodeNinePatchDrawable(path)?.let {
+                                    window.decorView.background = it
+                                }
+                            } else {
+                                val size = windowManager.windowSize
+                                BitmapUtils.decodeBitmap(path, size.widthPixels, size.heightPixels)?.let {
+                                    window.decorView.background = it.toDrawable(resources)
+                                }
+                            }
+                        }
+                        return
+                    }
+                    else -> {
+                        getPrefString(PreferKey.welcomeImage)?.let { path ->
+                            if (path.endsWith(".9.png")) {
+                                BitmapUtils.decodeNinePatchDrawable(path)?.let {
+                                    window.decorView.background = it
+                                }
+                            } else {
+                                val size = windowManager.windowSize
+                                BitmapUtils.decodeBitmap(path, size.widthPixels, size.heightPixels)?.let {
+                                    window.decorView.background = it.toDrawable(resources)
+                                }
+                            }
+                        }
+                        return
+                    }
+                }
+            }
+        }
+        super.upBackgroundImage()
+    }
+
+    private fun startMainActivity() {
+        startActivity<MainActivity>()
+        if (getPrefBoolean(PreferKey.defaultToRead) && appDb.bookDao.lastReadBook != null) {
+            startActivity<ReadBookActivity>()
+        }
+        finish()
+    }
+
+}
+
+class Launcher1 : WelcomeActivity()
+class Launcher2 : WelcomeActivity()
+class Launcher3 : WelcomeActivity()
+class Launcher4 : WelcomeActivity()
+class Launcher5 : WelcomeActivity()
+class Launcher6 : WelcomeActivity()

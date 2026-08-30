@@ -1,0 +1,135 @@
+package io.legado.app.help.update
+
+import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
+import io.legado.app.exception.NoStackTraceException
+import java.time.Instant
+
+data class AppReleaseInfo(
+    val appVariant: AppVariant,
+    val createdAt: Long,
+    val note: String,
+    val name: String,
+    val downloadUrl: String,
+    val assetUrl: String,
+    val versionName: String,
+    val size: Long = 0L,
+    val versionCode: Long = 0L
+)
+
+enum class AppVariant {
+    OFFICIAL,
+    BETA_RELEASEA,
+    BETA_RELEASE,
+    UNKNOWN;
+
+    fun isBeta(): Boolean {
+        return this == BETA_RELEASE || this == BETA_RELEASEA
+    }
+
+}
+
+@Keep
+data class GithubRelease(
+    val assets: List<Asset>?,
+    val body: String?,
+    @SerializedName("prerelease")
+    val isPreRelease: Boolean,
+    @SerializedName("tag_name")
+    val tagName: String = "",
+) {
+    fun gitReleaseToAppReleaseInfo(): List<AppReleaseInfo> {
+        assets ?: throw NoStackTraceException("获取新版本出错")
+        return assets
+            .filter { it.isValid }
+            .map { it.assetToAppReleaseInfo(isPreRelease, body.orEmpty(), tagName) }
+    }
+}
+@Keep
+data class Asset(
+    @SerializedName("browser_download_url")
+    val apkUrl: String,
+    @SerializedName("content_type")
+    val contentType: String,
+    @SerializedName("created_at")
+    val createdAt: String,
+    @SerializedName("download_count")
+    val downloadCount: Int,
+    val id: Int,
+    val name: String,
+    val state: String,
+    val url: String,
+    val size: Long = 0L
+) {
+    val isValid: Boolean
+        get() = (contentType == "application/vnd.android.package-archive") && (state == "uploaded")
+
+    fun assetToAppReleaseInfo(
+        preRelease: Boolean,
+        note: String,
+        releaseTag: String = ""
+    ): AppReleaseInfo {
+        val instant = Instant.parse(createdAt)
+        val timestamp: Long = instant.toEpochMilli()
+        val appVariant = inferAppVariant(name, preRelease)
+        return AppReleaseInfo(
+            appVariant = appVariant,
+            createdAt = timestamp,
+            note = note,
+            name = name,
+            downloadUrl = apkUrl,
+            assetUrl = url,
+            versionName = parseReleaseVersionName(releaseTag, name),
+            size = size,
+            versionCode = parseAssetVersionCode(name)
+        )
+    }
+}
+
+private val versionPattern = Regex("""\d+(?:\.\d+)+""")
+private val legacyDottedVersionPattern = Regex("""^3\.(\d{2})\.(\d{6,})$""")
+private val compactVersionPattern = Regex("""^3\.(\d{8,})$""")
+private val releaseAPattern = Regex("""(?:^|[_\-.])releasea(?:[_\-.]|$)""", RegexOption.IGNORE_CASE)
+private val releasePattern = Regex("""(?:^|[_\-.])release(?:[_\-.]|$)""", RegexOption.IGNORE_CASE)
+private val assetVersionCodePattern =
+    Regex("""(?:^|[_\-.])vc(\d+)(?:[_\-.]|$)""", RegexOption.IGNORE_CASE)
+
+internal fun inferAppVariant(assetName: String, preRelease: Boolean): AppVariant {
+    return when {
+        releaseAPattern.containsMatchIn(assetName) -> AppVariant.BETA_RELEASEA
+        releasePattern.containsMatchIn(assetName) -> AppVariant.BETA_RELEASE
+        preRelease -> AppVariant.BETA_RELEASE
+        else -> AppVariant.OFFICIAL
+    }
+}
+
+internal fun parseReleaseVersionName(
+    releaseTag: String,
+    assetName: String
+): String {
+    val versionName = versionPattern.find(releaseTag)?.value
+        ?: versionPattern.find(assetName)?.value
+        ?: return ""
+    return normalizeLegadoVersionName(versionName)
+}
+
+internal fun parseAssetVersionCode(assetName: String): Long {
+    return assetVersionCodePattern.find(assetName)
+        ?.groupValues
+        ?.get(1)
+        ?.toLongOrNull()
+        ?: 0L
+}
+
+internal fun normalizeLegadoVersionName(versionName: String): String {
+    val version = versionPattern.find(versionName)?.value ?: return versionName
+    legacyDottedVersionPattern.matchEntire(version)?.let { match ->
+        return "3.${match.groupValues[1]}${match.groupValues[2].take(6)}"
+    }
+    compactVersionPattern.matchEntire(version)?.let { match ->
+        return "3.${match.groupValues[1].take(8)}"
+    }
+    return version
+}
+
+

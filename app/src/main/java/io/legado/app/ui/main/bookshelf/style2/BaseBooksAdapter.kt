@@ -1,0 +1,169 @@
+package io.legado.app.ui.main.bookshelf.style2
+
+import android.content.Context
+import android.os.Bundle
+import android.os.Parcelable
+import android.view.LayoutInflater
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
+import io.legado.app.data.entities.Book
+
+abstract class BaseBooksAdapter<VH : RecyclerView.ViewHolder>(
+    val context: Context,
+    val callBack: CallBack
+) : RecyclerView.Adapter<VH>() {
+    private val layoutStates = mutableMapOf<Long, Parcelable?>()
+    private var currentGroupId: Long? = null
+    private var layoutManager: RecyclerView.LayoutManager? = null
+    protected val inflater: LayoutInflater = LayoutInflater.from(context)
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        layoutManager = recyclerView.layoutManager
+    }
+
+    private val diffItemCallback = object : DiffUtil.ItemCallback<Any>() {
+
+        override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
+            return when {
+                oldItem is Book && newItem is Book -> {
+                    oldItem.name == newItem.name
+                            && oldItem.author == newItem.author
+                }
+
+                oldItem is BookshelfGroupItem && newItem is BookshelfGroupItem -> {
+                    oldItem.group.groupId == newItem.group.groupId
+                }
+
+                else -> false
+            }
+        }
+
+        override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
+            return when {
+                oldItem is Book && newItem is Book -> {
+                    oldItem.durChapterTime == newItem.durChapterTime &&
+                            oldItem.name == newItem.name &&
+                            oldItem.author == newItem.author &&
+                            oldItem.durChapterTitle == newItem.durChapterTitle &&
+                            oldItem.latestChapterTitle == newItem.latestChapterTitle &&
+                            oldItem.lastCheckCount == newItem.lastCheckCount &&
+                            oldItem.getDisplayCover() == newItem.getDisplayCover() &&
+                            oldItem.getUnreadChapterNum() == newItem.getUnreadChapterNum()
+                }
+
+                oldItem is BookshelfGroupItem && newItem is BookshelfGroupItem -> {
+                    oldItem.group == newItem.group &&
+                            oldItem.coverSignature == newItem.coverSignature
+                }
+
+                else -> false
+            }
+        }
+
+        override fun getChangePayload(oldItem: Any, newItem: Any): Any? {
+            val bundle = Bundle()
+            when {
+                oldItem is Book && newItem is Book -> {
+                    if (oldItem.name != newItem.name) {
+                        bundle.putString("name", newItem.name)
+                    }
+                    if (oldItem.author != newItem.author) {
+                        bundle.putString("author", newItem.author)
+                    }
+                    if (oldItem.durChapterTitle != newItem.durChapterTitle) {
+                        bundle.putString("dur", newItem.durChapterTitle)
+                    }
+                    if (oldItem.latestChapterTitle != newItem.latestChapterTitle) {
+                        bundle.putString("last", newItem.latestChapterTitle)
+                    }
+                    if (oldItem.getDisplayCover() != newItem.getDisplayCover()) {
+                        bundle.putString("cover", newItem.getDisplayCover())
+                    }
+                    if (oldItem.lastCheckCount != newItem.lastCheckCount
+                        || oldItem.durChapterTime != newItem.durChapterTime
+                        || oldItem.getUnreadChapterNum() != newItem.getUnreadChapterNum()
+                    ) {
+                        bundle.putBoolean("refresh", true)
+                    }
+                }
+
+                oldItem is BookshelfGroupItem && newItem is BookshelfGroupItem -> {
+                    if (oldItem.group.groupName != newItem.group.groupName) {
+                        bundle.putString("groupName", newItem.group.groupName)
+                    }
+                    if (oldItem.group.cover != newItem.group.cover ||
+                        oldItem.coverSignature != newItem.coverSignature
+                    ) {
+                        bundle.putBoolean("cover", true)
+                    }
+                    if (oldItem.group.enableRefresh != newItem.group.enableRefresh ||
+                        oldItem.group.onlyUpdateRead != newItem.group.onlyUpdateRead
+                    ) {
+                        bundle.putBoolean("unviewable", true)
+                    }
+                }
+            }
+            if (bundle.isEmpty) return null
+            return bundle
+        }
+    }
+
+    private val asyncListDiffer by lazy {
+        AsyncListDiffer(this, diffItemCallback).apply {
+            addListListener { _, _ ->
+                currentGroupId?.let {
+                    layoutManager?.onRestoreInstanceState(layoutStates[it])
+                    layoutStates[it] = null
+                }
+            }
+        }
+    }
+
+    fun updateItems(groupId: Long) {
+        currentGroupId?.let {
+            layoutStates[it] = layoutManager?.onSaveInstanceState()
+        }
+        currentGroupId = groupId
+        asyncListDiffer.submitList(callBack.getItems())
+    }
+
+    fun notification(bookUrl: String) {
+        for (i in 0 until itemCount) {
+            getItem(i).let {
+                if (it is Book && it.bookUrl == bookUrl) {
+                    notifyItemChanged(i, Bundle().apply {
+                        putString("refresh", null)
+                    })
+                    return
+                }
+            }
+        }
+    }
+
+    fun getItems() = asyncListDiffer.currentList
+
+    fun getItem(position: Int) = getItems().getOrNull(position)
+
+    override fun getItemCount(): Int {
+        return getItems().size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        if (getItem(position) is BookshelfGroupItem) {
+            return 1
+        }
+        return 0
+    }
+
+    final override fun onBindViewHolder(holder: VH, position: Int) {}
+
+
+    interface CallBack {
+        fun onItemClick(item: Any)
+        fun onItemLongClick(item: Any)
+        fun isUpdate(bookUrl: String): Boolean
+        fun getItems(): List<Any>
+    }
+}

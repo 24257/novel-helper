@@ -1,0 +1,114 @@
+package io.legado.app.data.entities
+
+import androidx.room.DatabaseView
+import io.legado.app.constant.AppPattern
+import io.legado.app.data.appDb
+import io.legado.app.utils.splitNotBlank
+
+// Keep enough headroom below SQLite's host parameter limit.
+internal const val BOOK_SOURCE_QUERY_CHUNK_SIZE = 900
+
+@DatabaseView(
+    """select bookSourceUrl, bookSourceName, bookSourceGroup, customOrder, enabled, enabledExplore, 
+    (loginUrl is not null and trim(loginUrl) <> ''
+     or (mainJs is not null and trim(mainJs) <> ''
+         and loginUi is not null
+         and replace(replace(replace(replace(loginUi, ' ', ''), char(9), ''), char(10), ''), char(13), '') not in ('', '[]'))) hasLoginUrl,
+    lastUpdateTime, respondTime, weight,
+    (exploreUrl is not null and trim(exploreUrl) <> '') hasExploreUrl,
+    eventListener, bookSourceType,
+    (mainJs is not null and trim(mainJs) <> '') hasJs
+    from book_sources""",
+    viewName = "book_sources_part"
+)
+data class BookSourcePart(
+    // 地址，包括 http/https
+    var bookSourceUrl: String = "",
+    // 名称
+    var bookSourceName: String = "",
+    // 分组
+    var bookSourceGroup: String? = null,
+    // 手动排序编号
+    var customOrder: Int = 0,
+    // 是否启用
+    var enabled: Boolean = true,
+    // 启用发现
+    var enabledExplore: Boolean = true,
+    // 是否有登录地址或 JS 表单登录
+    var hasLoginUrl: Boolean = false,
+    // 最后更新时间，用于排序
+    var lastUpdateTime: Long = 0,
+    // 响应时间，用于排序
+    var respondTime: Long = 180000L,
+    // 智能排序的权重
+    var weight: Int = 0,
+    // 是否有发现url
+    var hasExploreUrl: Boolean = false,
+    // 是否启用事件监听
+    var eventListener: Boolean = false,
+    // 书源类型
+    var bookSourceType: Int = 0,
+    // 是否为纯 JS 单文件源
+    var hasJs: Boolean = false
+) {
+
+    override fun hashCode(): Int {
+        return bookSourceUrl.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is BookSourcePart) other.bookSourceUrl == bookSourceUrl else false
+    }
+
+    fun getDisPlayNameGroup(): String {
+        return if (bookSourceGroup.isNullOrBlank()) {
+            bookSourceName
+        } else {
+            String.format("%s (%s)", bookSourceName, bookSourceGroup)
+        }
+    }
+
+    fun getBookSource(): BookSource? {
+        return appDb.bookSourceDao.getBookSource(bookSourceUrl)
+    }
+
+    fun addGroup(groups: String) {
+        bookSourceGroup?.splitNotBlank(AppPattern.splitGroupRegex)
+            ?.toCollection(linkedSetOf())?.let {
+            it.addAll(groups.splitNotBlank(AppPattern.splitGroupRegex))
+            bookSourceGroup = it.joinToString(",")
+        }
+        if (bookSourceGroup.isNullOrBlank()) bookSourceGroup = groups
+    }
+
+    fun removeGroup(groups: String) {
+        bookSourceGroup?.splitNotBlank(AppPattern.splitGroupRegex)
+            ?.toCollection(linkedSetOf())?.let {
+            it.removeAll(groups.splitNotBlank(AppPattern.splitGroupRegex).toSet())
+            bookSourceGroup = it.joinToString(",")
+        }
+    }
+
+}
+
+fun List<BookSourcePart>.toBookSource(): List<BookSource> {
+    val resolvedSources = bookSourceKeyChunks().flatMap { keys ->
+        appDb.bookSourceDao.getBookSources(keys)
+    }
+    return orderResolvedBookSources(resolvedSources)
+}
+
+internal fun List<BookSourcePart>.bookSourceKeyChunks(): List<List<String>> {
+    return asSequence()
+        .map { it.bookSourceUrl }
+        .distinct()
+        .toList()
+        .chunked(BOOK_SOURCE_QUERY_CHUNK_SIZE)
+}
+
+internal fun List<BookSourcePart>.orderResolvedBookSources(
+    resolvedSources: List<BookSource>
+): List<BookSource> {
+    val sourcesByUrl = resolvedSources.associateBy { it.bookSourceUrl }
+    return mapNotNull { sourcesByUrl[it.bookSourceUrl] }
+}

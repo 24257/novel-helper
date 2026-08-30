@@ -1,0 +1,74 @@
+<template>
+  <el-input
+    v-if="isBookSource"
+    id="debug-key"
+    v-model="searchKey"
+    placeholder="搜索书名、作者"
+    :prefix-icon="Search"
+    style="padding-bottom: 4px"
+    @keydown.enter="startDebug"
+  />
+  <el-input
+    id="debug-text"
+    :class="{ 'with-key': isBookSource }"
+    v-model="printDebug"
+    type="textarea"
+    readonly
+    :rows="29"
+    placeholder="这里用于输出调试信息"
+  />
+</template>
+
+<script setup lang="ts">
+import API from '@api'
+import { Search } from '@element-plus/icons-vue'
+
+const store = useSourceStore()
+
+const printDebug = ref('')
+const searchKey = ref('')
+
+watch(
+  () => store.isDebuging,
+  () => {
+    if (store.isDebuging) startDebug()
+  },
+)
+
+const appendDebugMsg = (msg: string) => {
+  const debugDom = document.querySelector('#debug-text')
+  debugDom!.scrollTop = debugDom!.scrollHeight
+  printDebug.value += msg + '\n'
+}
+const startDebug = async () => {
+  printDebug.value = ''
+  try {
+    await API.saveSource(store.currentSource)
+  } catch (e) {
+    store.debugFinish()
+    throw e
+  }
+  await API.debug(
+    store.currentSourceUrl,
+    searchKey.value || store.searchKey,
+    appendDebugMsg,
+    store.debugFinish,
+  )
+}
+
+const isBookSource = computed(() => {
+  return /bookSource/i.test(window.location.href)
+})
+</script>
+
+<style lang="scss" scoped>
+:deep(#debug-text) {
+  height: 100%;
+}
+:deep(#debug-text.with-key) {
+  height: calc(100% - 40px);
+}
+:deep(#debug-text .el-textarea__inner) {
+  height: 100%;
+}
+</style>

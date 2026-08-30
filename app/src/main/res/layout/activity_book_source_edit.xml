@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <io.legado.app.ui.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/edit_book_source" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/options_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="4dp"
+        app:cardBackgroundColor="@color/background_card"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        app:cardUseCompatPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/options_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:minHeight="48dp"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="4dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingVertical="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:importantForAccessibility="no"
+                        android:text="@string/setting"
+                        android:textColor="@color/primaryText"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_options_summary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:importantForAccessibility="no"
+                        android:singleLine="true"
+                        android:textColor="@color/secondaryText"
+                        android:textSize="12sp"
+                        tools:text="Text | Enable | Discovery | CookieJar" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_options_expand"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:importantForAccessibility="no"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_expand_more"
+                    app:tint="@color/secondaryText" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/options_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/options_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:minHeight="48dp"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/book_type"
+                        tools:ignore="RtlHardcoded" />
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/sp_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/book_type"
+                        android:theme="@style/Spinner" />
+
+                </LinearLayout>
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/options_switches"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="8dp"
+                    android:paddingBottom="4dp"
+                    app:alignItems="center"
+                    app:flexWrap="wrap"
+                    app:justifyContent="flex_start">
+
+                    <io.legado.app.lib.theme.view.ThemeCheckBox
+                        android:id="@+id/cb_is_enable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:minHeight="48dp"
+                        android:text="@string/is_enable" />
+
+                    <io.legado.app.lib.theme.view.ThemeCheckBox
+                        android:id="@+id/cb_is_enable_explore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:minHeight="48dp"
+                        android:text="@string/discovery" />
+
+                    <io.legado.app.lib.theme.view.ThemeCheckBox
+                        android:id="@+id/cb_is_enable_cookie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:minHeight="48dp"
+                        android:text="@string/auto_save_cookie" />
+
+                    <io.legado.app.lib.theme.view.ThemeCheckBox
+                        android:id="@+id/cb_is_enable_review"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:minHeight="48dp"
+                        android:text="@string/review" />
+
+                    <io.legado.app.lib.theme.view.ThemeCheckBox
+                        android:id="@+id/cb_is_event_listener"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:minHeight="48dp"
+                        android:text="@string/is_event_listener" />
+
+                    <io.legado.app.lib.theme.view.ThemeCheckBox
+                        android:id="@+id/cb_is_custom_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:minHeight="48dp"
+                        android:text="@string/custom_button" />
+
+                </com.google.android.flexbox.FlexboxLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="@color/background"
+        android:elevation="3dp"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/field_nav"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/background"
+        app:tabIndicatorFullWidth="false"
+        app:tabMode="scrollable"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_source_edit" />
+
+</LinearLayout>

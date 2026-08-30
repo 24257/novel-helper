@@ -1,0 +1,130 @@
+import java.security.MessageDigest
+import groovy.json.JsonOutput
+
+apply plugin: 'de.undercouch.download'
+
+def BASE_PATH = "https://storage.googleapis.com/chromium-cronet/android/" + CronetVersion + "/Release/cronet/"
+def assetsDir = projectDir.toString() + "/src/main/assets"
+def libPath = projectDir.toString() + "/cronetlib"
+def soPath = projectDir.toString() + "/so"
+// cronet_impl_util_java.jar is already merged into impl-common and would duplicate classes.
+def CRONET_JARS = [
+        "cronet_api.jar",
+        "cronet_impl_common_java.jar",
+        "cronet_impl_native_java.jar",
+        "cronet_impl_native_sentinel_java.jar",
+        "cronet_impl_platform_java.jar",
+        "cronet_shared_java.jar",
+        "httpengine_native_provider_java.jar"
+]
+def CRONET_ABIS = ["armeabi-v7a", "arm64-v8a", "riscv64", "x86", "x86_64"]
+
+/**
+ * 从文件生成MD5
+ * @param file
+ * @return
+ */
+static def generateMD5(final file) {
+    MessageDigest digest = MessageDigest.getInstance("MD5")
+    file.withInputStream() { is ->
+        byte[] buffer = new byte[1024]
+        //noinspection GroovyUnusedAssignment
+        int numRead = 0
+        while ((numRead = is.read(buffer)) > 0) {
+            digest.update(buffer, 0, numRead)
+        }
+    }
+    return String.format("%032x", new BigInteger(1, digest.digest())).toLowerCase()
+}
+
+/**
+ * 下载Cronet相关的jar
+ */
+tasks.register('downloadJar', Download) {
+    src CRONET_JARS.collect { BASE_PATH + it }
+    dest libPath
+    overwrite true
+    onlyIfModified false
+
+    doLast {
+        fileTree(libPath) {
+            include "*.jar", "*.aar"
+        }.files.findAll { !CRONET_JARS.contains(it.name) }.each {
+            project.delete(it)
+        }
+    }
+}
+/**
+ * 下载Cronet的arm64-v8a so
+ */
+tasks.register('downloadARM64', Download) {
+    src BASE_PATH + "libs/arm64-v8a/libcronet." + CronetVersion + ".so"
+    dest soPath + "/arm64-v8a.so"
+    overwrite true
+    onlyIfModified true
+}
+/**
+ * 下载Cronet的armeabi-v7a so
+ */
+tasks.register('downloadARMv7', Download) {
+    src BASE_PATH + "libs/armeabi-v7a/libcronet." + CronetVersion + ".so"
+    dest soPath + "/armeabi-v7a.so"
+    overwrite true
+    onlyIfModified true
+}
+/**
+ * 下载Cronet的riscv64 so
+ */
+tasks.register('downloadRISCV64', Download) {
+    src BASE_PATH + "libs/riscv64/libcronet." + CronetVersion + ".so"
+    dest soPath + "/riscv64.so"
+    overwrite true
+    onlyIfModified true
+}
+/**
+ * 下载Cronet的x86_64 so
+ */
+tasks.register('downloadX86_64', Download) {
+    src BASE_PATH + "libs/x86_64/libcronet." + CronetVersion + ".so"
+    dest soPath + "/x86_64.so"
+    overwrite true
+    onlyIfModified true
+}
+/**
+ * 下载Cronet的x86 so
+ */
+tasks.register('downloadX86', Download) {
+    src BASE_PATH + "libs/x86/libcronet." + CronetVersion + ".so"
+    dest soPath + "/x86.so"
+    overwrite true
+    onlyIfModified true
+}
+
+/**
+ * 更新Cronet版本时执行这个task
+ * 先更改gradle.properties 里面的版本号，然后再执行
+ * gradlew app:downloadCronet
+ */
+tasks.register('downloadCronet') {
+    dependsOn downloadJar, downloadARM64, downloadARMv7, downloadRISCV64, downloadX86_64, downloadX86
+
+    doLast {
+        def hashes = new LinkedHashMap<String, String>()
+        CRONET_ABIS.each { abi ->
+            def file = new File(soPath, "${abi}.so")
+            if (!file.isFile()) {
+                throw new GradleException("Missing Cronet library for $abi: $file")
+            }
+            println abi
+            hashes[abi] = generateMD5(file)
+        }
+        hashes["version"] = CronetVersion.toString()
+        def metadata = JsonOutput.toJson(hashes)
+        println metadata
+
+        println assetsDir
+        def f1 = new File(assetsDir + "/cronet.json")
+        f1.parentFile.mkdirs()
+        f1.setText(metadata, "UTF-8")
+    }
+}
