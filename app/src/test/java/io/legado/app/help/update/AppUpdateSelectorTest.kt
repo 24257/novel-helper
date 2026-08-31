@@ -11,6 +11,16 @@ import java.time.Instant
 class AppUpdateSelectorTest {
 
     @Test
+    fun novelHelperReleaseUsesGithubDirectlyAndIsUniversal() {
+        val githubUrl = "https://github.com/24257/novel-helper/releases/download/v0.1.1/novel-helper.apk"
+
+        assertTrue(isUniversalPackageName("novel-helper.apk"))
+        assertEquals(githubUrl, resolveAppUpdateDownloadUrl("novel-helper.apk", githubUrl))
+        assertNull(resolveAppUpdateMirrorUrl("novel-helper.apk", githubUrl))
+        assertNull(resolveAppUpdateAlternateMirrorUrl("novel-helper.apk", githubUrl, null))
+    }
+
+    @Test
     fun formalReleaseAssetsKeepTheirConfiguredVariants() {
         assertEquals(
             AppVariant.BETA_RELEASE,

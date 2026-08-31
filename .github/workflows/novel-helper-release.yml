@@ -1,0 +1,121 @@
+name: Novel Helper Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version without v prefix, for example 0.1.1'
+        required: true
+        default: '0.1.0'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: novel-helper-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve version
+        id: version
+        shell: bash
+        run: |
+          if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
+            version="${GITHUB_REF_NAME#v}"
+          else
+            version="${{ inputs.version }}"
+          fi
+          if [[ ! "$version" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+            echo "Invalid version: $version"
+            exit 1
+          fi
+          major="${BASH_REMATCH[1]}"
+          minor="${BASH_REMATCH[2]}"
+          patch="${BASH_REMATCH[3]}"
+          version_code=$((40000 + major * 1000000 + minor * 1000 + patch))
+          echo "name=$version" >> "$GITHUB_OUTPUT"
+          echo "code=$version_code" >> "$GITHUB_OUTPUT"
+          echo "tag=v$version" >> "$GITHUB_OUTPUT"
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Restore release keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.NOVEL_RELEASE_KEYSTORE_BASE64 }}
+        run: |
+          test -n "$KEYSTORE_BASE64" || (echo 'Missing NOVEL_RELEASE_KEYSTORE_BASE64' && exit 1)
+          echo "$KEYSTORE_BASE64" | base64 --decode > app/novel-helper-release.jks
+
+      - name: Build release APK
+        env:
+          NOVEL_VERSION_NAME: ${{ steps.version.outputs.name }}
+          NOVEL_VERSION_CODE: ${{ steps.version.outputs.code }}
+        run: |
+          chmod +x gradlew
+          ./gradlew :app:assembleAppRelease --no-daemon
+
+      - name: Sign and verify fixed APK
+        env:
+          KS_PASS: ${{ secrets.NOVEL_RELEASE_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.NOVEL_RELEASE_KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.NOVEL_RELEASE_KEY_PASSWORD }}
+        shell: bash
+        run: |
+          test -n "$KS_PASS" || (echo 'Missing NOVEL_RELEASE_STORE_PASSWORD' && exit 1)
+          test -n "$KEY_ALIAS" || (echo 'Missing NOVEL_RELEASE_KEY_ALIAS' && exit 1)
+          test -n "$KEY_PASS" || (echo 'Missing NOVEL_RELEASE_KEY_PASSWORD' && exit 1)
+          mkdir -p dist
+          apk=$(find app/build/outputs/apk -type f -name '*release*.apk' | head -n 1)
+          test -n "$apk" || (echo 'Release APK not found' && exit 1)
+          build_tools=$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n 1)
+          test -x "$build_tools/zipalign" || (echo 'zipalign not found' && exit 1)
+          test -x "$build_tools/apksigner" || (echo 'apksigner not found' && exit 1)
+          store_pass_file="$RUNNER_TEMP/novel-helper-store.pass"
+          key_pass_file="$RUNNER_TEMP/novel-helper-key.pass"
+          printf '%s' "$KS_PASS" > "$store_pass_file"
+          printf '%s' "$KEY_PASS" > "$key_pass_file"
+          chmod 600 "$store_pass_file" "$key_pass_file"
+          "$build_tools/zipalign" -p -f 4 "$apk" dist/novel-helper-aligned.apk
+          "$build_tools/apksigner" sign \
+            --ks app/novel-helper-release.jks \
+            --ks-key-alias "$KEY_ALIAS" \
+            --ks-pass "file:$store_pass_file" \
+            --key-pass "file:$key_pass_file" \
+            --out dist/novel-helper.apk \
+            dist/novel-helper-aligned.apk
+          "$build_tools/apksigner" verify --verbose --print-certs dist/novel-helper.apk
+          rm -f dist/novel-helper-aligned.apk "$store_pass_file" "$key_pass_file"
+          ls -lh dist/novel-helper.apk
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: novel-helper-${{ steps.version.outputs.name }}
+          path: dist/novel-helper.apk
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: 网文小助手 v${{ steps.version.outputs.name }}
+          generate_release_notes: true
+          make_latest: true
+          files: dist/novel-helper.apk

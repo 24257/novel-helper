@@ -89,12 +89,14 @@ private fun AppReleaseInfo.isUniversalPackage(): Boolean {
 }
 
 internal fun isUniversalPackageName(fileName: String): Boolean {
+    if (fileName.equals("novel-helper.apk", ignoreCase = true)) return true
     return fileName.contains("通用") ||
         fileName.contains("universal", ignoreCase = true) ||
         fileName.contains("_._")
 }
 
 internal fun resolveAppUpdateDownloadUrl(fileName: String, githubUrl: String): String {
+    if (fileName.equals("novel-helper.apk", ignoreCase = true)) return githubUrl
     return if (fileName.contains("_._")) {
         githubUrl
     } else {
@@ -103,6 +105,7 @@ internal fun resolveAppUpdateDownloadUrl(fileName: String, githubUrl: String): S
 }
 
 internal fun resolveAppUpdateMirrorUrl(fileName: String, primaryUrl: String): String? {
+    if (fileName.equals("novel-helper.apk", ignoreCase = true)) return null
     if (fileName.contains("_._")) return null
     return "https://cdn.gigu.edu.kg/app/$fileName".takeUnless { it == primaryUrl }
 }
@@ -112,6 +115,7 @@ internal fun resolveAppUpdateAlternateMirrorUrl(
     primaryUrl: String,
     mirrorUrl: String?
 ): String? {
+    if (fileName.equals("novel-helper.apk", ignoreCase = true)) return null
     if (fileName.contains("_._")) return null
     return "https://cdn.mgz.edu.kg/app/$fileName".takeUnless {
         it == primaryUrl || it == mirrorUrl

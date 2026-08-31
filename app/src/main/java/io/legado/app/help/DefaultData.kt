@@ -53,24 +53,80 @@ object DefaultData {
     }
 
     val bookSources: List<BookSource> by lazy {
-        val piaotiaJs = String(
+        fun loadSourceJs(fileName: String): String = String(
             appCtx.assets.open(
-                "defaultData${File.separator}bookSources${File.separator}piaotia.js"
-            ).readBytes()
+                "defaultData${File.separator}bookSources${File.separator}$fileName"
+            ).readBytes(),
+            Charsets.UTF_8,
         )
+
+        val sto66Js = loadSourceJs("sto66.js")
+        val bqqugeJs = loadSourceJs("bqquge.js")
+        val shuduguJs = loadSourceJs("shudugu.js")
+        val cuocengJs = loadSourceJs("cuoceng.js")
+        val userAgent =
+            """{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"}"""
         listOf(
             BookSource(
-                bookSourceUrl = "https://www.piaotia.com",
-                bookSourceName = "飘天文学",
+                bookSourceUrl = "https://www.sto66.com",
+                bookSourceName = "思兔阅读",
                 bookSourceGroup = "网文小助手内置",
                 bookSourceType = 0,
                 enabled = true,
                 enabledExplore = false,
-                enabledCookieJar = true,
-                header = """{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"}""",
-                bookSourceComment = "网文小助手内置书源。使用 Legado JavaScript 单文件书源接口适配飘天文学，按 GBK 显式解码页面。",
-                mainJs = piaotiaJs,
-            )
+                enabledCookieJar = false,
+                header = userAgent,
+                bookSourceComment = "网文小助手内置公开网页源。当前无需登录，按 sto66.com 页面结构解析。",
+                mainJs = sto66Js,
+            ),
+            BookSource(
+                bookSourceUrl = "https://www.bqquge.org",
+                bookSourceName = "笔趣阁",
+                bookSourceGroup = "网文小助手内置",
+                bookSourceType = 0,
+                enabled = true,
+                enabledExplore = false,
+                enabledCookieJar = false,
+                header = userAgent,
+                bookSourceComment = "网文小助手内置公开网页源。按 bqquge.org 当前页面结构解析。",
+                mainJs = bqqugeJs,
+            ),
+            BookSource(
+                bookSourceUrl = "https://www.bqquge.com",
+                bookSourceName = "笔趣阁镜像",
+                bookSourceGroup = "网文小助手内置",
+                bookSourceType = 0,
+                enabled = true,
+                enabledExplore = false,
+                enabledCookieJar = false,
+                header = userAgent,
+                bookSourceComment = "网文小助手内置备用镜像。与 bqquge.org 使用同结构规则。",
+                mainJs = bqqugeJs.replace("https://www.bqquge.org", "https://www.bqquge.com"),
+            ),
+            BookSource(
+                bookSourceUrl = "https://www.shudugu.org",
+                bookSourceName = "速读谷",
+                bookSourceGroup = "网文小助手内置",
+                bookSourceType = 0,
+                enabled = true,
+                enabledExplore = false,
+                enabledCookieJar = false,
+                header = userAgent,
+                bookSourceComment = "网文小助手内置公开网页源。按 shudugu.org 当前页面结构解析。",
+                mainJs = shuduguJs,
+            ),
+            BookSource(
+                bookSourceUrl = "https://m.cuoceng.com",
+                bookSourceName = "错层小说",
+                bookSourceGroup = "网文小助手内置",
+                bookSourceType = 0,
+                enabled = true,
+                enabledExplore = false,
+                enabledCookieJar = false,
+                header = userAgent,
+                bookSourceComment = "网文小助手内置公开网页源。按 m.cuoceng.com 当前移动页面结构解析。",
+                mainJs = cuocengJs,
+            ),
         )
     }
 
@@ -143,6 +199,18 @@ object DefaultData {
     }
 
     fun importDefaultBookSources() {
+        listOf(
+            "https://www.piaotia.com" to "飘天文学",
+            "https://www.quanben.io" to "全本小说网",
+        ).forEach { (url, name) ->
+            appDb.bookSourceDao.getBookSource(url)
+                ?.takeIf {
+                    it.bookSourceName == name &&
+                        it.bookSourceGroup == "网文小助手内置"
+                }
+                ?.let { SourceHelp.deleteBookSource(it.bookSourceUrl) }
+        }
+
         val missingSources = bookSources.filter {
             appDb.bookSourceDao.getBookSource(it.bookSourceUrl) == null
         }

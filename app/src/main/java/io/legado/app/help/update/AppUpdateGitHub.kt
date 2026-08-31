@@ -24,7 +24,7 @@ object AppUpdateGitHub : AppUpdate.AppUpdateInterface {
 
     private suspend fun getLatestRelease(): List<AppReleaseInfo> {
         val lastReleaseUrl =
-            "https://api.github.com/repos/LegadoTeam/legado/releases?per_page=30"
+            "https://api.github.com/repos/24257/novel-helper/releases?per_page=10"
         val res = okHttpClient.newCallResponse {
             url(lastReleaseUrl)
         }
@@ -46,7 +46,7 @@ object AppUpdateGitHub : AppUpdate.AppUpdateInterface {
 
     private suspend fun getBetaRelease(): List<AppReleaseInfo> {
         val res = okHttpClient.newCallResponse {
-            url("https://api.github.com/repos/LegadoTeam/legado/releases/tags/beta")
+            url("https://api.github.com/repos/24257/novel-helper/releases/tags/beta")
         }
         if (!res.isSuccessful) {
             throw NoStackTraceException(

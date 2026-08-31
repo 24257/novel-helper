@@ -62,7 +62,7 @@ data class Asset(
     val size: Long = 0L
 ) {
     val isValid: Boolean
-        get() = (contentType == "application/vnd.android.package-archive") && (state == "uploaded")
+        get() = name.endsWith(".apk", ignoreCase = true) && state == "uploaded"
 
     fun assetToAppReleaseInfo(
         preRelease: Boolean,
