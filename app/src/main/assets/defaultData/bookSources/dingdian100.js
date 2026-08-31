@@ -1,0 +1,22 @@
+var config = {
+    bookSourceUrl: "https://www.dingdian100.com",
+    bookSourceName: "顶点100",
+    bookSourceType: 0,
+    bookSourceGroup: "网文小助手内置",
+    bookSourceComment: "网文小助手内置公开网页源。搜索有频率限制，不做自动重试。",
+    exploreUrl: [],
+    lastUpdateTime: 1788175200000
+};
+var Jsoup = org.jsoup.Jsoup;
+function s(v){return v==null?"":String(v)}
+function t(v){return s(v).replace(/\u00a0|\u3000/g," ").replace(/[\t\r\n]+/g," ").replace(/\s{2,}/g," ").trim()}
+function ajax(u){var h=s(java.ajax(s(u),20000));if(!h)throw config.bookSourceName+"请求失败: "+u;return h}
+function abs(base,href){var v=t(href);if(!v)return"";if(/^https?:\/\//i.test(v))return v;if(/^\/\//.test(v))return"https:"+v;if(v.charAt(0)==="/")return config.bookSourceUrl+v;var b=s(base).split("#")[0].split("?")[0],p=b.lastIndexOf("/");return p<0?v:b.substring(0,p+1)+v}
+function meta(doc,key){var n=doc.selectFirst('meta[property="'+key+'"]');return n==null?"":t(n.attr("content"))}
+function text(root,sel){if(root==null)return"";var n=root.selectFirst(sel);return n==null?"":t(n.text())}
+function img(base,node){if(node==null)return"";var a=["src","data-src","data-original","data-lazy-src"];for(var i=0;i<a.length;i++){var v=t(node.attr(a[i]));if(v&&v!=="#"&&!/^data:/i.test(v))return abs(base,v)}return""}
+function id(url){var m=s(url).match(/\/book\/(\d+)\/?(?:[?#].*)?$/i);return m?m[1]:""}
+function search(key,page){var k=t(key);if(!k||Number(page)>1)return[];var body="type=articlename&s="+java.encodeURI(k,"UTF-8");var hd="{\"Content-Type\":\"application/x-www-form-urlencoded; charset=UTF-8\",\"User-Agent\":\"Mozilla/5.0 (Linux; Android 16) AppleWebKit/537.36 Chrome/150 Mobile Safari/537.36\",\"Referer\":\""+config.bookSourceUrl+"/\"}";var r=java.post(config.bookSourceUrl+"/s.php",body,hd,20000),h=r==null?"":s(r.body());if(!h||/每分钟搜索不得超过/i.test(h))return[];var d=Jsoup.parse(h,config.bookSourceUrl+"/s.php"),rows=d.select("div.lastupdate li, li:has(span.name a[href])"),out=[],seen={};for(var i=0;i<rows.size();i++){var row=rows.get(i),a=row.selectFirst("span.name a[href]");if(a==null)continue;var u=abs(config.bookSourceUrl,a.attr("href")),n=t(a.text());if(!u||!n||!id(u)||seen[u])continue;seen[u]=1;out.push({name:n,author:text(row,"span.zuo a[href]")||text(row,"span.zuo"),kind:text(row,"span.lei"),latestChapterTitle:text(row,"span.jie a[href]"),bookUrl:u})}return out}
+function getBookInfo(book){var u=t(book.bookUrl);if(!u)throw config.bookSourceName+"书籍地址为空";var d=Jsoup.parse(ajax(u),u),bid=id(u),cat=meta(d,"og:novel:category"),st=meta(d,"og:novel:status");return{name:meta(d,"og:novel:book_name")||meta(d,"og:title")||text(d,"h1")||t(book.name),author:meta(d,"og:novel:author")||text(d,"div.xinxi span.x1 a[href]")||t(book.author),intro:meta(d,"og:description")||text(d,"div.x3, div.intro"),coverUrl:meta(d,"og:image")||img(u,d.selectFirst("div.zhutu img, img[src*=files/article/image/]"))||t(book.coverUrl),kind:cat+(st?(cat?",":"")+st:""),latestChapterTitle:meta(d,"og:novel:latest_chapter_name")||text(d,"div.xinxi span.x2 a[href]"),tocUrl:bid?config.bookSourceUrl+"/newbook/"+bid+"/":u}}
+function getChapters(book){var bid=id(book.bookUrl),u=t(book.tocUrl)||(bid?config.bookSourceUrl+"/newbook/"+bid+"/":t(book.bookUrl));if(!bid||!u)throw config.bookSourceName+"目录地址无效";var d=Jsoup.parse(ajax(u),u),links=d.select('#all_chapter a[href*="/chapter/'+bid+'/"], a[href*="/chapter/'+bid+'/"]'),out=[],seen={},re=new RegExp("/chapter/"+bid+"/[^/?#]+\\.html(?:[?#].*)?$","i");for(var i=0;i<links.size();i++){var a=links.get(i),cu=abs(u,a.attr("href")),name=t(a.attr("title"))||t(a.text());if(!name||!re.test(cu)||seen[cu])continue;seen[cu]=1;out.push({title:name,url:cu})}if(!out.length)throw config.bookSourceName+"目录为空: "+u;return out}
+function getContent(chapter,book,nextChapterUrl){var u=t(chapter.url);if(!u)throw config.bookSourceName+"章节地址为空";var d=Jsoup.parse(ajax(u),u),n=d.selectFirst("#txt");if(n==null)n=d.selectFirst("#booktxt");if(n==null)n=d.selectFirst("div.content, div.readcontent");if(n==null)throw config.bookSourceName+"正文节点不存在: "+u;n.select("script,style,iframe,form,.ad,.ads").remove();var v;try{v=s(n.wholeText())}catch(e){v=s(n.text())}v=v.replace(/\r/g,"").replace(/\n{3,}/g,"\n\n").replace(/本章未完[^\n]*/g,"").replace(/请点击下一页[^\n]*/g,"").trim();if(!v)throw config.bookSourceName+"正文为空: "+u;return v}

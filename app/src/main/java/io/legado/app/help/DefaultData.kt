@@ -25,6 +25,22 @@ import java.net.URI
 
 internal const val NOVEL_HELPER_BUILTIN_SOURCE_GROUP = "网文小助手内置"
 
+internal val NOVEL_HELPER_BUILTIN_SOURCE_URLS = listOf(
+    "https://www.sto66.com",
+    "https://www.bqquge.org",
+    "https://www.bqquge.com",
+    "https://www.biquge365.net",
+    "https://www.xbiquge345.com",
+    "https://www.shudugu.org",
+    "https://m.cuoceng.com",
+    "https://www.hetushu.com",
+    "https://www.biquge432.com",
+    "https://www.dingdian100.com",
+    "https://www.dingdian678.com",
+    "https://www.xbiquge2345.com",
+    "https://www.lengsk.com",
+)
+
 internal fun prepareBuiltinBookSourceUpdate(
     packaged: BookSource,
     existing: BookSource?,
@@ -94,10 +110,18 @@ object DefaultData {
 
         val sto66Js = loadSourceJs("sto66.js")
         val bqqugeJs = loadSourceJs("bqquge.js")
+        val biquge365Js = loadSourceJs("biquge365.js")
         val shuduguJs = loadSourceJs("shudugu.js")
         val cuocengJs = loadSourceJs("cuoceng.js")
+        val hetushuJs = loadSourceJs("hetushu.js")
+        val biquge432Js = loadSourceJs("biquge432.js")
+        val dingdian100Js = loadSourceJs("dingdian100.js")
+        val dingdian678Js = loadSourceJs("dingdian678.js")
+        val lengskJs = loadSourceJs("lengsk.js")
         val userAgent =
             """{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"}"""
+        val hetushuHeader =
+            """{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36","Referer":"https://www.hetushu.com/"}"""
         listOf(
             BookSource(
                 bookSourceUrl = "https://www.sto66.com",
@@ -136,6 +160,32 @@ object DefaultData {
                 mainJs = bqqugeJs.replace("https://www.bqquge.org", "https://www.bqquge.com"),
             ),
             BookSource(
+                bookSourceUrl = "https://www.biquge365.net",
+                bookSourceName = "笔趣阁365",
+                bookSourceGroup = "网文小助手内置",
+                bookSourceType = 0,
+                enabled = true,
+                enabledExplore = false,
+                enabledCookieJar = false,
+                header = userAgent,
+                bookSourceComment = "网文小助手内置公开网页源。按 biquge365.net 当前公开页面结构解析。",
+                mainJs = biquge365Js,
+            ),
+            BookSource(
+                bookSourceUrl = "https://www.xbiquge345.com",
+                bookSourceName = "新笔趣阁345",
+                bookSourceGroup = "网文小助手内置",
+                bookSourceType = 0,
+                enabled = true,
+                enabledExplore = false,
+                enabledCookieJar = false,
+                header = userAgent,
+                bookSourceComment = "网文小助手内置公开网页源。与笔趣阁365使用同模板并带目录回退。",
+                mainJs = biquge365Js
+                    .replace("https://www.biquge365.net", "https://www.xbiquge345.com")
+                    .replace("笔趣阁365", "新笔趣阁345"),
+            ),
+            BookSource(
                 bookSourceUrl = "https://www.shudugu.org",
                 bookSourceName = "速读谷",
                 bookSourceGroup = "网文小助手内置",
@@ -159,7 +209,85 @@ object DefaultData {
                 bookSourceComment = "网文小助手内置公开网页源。按 m.cuoceng.com 当前移动页面结构解析。",
                 mainJs = cuocengJs,
             ),
-        )
+            BookSource(
+                bookSourceUrl = "https://www.hetushu.com",
+                bookSourceName = "和图书",
+                bookSourceGroup = "网文小助手内置",
+                bookSourceType = 0,
+                enabled = true,
+                enabledExplore = false,
+                enabledCookieJar = true,
+                header = hetushuHeader,
+                bookSourceComment = "网文小助手内置公开网页源。使用普通 Cookie 会话访问公开搜索与阅读页面。",
+                mainJs = hetushuJs,
+            ),
+            BookSource(
+                bookSourceUrl = "https://www.biquge432.com",
+                bookSourceName = "笔趣阁432",
+                bookSourceGroup = NOVEL_HELPER_BUILTIN_SOURCE_GROUP,
+                bookSourceType = 0,
+                enabled = true,
+                enabledExplore = false,
+                enabledCookieJar = false,
+                header = userAgent,
+                bookSourceComment = "网文小助手内置公开网页源。搜索有频率限制，避免连续重复搜索。",
+                mainJs = biquge432Js,
+            ),
+            BookSource(
+                bookSourceUrl = "https://www.dingdian100.com",
+                bookSourceName = "顶点100",
+                bookSourceGroup = NOVEL_HELPER_BUILTIN_SOURCE_GROUP,
+                bookSourceType = 0,
+                enabled = true,
+                enabledExplore = false,
+                enabledCookieJar = false,
+                header = userAgent,
+                bookSourceComment = "网文小助手内置公开网页源。目录使用 newbook 分页入口。",
+                mainJs = dingdian100Js,
+            ),
+            BookSource(
+                bookSourceUrl = "https://www.dingdian678.com",
+                bookSourceName = "顶点678",
+                bookSourceGroup = NOVEL_HELPER_BUILTIN_SOURCE_GROUP,
+                bookSourceType = 0,
+                enabled = true,
+                enabledExplore = false,
+                enabledCookieJar = false,
+                header = userAgent,
+                bookSourceComment = "网文小助手内置公开网页源。目录直接解析书籍详情页。",
+                mainJs = dingdian678Js,
+            ),
+            BookSource(
+                bookSourceUrl = "https://www.xbiquge2345.com",
+                bookSourceName = "新笔趣阁2345",
+                bookSourceGroup = NOVEL_HELPER_BUILTIN_SOURCE_GROUP,
+                bookSourceType = 0,
+                enabled = true,
+                enabledExplore = false,
+                enabledCookieJar = false,
+                header = userAgent,
+                bookSourceComment = "网文小助手内置公开网页源。与笔趣阁432使用同族页面规则。",
+                mainJs = biquge432Js
+                    .replace("https://www.biquge432.com", "https://www.xbiquge2345.com")
+                    .replace("笔趣阁432", "新笔趣阁2345"),
+            ),
+            BookSource(
+                bookSourceUrl = "https://www.lengsk.com",
+                bookSourceName = "冷书库",
+                bookSourceGroup = NOVEL_HELPER_BUILTIN_SOURCE_GROUP,
+                bookSourceType = 0,
+                enabled = true,
+                enabledExplore = false,
+                enabledCookieJar = false,
+                header = userAgent,
+                bookSourceComment = "网文小助手内置公开网页源。目录与正文分页自动合并。",
+                mainJs = lengskJs,
+            ),
+        ).also { sources ->
+            check(sources.map { it.bookSourceUrl } == NOVEL_HELPER_BUILTIN_SOURCE_URLS) {
+                "内置书源清单与实际配置不一致"
+            }
+        }
     }
 
     val httpTTS: List<HttpTTS> by lazy {

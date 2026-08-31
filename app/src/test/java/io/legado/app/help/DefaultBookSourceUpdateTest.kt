@@ -4,9 +4,27 @@ import io.legado.app.data.entities.BookSource
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertSame
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class DefaultBookSourceUpdateTest {
+
+    @Test
+    fun packagedBuiltinSourceManifestHasExpectedCountAndUrls() {
+        val expected = setOf(
+            "https://www.biquge432.com",
+            "https://www.dingdian100.com",
+            "https://www.dingdian678.com",
+            "https://www.xbiquge2345.com",
+            "https://www.lengsk.com",
+        )
+        assertEquals(13, NOVEL_HELPER_BUILTIN_SOURCE_URLS.size)
+        assertEquals(
+            NOVEL_HELPER_BUILTIN_SOURCE_URLS.size,
+            NOVEL_HELPER_BUILTIN_SOURCE_URLS.toSet().size,
+        )
+        assertTrue(NOVEL_HELPER_BUILTIN_SOURCE_URLS.containsAll(expected))
+    }
 
     @Test
     fun missingBuiltinIsInsertedAsPackaged() {
