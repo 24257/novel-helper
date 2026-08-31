@@ -160,10 +160,12 @@ class BookInfoViewModel(application: Application) : BaseViewModel(application) {
                     hasCustomBtn = it.customButton
                 }
             bookData.postValue(book)
-            upCoverByRule(book)
-            if (book.tocUrl.isEmpty() && !book.isLocal) {
+            if (!book.isLocal &&
+                (book.tocUrl.isEmpty() || book.coverUrl.isNullOrBlank())
+            ) {
                 loadBookInfo(book, runPreUpdateJs = inBookshelf)
             } else {
+                upCoverByRule(book)
                 val chapterList = appDb.bookChapterDao.getChapterList(book.bookUrl)
                 if (chapterList.isNotEmpty()) {
                     chapterListData.postValue(chapterList)
@@ -257,6 +259,9 @@ class BookInfoViewModel(application: Application) : BaseViewModel(application) {
                         dbBook.updateTo(it)
                         persistedBook = dbBook
                         inBookshelf = true
+                    }
+                    if (it.getDisplayCover().isNullOrBlank()) {
+                        upCoverByRule(it)
                     }
                     if (it.isWebFile) {
                         bookData.postValue(it)

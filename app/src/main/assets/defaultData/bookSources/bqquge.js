@@ -5,7 +5,7 @@ var config = {
     bookSourceGroup: "网文小助手内置",
     bookSourceComment: "网文小助手内置公开网页源。按 bqquge.org 当前页面结构适配。",
     exploreUrl: [],
-    lastUpdateTime: 1788142200000
+    lastUpdateTime: 1788152400000
 };
 
 var Jsoup = org.jsoup.Jsoup;
@@ -40,6 +40,16 @@ function resolveUrl(base, href) {
     return slash < 0 ? value : cleanBase.substring(0, slash + 1) + value;
 }
 
+function imageUrl(base, element) {
+    if (element == null) return "";
+    var attrs = ["src", "data-src", "data-original", "data-lazy-src", "data-url"];
+    for (var i = 0; i < attrs.length; i++) {
+        var value = trimText(element.attr(attrs[i]));
+        if (value && value !== "#" && !/^data:/i.test(value)) return resolveUrl(base, value);
+    }
+    return "";
+}
+
 function firstText(element, selector) {
     if (element == null) return "";
     var node = element.selectFirst(selector);
@@ -67,11 +77,11 @@ function search(key, page) {
         var name = trimText(link.text());
         if (!bookUrl || !name || seen[bookUrl]) continue;
         seen[bookUrl] = true;
-        var cover = row.selectFirst("a[href] img[src]");
+        var cover = row.selectFirst("a[href] img");
         books.push({
             name: name,
             author: parseAuthor(firstText(row, "p a[href*=/zuozhe/]")),
-            coverUrl: cover == null ? "" : resolveUrl(url, cover.attr("src")),
+            coverUrl: imageUrl(url, cover),
             latestChapterTitle: firstText(row, "ul li a[href]"),
             bookUrl: bookUrl,
             tocUrl: bookUrl
@@ -85,7 +95,7 @@ function getBookInfo(book) {
     if (!bookUrl) throw "笔趣阁书籍地址为空";
     var doc = Jsoup.parse(requestHtml(bookUrl), bookUrl);
     var detail = doc.selectFirst("div.bookdetail");
-    var cover = detail == null ? null : detail.selectFirst("img[src]");
+    var cover = detail == null ? null : detail.selectFirst("img");
     var kindParts = [];
     if (detail != null) {
         var ps = detail.select("div.booktxt p");
@@ -98,7 +108,7 @@ function getBookInfo(book) {
         name: firstText(detail, "div.booktxt h1") || trimText(book.name),
         author: parseAuthor(firstText(detail, "div.booktxt p a[href*=/zuozhe/]")) || trimText(book.author),
         intro: firstText(doc, "div.des"),
-        coverUrl: cover == null ? trimText(book.coverUrl) : resolveUrl(bookUrl, cover.attr("src")),
+        coverUrl: imageUrl(bookUrl, cover) || trimText(book.coverUrl),
         kind: kindParts.join(","),
         latestChapterTitle: firstText(doc, "div.newest h3 a[href]"),
         tocUrl: bookUrl

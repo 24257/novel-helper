@@ -34,6 +34,25 @@ import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.math.min
 
+internal fun mergeSameSearchBook(
+    books: MutableList<SearchBook>,
+    incoming: SearchBook,
+): Boolean {
+    val index = books.indexOfFirst {
+        it.name == incoming.name && it.author == incoming.author
+    }
+    if (index < 0) return false
+
+    val current = books[index]
+    if (current.coverUrl.isNullOrBlank() && !incoming.coverUrl.isNullOrBlank()) {
+        current.origins.forEach(incoming::addOrigin)
+        books[index] = incoming
+    } else {
+        incoming.origins.forEach(current::addOrigin)
+    }
+    return true
+}
+
 class SearchModel(private val scope: CoroutineScope, private val callBack: CallBack) {
     val threadCount = AppConfig.threadCount
     private var searchPool: ExecutorCoroutineDispatcher? = null
@@ -172,51 +191,19 @@ class SearchModel(private val scope: CoroutineScope, private val callBack: CallB
             newDataS.forEach { nBook ->
                 currentCoroutineContext().ensureActive()
                 if (nBook.name == key || nBook.author == key) {
-                    var hasSame = false
-                    equalData.forEach { pBook ->
-                        currentCoroutineContext().ensureActive()
-                        if (pBook.name == nBook.name && pBook.author == nBook.author) {
-                            pBook.addOrigin(nBook.origin)
-                            hasSame = true
-                        }
-                    }
-                    if (!hasSame) {
+                    if (!mergeSameSearchBook(equalData, nBook)) {
                         equalData.add(nBook)
                     }
                 } else if (nBook.kind?.contains(key) == true) {
-                    var hasSame = false
-                    tagsData.forEach { pBook ->
-                        currentCoroutineContext().ensureActive()
-                        if (pBook.name == nBook.name && pBook.author == nBook.author) {
-                            pBook.addOrigin(nBook.origin)
-                            hasSame = true
-                        }
-                    }
-                    if (!hasSame) {
+                    if (!mergeSameSearchBook(tagsData, nBook)) {
                         tagsData.add(nBook)
                     }
                 } else if (nBook.name.contains(key) || nBook.author.contains(key)) {
-                    var hasSame = false
-                    containsData.forEach { pBook ->
-                        currentCoroutineContext().ensureActive()
-                        if (pBook.name == nBook.name && pBook.author == nBook.author) {
-                            pBook.addOrigin(nBook.origin)
-                            hasSame = true
-                        }
-                    }
-                    if (!hasSame) {
+                    if (!mergeSameSearchBook(containsData, nBook)) {
                         containsData.add(nBook)
                     }
                 } else if (!precision) {
-                    var hasSame = false
-                    otherData.forEach { pBook ->
-                        currentCoroutineContext().ensureActive()
-                        if (pBook.name == nBook.name && pBook.author == nBook.author) {
-                            pBook.addOrigin(nBook.origin)
-                            hasSame = true
-                        }
-                    }
-                    if (!hasSame) {
+                    if (!mergeSameSearchBook(otherData, nBook)) {
                         otherData.add(nBook)
                     }
                 }

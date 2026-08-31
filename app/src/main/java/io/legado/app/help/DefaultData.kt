@@ -21,6 +21,38 @@ import io.legado.app.utils.fromJsonObject
 import io.legado.app.utils.printOnDebug
 import splitties.init.appCtx
 import java.io.File
+import java.net.URI
+
+internal const val NOVEL_HELPER_BUILTIN_SOURCE_GROUP = "网文小助手内置"
+
+internal fun prepareBuiltinBookSourceUpdate(
+    packaged: BookSource,
+    existing: BookSource?,
+): BookSource? {
+    if (existing == null) return packaged
+    if (existing.bookSourceName != packaged.bookSourceName ||
+        existing.bookSourceGroup != NOVEL_HELPER_BUILTIN_SOURCE_GROUP
+    ) {
+        return null
+    }
+    return packaged.copy(
+        customOrder = existing.customOrder,
+        enabled = existing.enabled,
+        enabledExplore = existing.enabledExplore,
+        respondTime = existing.respondTime,
+        weight = existing.weight,
+    )
+}
+
+internal fun isLegacyBuiltinAutoCover(
+    origin: String,
+    customCoverUrl: String?,
+    builtinSourceUrls: Set<String>,
+): Boolean {
+    if (origin !in builtinSourceUrls || customCoverUrl.isNullOrBlank()) return false
+    val host = runCatching { URI(customCoverUrl).host?.lowercase() }.getOrNull()
+    return host == "tsj.youdubook.com"
+}
 
 object DefaultData {
 
@@ -211,11 +243,25 @@ object DefaultData {
                 ?.let { SourceHelp.deleteBookSource(it.bookSourceUrl) }
         }
 
-        val missingSources = bookSources.filter {
-            appDb.bookSourceDao.getBookSource(it.bookSourceUrl) == null
+        val sourcesToUpsert = bookSources.mapNotNull { packaged ->
+            prepareBuiltinBookSourceUpdate(
+                packaged,
+                appDb.bookSourceDao.getBookSource(packaged.bookSourceUrl),
+            )
         }
-        if (missingSources.isNotEmpty()) {
-            SourceHelp.insertBookSource(*missingSources.toTypedArray())
+        if (sourcesToUpsert.isNotEmpty()) {
+            SourceHelp.insertBookSource(*sourcesToUpsert.toTypedArray())
+        }
+
+        val builtinSourceUrls = bookSources.mapTo(hashSetOf()) { it.bookSourceUrl }
+        appDb.bookDao.all.forEach { book ->
+            if (isLegacyBuiltinAutoCover(book.origin, book.customCoverUrl, builtinSourceUrls)) {
+                appDb.bookDao.clearCoverOverridesIfUnchanged(
+                    book.bookUrl,
+                    book.customCoverUrl,
+                    book.persistedCoverUrl,
+                )
+            }
         }
     }
 

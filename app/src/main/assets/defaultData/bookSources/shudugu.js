@@ -5,7 +5,7 @@ var config = {
     bookSourceGroup: "网文小助手内置",
     bookSourceComment: "网文小助手内置公开网页源。按 shudugu.org 当前页面结构适配。",
     exploreUrl: [],
-    lastUpdateTime: 1788142200000
+    lastUpdateTime: 1788152400000
 };
 
 var Jsoup = org.jsoup.Jsoup;
@@ -29,6 +29,15 @@ function resolveUrl(base, href) {
     var cleanBase = safeString(base).split("#")[0].split("?")[0];
     var slash = cleanBase.lastIndexOf("/");
     return slash < 0 ? value : cleanBase.substring(0, slash + 1) + value;
+}
+function imageUrl(base, element) {
+    if (element == null) return "";
+    var attrs = ["src", "data-src", "data-original", "data-lazy-src", "data-url"];
+    for (var i = 0; i < attrs.length; i++) {
+        var value = trimText(element.attr(attrs[i]));
+        if (value && value !== "#" && !/^data:/i.test(value)) return resolveUrl(base, value);
+    }
+    return "";
 }
 function firstText(element, selector) {
     if (element == null) return "";
@@ -54,11 +63,11 @@ function search(key, page) {
         var name = trimText(link.text());
         if (!bookUrl || !name || seen[bookUrl]) continue;
         seen[bookUrl] = true;
-        var cover = row.selectFirst("a[href] img[src]");
+        var cover = row.selectFirst("a[href] img");
         books.push({
             name: name,
             author: parseAuthor(firstText(row, "p a[href*=/zuozhe/]")),
-            coverUrl: cover == null ? "" : resolveUrl(url, cover.attr("src")),
+            coverUrl: imageUrl(url, cover),
             latestChapterTitle: firstText(row, "ul li a[href]"),
             bookUrl: bookUrl,
             tocUrl: bookUrl
@@ -73,7 +82,7 @@ function getBookInfo(book) {
     var doc = Jsoup.parse(requestHtml(bookUrl), bookUrl);
     var info = doc.selectFirst("div.itemtxt");
     var container = info == null ? null : info.parent();
-    var cover = container == null ? null : container.selectFirst("img[src]");
+    var cover = container == null ? null : container.selectFirst("img");
     var kind = [];
     if (info != null) {
         var spans = info.select("p span");
@@ -86,7 +95,7 @@ function getBookInfo(book) {
         name: firstText(info, "h1 a[href]") || trimText(book.name),
         author: parseAuthor(firstText(info, "p a[href*=/zuozhe/]")) || trimText(book.author),
         intro: firstText(doc, "div.des"),
-        coverUrl: cover == null ? trimText(book.coverUrl) : resolveUrl(bookUrl, cover.attr("src")),
+        coverUrl: imageUrl(bookUrl, cover) || trimText(book.coverUrl),
         kind: kind.join(","),
         latestChapterTitle: firstText(info, "ul li a[href]"),
         tocUrl: bookUrl
