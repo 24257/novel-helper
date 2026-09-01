@@ -27,6 +27,8 @@ import io.legado.app.model.CacheBook
 import io.legado.app.model.ReadBook
 import io.legado.app.model.webBook.WebBook
 import io.legado.app.service.CacheBookService
+import io.legado.app.ui.main.bookshelf.XUANJUAN_AUTO_FOLLOW_SESSION_GUARD_MS
+import io.legado.app.ui.main.bookshelf.shouldXuanjuanAutoFollow
 import io.legado.app.utils.onEachParallel
 import io.legado.app.utils.postEvent
 import io.legado.app.utils.toastOnUi
@@ -59,6 +61,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     val onUpBooksLiveData = MutableLiveData<Int>()
     private var upTocJob: Job? = null
     private var upTocJobGeneration = 0L
+    private var lastXuanjuanAutoFollowRequestTime = 0L
     private var cacheBookJob: Job? = null
     val booksListRecycledViewPool = RecycledViewPool().apply {
         setMaxRecycledViews(0, 30)
@@ -103,6 +106,28 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
     fun upAllBookToc() {
         execute {
             addToWaitUp(appDb.bookDao.hasUpdateBooks, AppConfig.onlyUpdateRead)
+        }
+    }
+
+    @Synchronized
+    fun xuanjuanAutoFollowBookshelf() {
+        if (!AppConfig.xuanjuanBookshelfAutoFollow) return
+        val now = System.currentTimeMillis()
+        if (now - lastXuanjuanAutoFollowRequestTime < XUANJUAN_AUTO_FOLLOW_SESSION_GUARD_MS) {
+            return
+        }
+        lastXuanjuanAutoFollowRequestTime = now
+        execute(context = upTocPool) {
+            val candidates = appDb.bookDao.hasUpdateBooks.filter {
+                it.shouldXuanjuanAutoFollow(now)
+            }
+            if (candidates.isNotEmpty()) {
+                addToWaitUp(
+                    candidates,
+                    onlyUpdateRead = false,
+                    policy = TocUpdatePolicy.SKIP_PRE_DOWNLOAD,
+                )
+            }
         }
     }
 
@@ -209,10 +234,9 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
             val book = appDb.bookDao.getBook(bookUrl) ?: return
             val source = appDb.bookSourceDao.getBookSource(book.origin)
             if (source == null) {
-                if (!book.isUpError) {
-                    book.addType(BookType.updateError)
-                    book.update()
-                }
+                book.lastCheckTime = System.currentTimeMillis()
+                book.addType(BookType.updateError)
+                book.update()
                 return
             }
             if (source.eventListener) {
@@ -280,6 +304,7 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
                 AppLog.put("${book.name} 更新目录失败\n${it.localizedMessage}", it)
                 //这里可能因为时间太长书籍信息已经更改,所以重新获取
                 appDb.bookDao.getBook(persistedBookUrl)?.let { book ->
+                    book.lastCheckTime = System.currentTimeMillis()
                     book.addType(BookType.updateError)
                     book.update()
                 }

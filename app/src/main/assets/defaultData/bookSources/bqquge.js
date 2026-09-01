@@ -4,8 +4,15 @@ var config = {
     bookSourceType: 0,
     bookSourceGroup: "网文小助手内置",
     bookSourceComment: "网文小助手内置公开网页源。按 bqquge.org 当前页面结构适配。",
-    exploreUrl: [],
-    lastUpdateTime: 1788152400000
+    exploreUrl: [
+        {title: "\u70ed\u95e8\u699c", url: "https://www.bqquge.org/paihang"},
+        {title: "\u8fde\u8f7d\u699c", url: "https://www.bqquge.org/lianzai"},
+        {title: "\u5b8c\u672c\u699c", url: "https://www.bqquge.org/wanjie"},
+        {title: "\u7384\u5e7b", url: "https://www.bqquge.org/xuanhuan"},
+        {title: "\u4ed9\u4fa0", url: "https://www.bqquge.org/xianxia"},
+        {title: "\u90fd\u5e02", url: "https://www.bqquge.org/dushi"}
+    ],
+    lastUpdateTime: 1788282000000
 };
 
 var Jsoup = org.jsoup.Jsoup;
@@ -90,12 +97,51 @@ function search(key, page) {
     return books;
 }
 
+function explore(url, page) {
+    var pageUrl = trimText(url);
+    var pageNo = Number(page) > 0 ? Number(page) : 1;
+    if (!pageUrl) return [];
+    if (pageNo > 1) pageUrl = pageUrl.replace(/\/$/, "") + "/" + pageNo;
+    var doc = Jsoup.parse(requestHtml(pageUrl), pageUrl);
+    var books = [];
+    var seen = {};
+    var rows = doc.select("div.item");
+    for (var i = 0; i < rows.size() && books.length < 20; i++) {
+        var row = rows.get(i);
+        var link = row.selectFirst("h3 a[href]");
+        if (link == null) continue;
+        var bookUrl = resolveUrl(pageUrl, link.attr("href")).replace(/\/$/, "");
+        var name = trimText(link.text()).replace(/^\d+\s*/, "");
+        var coverUrl = imageUrl(pageUrl, row.selectFirst("a[href] img"));
+        if (!/^https?:\/\/(?:www\.)?bqquge\.org\/\d+$/i.test(bookUrl) || !name || !coverUrl || seen[bookUrl]) continue;
+        seen[bookUrl] = true;
+        var authorText = firstText(row, "p:contains(作者)");
+        var kindNodes = row.select("p span");
+        var kindParts = [];
+        for (var k = 0; k < kindNodes.size(); k++) {
+            var kind = trimText(kindNodes.get(k).text());
+            if (kind) kindParts.push(kind);
+        }
+        books.push({
+            name: name,
+            author: parseAuthor(authorText),
+            coverUrl: coverUrl,
+            kind: kindParts.join(","),
+            latestChapterTitle: firstText(row, "ul li a[href]"),
+            bookUrl: bookUrl,
+            tocUrl: bookUrl
+        });
+    }
+    return books;
+}
+
 function getBookInfo(book) {
     var bookUrl = trimText(book.bookUrl);
     if (!bookUrl) throw "笔趣阁书籍地址为空";
     var doc = Jsoup.parse(requestHtml(bookUrl), bookUrl);
     var detail = doc.selectFirst("div.bookdetail");
     var cover = detail == null ? null : detail.selectFirst("img");
+    var ogImage = doc.selectFirst('meta[property="og:image"]');
     var kindParts = [];
     if (detail != null) {
         var ps = detail.select("div.booktxt p");
@@ -108,7 +154,7 @@ function getBookInfo(book) {
         name: firstText(detail, "div.booktxt h1") || trimText(book.name),
         author: parseAuthor(firstText(detail, "div.booktxt p a[href*=/zuozhe/]")) || trimText(book.author),
         intro: firstText(doc, "div.des"),
-        coverUrl: imageUrl(bookUrl, cover) || trimText(book.coverUrl),
+        coverUrl: imageUrl(bookUrl, cover) || (ogImage == null ? "" : trimText(ogImage.attr("content"))) || trimText(book.coverUrl),
         kind: kindParts.join(","),
         latestChapterTitle: firstText(doc, "div.newest h3 a[href]"),
         tocUrl: bookUrl

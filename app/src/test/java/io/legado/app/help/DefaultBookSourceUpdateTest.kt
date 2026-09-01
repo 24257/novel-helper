@@ -55,6 +55,40 @@ class DefaultBookSourceUpdateTest {
     }
 
     @Test
+    fun legacyBuiltinEnablesNewlyPackagedExplore() {
+        val packaged = packagedSource().copy(
+            exploreUrl = "[{\"title\":\"热门榜\",\"url\":\"https://example.com/rank\"}]",
+            enabledExplore = true,
+        )
+        val existing = packagedSource().copy(
+            exploreUrl = null,
+            enabledExplore = false,
+        )
+
+        val merged = prepareBuiltinBookSourceUpdate(packaged, existing)!!
+
+        assertEquals(packaged.exploreUrl, merged.exploreUrl)
+        assertEquals(true, merged.enabledExplore)
+    }
+
+    @Test
+    fun existingExploreDisabledPreferenceIsPreserved() {
+        val packaged = packagedSource().copy(
+            exploreUrl = "[{\"title\":\"新榜单\",\"url\":\"https://example.com/new-rank\"}]",
+            enabledExplore = true,
+        )
+        val existing = packagedSource().copy(
+            exploreUrl = "[{\"title\":\"旧榜单\",\"url\":\"https://example.com/old-rank\"}]",
+            enabledExplore = false,
+        )
+
+        val merged = prepareBuiltinBookSourceUpdate(packaged, existing)!!
+
+        assertEquals(packaged.exploreUrl, merged.exploreUrl)
+        assertEquals(false, merged.enabledExplore)
+    }
+
+    @Test
     fun renamedOrRegroupedSourceIsTreatedAsUserCustomized() {
         val packaged = packagedSource()
         assertNull(

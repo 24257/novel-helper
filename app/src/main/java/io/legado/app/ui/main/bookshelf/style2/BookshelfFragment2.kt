@@ -275,6 +275,7 @@ class BookshelfFragment2() : BaseBookshelfFragment(R.layout.fragment_bookshelf2)
             2 -> books.sortedWith { first, second -> first.name.cnCompare(second.name) }
             3 -> books.sortedBy { it.order }
             4 -> books.sortedByDescending { max(it.latestChapterTime, it.durChapterTime) }
+            5 -> books.sortedWith { first, second -> first.author.cnCompare(second.author) }
             else -> books.sortedByDescending { it.durChapterTime }
         }
     }

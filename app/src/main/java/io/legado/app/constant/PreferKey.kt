@@ -16,6 +16,7 @@ object PreferKey {
     const val bookshelfReadProgressMode = "bookshelfReadProgressMode"
     const val showBookshelfRecentReading = "showBookshelfRecentReading"
     const val showBookshelfStats = "showBookshelfStats"
+    const val xuanjuanBookshelfAutoFollow = "xuanjuanBookshelfAutoFollow"
     const val showBooknameLayout = "showBooknameLayout"
     const val bookshelfMargin = "bookshelfMargin"
     const val bookGroupStyle = "bookGroupStyle"

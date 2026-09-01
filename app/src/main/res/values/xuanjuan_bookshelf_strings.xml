@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="xuanjuan_bookshelf_auto_follow">Auto follow updates</string>
+    <string name="xuanjuan_bookshelf_auto_follow_summary">Automatically check online books when the shelf opens; the same book is not checked again within 30 minutes.</string>
+    <string name="xuanjuan_bookshelf_auto_follow_on">Auto follow · every 30 min</string>
+    <string name="xuanjuan_bookshelf_auto_follow_off">Auto follow · off</string>
+    <string name="xuanjuan_bookshelf_update_failed">Update failed</string>
+    <string name="xuanjuan_bookshelf_updated_count">+%1$d chapters</string>
+    <string name="xuanjuan_bookshelf_current">Up to date</string>
+</resources>

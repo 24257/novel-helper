@@ -5,8 +5,12 @@ var config = {
     bookSourceGroup: "网文小助手内置",
     bookSourceComment: "网文小助手内置公开网页源。使用站点普通 Cookie 会话访问公开搜索与阅读页面。",
     enabledCookieJar: true,
-    exploreUrl: [],
-    lastUpdateTime: 1788159300000
+    exploreUrl: [
+        {title: "热门榜", url: "https://m.hetushu.com/top/index.php"},
+        {title: "完本榜", url: "https://www.hetushu.com/book/index.php?state=2"},
+        {title: "玄幻", url: "https://m.hetushu.com/book/list.php?type=%E7%8E%84%E5%B9%BB%E5%B0%8F%E8%AF%B4"}
+    ],
+    lastUpdateTime: 1788278400000
 };
 
 var Jsoup = org.jsoup.Jsoup;
@@ -25,7 +29,11 @@ function trimText(value) {
 }
 
 function requestHtml(url) {
-    var html = safeString(java.ajax(safeString(url), 20000));
+    var requestUrl = safeString(url);
+    if (/^https?:\/\/m\.hetushu\.com\//i.test(requestUrl)) {
+        requestUrl += ',{"headers":{"User-Agent":"Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Mobile Safari/537.36","Referer":"https://m.hetushu.com/"}}';
+    }
+    var html = safeString(java.ajax(requestUrl, 20000));
     if (!html) throw "和图书请求失败: " + url;
     return html;
 }
@@ -89,6 +97,79 @@ function search(key, page) {
         });
     }
     return books;
+}
+
+function exploreContainer(link) {
+    var node = link;
+    var fallback = link.parent();
+    for (var i = 0; i < 4 && node != null; i++) {
+        if (node.tagName() === "dd" || node.selectFirst("h4,img,.intro,.author") != null) return node;
+        fallback = node;
+        node = node.parent();
+    }
+    return fallback;
+}
+
+function exploreAuthor(container) {
+    if (container == null) return "";
+    var author = firstText(container, "h4 span,.author,a[href*=author]")
+        .replace(/^\s*\/\s*/, "")
+        .replace(/\s*\/\s*$/, "")
+        .replace(/^作者\s*[:：]?\s*/, "")
+        .trim();
+    if (author) return author;
+    var match = trimText(container.text()).match(/作者\s*[:：]\s*([^|｜]{1,40})/);
+    if (match) return trimText(match[1]).replace(/\s{2,}.*/, "");
+    var mobileMatch = trimText(container.text()).match(/[（(]([^()（）]{1,40})[)）]\s*$/);
+    return mobileMatch ? trimText(mobileMatch[1]) : "";
+}
+
+function pushExploreBook(books, seen, pageUrl, link, container) {
+    if (link == null) return;
+    var bookUrl = resolveUrl(pageUrl, link.attr("href"));
+    var name = trimText(link.text()).replace(/^\s*\d+\s*[.．、]\s*/, "");
+    if (!bookUrl || !name) return;
+    var match = bookUrl.match(/^https?:\/\/(?:www\.|m\.)?hetushu\.com\/book\/(\d+)(?:\/(?:index\.html)?)?(?:[?#].*)?$/i);
+    if (!match) return;
+    bookUrl = "https://www.hetushu.com/book/" + match[1] + "/index.html";
+    if (seen[bookUrl]) return;
+    seen[bookUrl] = true;
+    books.push({
+        name: name,
+        author: exploreAuthor(container),
+        intro: firstText(container, "div.intro,.intro"),
+        coverUrl: imageUrl(pageUrl, container == null ? null : container.selectFirst("img")),
+        bookUrl: bookUrl,
+        tocUrl: bookUrl
+    });
+}
+
+function explore(url, page) {
+    if (Number(page) > 1) return [];
+    var pageUrl = trimText(url);
+    if (!pageUrl) return [];
+    var warmupUrl = /^https?:\/\/m\.hetushu\.com\//i.test(pageUrl)
+        ? "https://m.hetushu.com/"
+        : config.bookSourceUrl + "/";
+    requestHtml(warmupUrl);
+    var doc = Jsoup.parse(requestHtml(pageUrl), pageUrl);
+    var books = [];
+    var seen = {};
+    var rows = doc.select("dl#body dd");
+    if (rows.isEmpty()) rows = doc.select("dl.list dd");
+    for (var i = 0; i < rows.size(); i++) {
+        var row = rows.get(i);
+        pushExploreBook(books, seen, pageUrl, row.selectFirst("h4 a[href*=\/book\/]"), row);
+    }
+    var links = doc.select("a[href*=\/book\/]");
+    if (links.isEmpty()) links = doc.select("a[href]");
+    for (var j = 0; j < links.size(); j++) {
+        var link = links.get(j);
+        pushExploreBook(books, seen, pageUrl, link, exploreContainer(link));
+    }
+    return books.filter(function(book) {
+        return trimText(book.coverUrl).length > 0;
+    });
 }
 
 function getBookInfo(book) {

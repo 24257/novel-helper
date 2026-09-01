@@ -10,6 +10,7 @@ import io.legado.app.data.entities.Book
 import io.legado.app.databinding.ItemBookshelfListBinding
 import io.legado.app.help.book.isLocal
 import io.legado.app.help.config.AppConfig
+import io.legado.app.ui.main.bookshelf.bindXuanjuanBookshelfFollowStatus
 import io.legado.app.ui.main.bookshelf.updateBookshelfReadProgress
 import io.legado.app.utils.invisible
 import io.legado.app.utils.toTimeAgo
@@ -66,18 +67,14 @@ class BooksAdapterList(
 
     private fun upRefresh(binding: ItemBookshelfListBinding, item: Book) {
         binding.pbReadProgress.updateBookshelfReadProgress(item, binding.tvReadPercent)
-        if (!item.isLocal && callBack.isUpdate(item.bookUrl)) {
-            binding.bvUnread.invisible()
-            binding.rlLoading.visible()
-        } else {
-            binding.rlLoading.gone()
-            if (AppConfig.showUnread) {
-                binding.bvUnread.setHighlight(item.lastCheckCount > 0)
-                binding.bvUnread.setBadgeCount(item.getUnreadChapterNum())
-            } else {
-                binding.bvUnread.invisible()
-            }
-        }
+        bindXuanjuanBookshelfFollowStatus(
+            context,
+            item,
+            callBack.isUpdate(item.bookUrl),
+            binding.tvUpdateStatus,
+            binding.bvUnread,
+            binding.rlLoading,
+        )
     }
 
     private fun upLastUpdateTime(binding: ItemBookshelfListBinding, item: Book) {

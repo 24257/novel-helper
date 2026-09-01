@@ -22,6 +22,8 @@ import io.legado.app.model.ReadManga
 import io.legado.app.model.SourceCallBack
 import io.legado.app.model.VideoPlay
 import io.legado.app.model.webBook.WebBook
+import io.legado.app.model.webBook.XuanjuanAggregateRank
+import io.legado.app.model.webBook.isXuanjuanAggregateRequest
 import io.legado.app.utils.printOnDebug
 import io.legado.app.utils.stackTraceStr
 import io.legado.app.utils.toastOnUi
@@ -47,6 +49,7 @@ class ExploreShowViewModel(application: Application) : BaseViewModel(application
     val addBooksBusy = MutableLiveData(false)
     private var bookSource: BookSource? = null
     private var exploreUrl: String? = null
+    private var aggregateMode = false
     private val paginationState = ExplorePaginationState()
     private val booksLock = Any()
     private var books = linkedSetOf<SearchBook>()
@@ -80,22 +83,35 @@ class ExploreShowViewModel(application: Application) : BaseViewModel(application
         execute {
             val sourceUrl = intent.getStringExtra("sourceUrl")
             exploreUrl = intent.getStringExtra("exploreUrl")
-            if (bookSource == null && sourceUrl != null) {
+            aggregateMode = isXuanjuanAggregateRequest(sourceUrl, exploreUrl)
+            if (!aggregateMode && bookSource == null && sourceUrl != null) {
                 bookSource = appDb.bookSourceDao.getBookSource(sourceUrl)
             }
             explore()
         }
     }
 
+    private fun requestBooks(page: Int): Coroutine<List<SearchBook>>? {
+        val url = exploreUrl ?: return null
+        if (aggregateMode) {
+            return Coroutine.async(viewModelScope, IO) {
+                XuanjuanAggregateRank.load(page)
+            }
+        }
+        val source = bookSource ?: return null
+        return WebBook.exploreBook(viewModelScope, source, url, page)
+    }
+
     /**
      * 上滑触发的增量更新
      */
     fun explore(page: Int) {
-        val source = bookSource
-        val url = exploreUrl
-        if (source == null || url == null) return
         val request = paginationState.startPage(page) ?: return
-        WebBook.exploreBook(viewModelScope, source, url, request.page)
+        val task = requestBooks(request.page) ?: run {
+            paginationState.fail(request)
+            return
+        }
+        task
             .timeout(if (BuildConfig.DEBUG) 0L else 60000L)
             .onSuccess(IO) { searchBooks ->
                 if (!paginationState.isActive(request)) return@onSuccess
@@ -127,11 +143,12 @@ class ExploreShowViewModel(application: Application) : BaseViewModel(application
     }
 
     fun explore() {
-        val source = bookSource
-        val url = exploreUrl
-        if (source == null || url == null) return
         val request = paginationState.startNextPage()
-        WebBook.exploreBook(viewModelScope, source, url, request.page)
+        val task = requestBooks(request.page) ?: run {
+            paginationState.fail(request)
+            return
+        }
+        task
             .timeout(if (BuildConfig.DEBUG) 0L else 60000L)
             .onSuccess(IO) { searchBooks ->
                 if (!paginationState.isActive(request)) return@onSuccess

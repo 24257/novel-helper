@@ -16,12 +16,26 @@
         android:elevation="2dp"
         android:padding="16dp">
 
+        <TextView
+            android:id="@+id/tv_bookshelf_config_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:includeFontPadding="false"
+            android:text="@string/bookshelf_layout"
+            android:textColor="@color/xuanjuan_gold_soft"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <LinearLayout
             android:id="@+id/ll_group_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/tv_bookshelf_config_title">
 
             <TextView
                 android:layout_width="0dp"
@@ -36,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:entries="@array/group_style"
-                android:theme="@style/Spinner"
+                android:theme="@style/XuanjuanSpinner"
                 tools:ignore="TouchTargetSizeCheck" />
 
         </LinearLayout>
@@ -61,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:entries="@array/bookshelf_read_progress"
-                android:theme="@style/Spinner"
+                android:theme="@style/XuanjuanSpinner"
                 tools:ignore="TouchTargetSizeCheck" />
 
         </LinearLayout>
@@ -72,6 +86,7 @@
             android:layout_height="wrap_content"
             android:padding="6dp"
             android:text="@string/show_unread"
+            android:textColor="@color/primaryText"
             app:layout_constraintTop_toBottomOf="@+id/ll_read_progress"
             tools:ignore="TouchTargetSizeCheck" />
 
@@ -81,6 +96,7 @@
             android:layout_height="wrap_content"
             android:padding="6dp"
             android:text="@string/show_last_update_time"
+            android:textColor="@color/primaryText"
             app:layout_constraintTop_toBottomOf="@+id/sw_show_unread"
             tools:ignore="TouchTargetSizeCheck" />
 
@@ -90,6 +106,7 @@
             android:layout_height="wrap_content"
             android:padding="6dp"
             android:text="@string/show_wait_up_count"
+            android:textColor="@color/primaryText"
             app:layout_constraintTop_toBottomOf="@+id/sw_show_last_update_time"
             tools:ignore="TouchTargetSizeCheck" />
 
@@ -99,6 +116,7 @@
             android:layout_height="wrap_content"
             android:padding="6dp"
             android:text="@string/show_bookshelf_fast_scroller"
+            android:textColor="@color/primaryText"
             app:layout_constraintTop_toBottomOf="@+id/sw_show_wait_up_books"
             tools:ignore="TouchTargetSizeCheck" />
 
@@ -108,6 +126,7 @@
             android:layout_height="wrap_content"
             android:padding="6dp"
             android:text="@string/recent_reading"
+            android:textColor="@color/primaryText"
             app:layout_constraintTop_toBottomOf="@+id/sw_show_bookshelf_fast_scroller"
             tools:ignore="TouchTargetSizeCheck" />
 
@@ -117,7 +136,18 @@
             android:layout_height="wrap_content"
             android:padding="6dp"
             android:text="@string/bookshelf_statistics"
+            android:textColor="@color/primaryText"
             app:layout_constraintTop_toBottomOf="@+id/sw_show_recent_reading"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <io.legado.app.lib.theme.view.ThemeSwitch
+            android:id="@+id/sw_auto_follow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:text="@string/xuanjuan_bookshelf_auto_follow"
+            android:textColor="@color/primaryText"
+            app:layout_constraintTop_toBottomOf="@+id/sw_show_bookshelf_stats"
             tools:ignore="TouchTargetSizeCheck" />
 
         <LinearLayout
@@ -127,7 +157,7 @@
             android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/ll_sort"
-            app:layout_constraintTop_toBottomOf="@+id/sw_show_bookshelf_stats">
+            app:layout_constraintTop_toBottomOf="@+id/sw_auto_follow">
 
             <io.legado.app.ui.widget.text.AccentTextView
                 android:layout_width="match_parent"
@@ -142,46 +172,53 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <RadioButton
+                <io.legado.app.lib.theme.view.ThemeRadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/layout_list"
+                    android:textColor="@color/primaryText"
                     tools:ignore="TouchTargetSizeCheck" />
 
-                <RadioButton
+                <io.legado.app.lib.theme.view.ThemeRadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/layout_list_compact"
+                    android:textColor="@color/primaryText"
                     tools:ignore="TouchTargetSizeCheck" />
 
-                <RadioButton
+                <io.legado.app.lib.theme.view.ThemeRadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/layout_grid2"
+                    android:textColor="@color/primaryText"
                     tools:ignore="TouchTargetSizeCheck" />
 
-                <RadioButton
+                <io.legado.app.lib.theme.view.ThemeRadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/layout_grid3"
+                    android:textColor="@color/primaryText"
                     tools:ignore="TouchTargetSizeCheck" />
 
-                <RadioButton
+                <io.legado.app.lib.theme.view.ThemeRadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/layout_grid4"
+                    android:textColor="@color/primaryText"
                     tools:ignore="TouchTargetSizeCheck" />
 
-                <RadioButton
+                <io.legado.app.lib.theme.view.ThemeRadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/layout_grid5"
+                    android:textColor="@color/primaryText"
                     tools:ignore="TouchTargetSizeCheck" />
 
-                <RadioButton
+                <io.legado.app.lib.theme.view.ThemeRadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/layout_grid6"
+                    android:textColor="@color/primaryText"
                     tools:ignore="TouchTargetSizeCheck" />
             </RadioGroup>
 
@@ -194,7 +231,7 @@
             android:orientation="vertical"
             app:layout_constraintLeft_toRightOf="@+id/ll_layout"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sw_show_bookshelf_stats">
+            app:layout_constraintTop_toBottomOf="@+id/sw_auto_follow">
 
             <io.legado.app.ui.widget.text.AccentTextView
                 android:layout_width="match_parent"
@@ -209,40 +246,46 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <RadioButton
+                <io.legado.app.lib.theme.view.ThemeRadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/bookshelf_px_0"
+                    android:textColor="@color/primaryText"
                     tools:ignore="TouchTargetSizeCheck" />
 
-                <RadioButton
+                <io.legado.app.lib.theme.view.ThemeRadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/bookshelf_px_1"
+                    android:textColor="@color/primaryText"
                     tools:ignore="TouchTargetSizeCheck" />
 
-                <RadioButton
+                <io.legado.app.lib.theme.view.ThemeRadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/bookshelf_px_2"
+                    android:textColor="@color/primaryText"
                     tools:ignore="TouchTargetSizeCheck" />
 
-                <RadioButton
+                <io.legado.app.lib.theme.view.ThemeRadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/bookshelf_px_3"
+                    android:textColor="@color/primaryText"
                     tools:ignore="TouchTargetSizeCheck" />
 
-                <RadioButton
+                <io.legado.app.lib.theme.view.ThemeRadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/bookshelf_px_4"
+                    android:textColor="@color/primaryText"
                     tools:ignore="TouchTargetSizeCheck" />
 
-                <RadioButton
+                <io.legado.app.lib.theme.view.ThemeRadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/bookshelf_px_5"
+                    android:textColor="@color/primaryText"
                     tools:ignore="TouchTargetSizeCheck" />
 
             </RadioGroup>
@@ -276,22 +319,25 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <RadioButton
+                <io.legado.app.lib.theme.view.ThemeRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/show"
+                    android:textColor="@color/primaryText"
                     tools:ignore="TouchTargetSizeCheck" />
 
-                <RadioButton
+                <io.legado.app.lib.theme.view.ThemeRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/hide"
+                    android:textColor="@color/primaryText"
                     tools:ignore="TouchTargetSizeCheck" />
 
-                <RadioButton
+                <io.legado.app.lib.theme.view.ThemeRadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/overlay"
+                    android:textColor="@color/primaryText"
                     tools:ignore="TouchTargetSizeCheck" />
 
             </RadioGroup>

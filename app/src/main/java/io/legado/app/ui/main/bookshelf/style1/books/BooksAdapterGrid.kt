@@ -10,6 +10,7 @@ import io.legado.app.databinding.ItemBookshelfGrid2Binding
 import io.legado.app.databinding.ItemBookshelfGridBinding
 import io.legado.app.help.book.isLocal
 import io.legado.app.help.config.AppConfig
+import io.legado.app.ui.main.bookshelf.bindXuanjuanBookshelfFollowStatus
 import io.legado.app.ui.main.bookshelf.updateBookshelfReadProgress
 import io.legado.app.utils.gone
 import io.legado.app.utils.invisible
@@ -90,33 +91,25 @@ class BooksAdapterGrid(context: Context, private val callBack: CallBack) :
         when (binding) {
             is ItemBookshelfGridBinding -> binding.run {
                 pbReadProgress.updateBookshelfReadProgress(item)
-                if (!item.isLocal && callBack.isUpdate(item.bookUrl)) {
-                    bvUnread.invisible()
-                    rlLoading.visible()
-                } else {
-                    rlLoading.inVisible()
-                    if (AppConfig.showUnread) {
-                        bvUnread.setBadgeCount(item.getUnreadChapterNum())
-                        bvUnread.setHighlight(item.lastCheckCount > 0)
-                    } else {
-                        bvUnread.invisible()
-                    }
-                }
+                bindXuanjuanBookshelfFollowStatus(
+                    context,
+                    item,
+                    callBack.isUpdate(item.bookUrl),
+                    tvUpdateStatus,
+                    bvUnread,
+                    rlLoading,
+                )
             }
             is ItemBookshelfGrid2Binding -> binding.run {
                 pbReadProgress.updateBookshelfReadProgress(item)
-                if (!item.isLocal && callBack.isUpdate(item.bookUrl)) {
-                    bvUnread.invisible()
-                    rlLoading.visible()
-                } else {
-                    rlLoading.inVisible()
-                    if (AppConfig.showUnread) {
-                        bvUnread.setBadgeCount(item.getUnreadChapterNum())
-                        bvUnread.setHighlight(item.lastCheckCount > 0)
-                    } else {
-                        bvUnread.invisible()
-                    }
-                }
+                bindXuanjuanBookshelfFollowStatus(
+                    context,
+                    item,
+                    callBack.isUpdate(item.bookUrl),
+                    tvUpdateStatus,
+                    bvUnread,
+                    rlLoading,
+                )
             }
         }
     }

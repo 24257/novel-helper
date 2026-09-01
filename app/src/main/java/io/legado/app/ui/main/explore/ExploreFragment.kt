@@ -24,6 +24,8 @@ import io.legado.app.help.config.AppConfig
 import io.legado.app.lib.dialogs.alert
 import io.legado.app.lib.theme.primaryColor
 import io.legado.app.lib.theme.primaryTextColor
+import io.legado.app.model.webBook.XUANJUAN_AGGREGATE_HOT_URL
+import io.legado.app.model.webBook.XUANJUAN_AGGREGATE_SOURCE_URL
 import io.legado.app.ui.book.explore.ExploreShowActivity
 import io.legado.app.ui.book.search.SearchActivity
 import io.legado.app.ui.book.source.edit.BookSourceEditActivity
@@ -91,6 +93,7 @@ class ExploreFragment() : VMBaseFragment<ExploreViewModel>(R.layout.fragment_exp
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
         setSupportToolbar(binding.titleBar.toolbar)
         initSearchView()
+        initAggregatePortal()
         initRecyclerView()
         initGroupData()
         upExploreData()
@@ -106,7 +109,7 @@ class ExploreFragment() : VMBaseFragment<ExploreViewModel>(R.layout.fragment_exp
     private fun initSearchView() {
         searchView.applyTint(primaryTextColor)
         searchView.isSubmitButtonEnabled = true
-        searchView.queryHint = getString(R.string.screen_find)
+        searchView.queryHint = getString(R.string.xuanjuan_book_mall_search_hint)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -118,6 +121,19 @@ class ExploreFragment() : VMBaseFragment<ExploreViewModel>(R.layout.fragment_exp
                 return false
             }
         })
+    }
+
+    private fun initAggregatePortal() {
+        binding.tvAggregateBadge.setText(R.string.xuanjuan_aggregate_badge)
+        binding.tvAggregateTitle.setText(R.string.xuanjuan_aggregate_title)
+        binding.tvAggregateSource.setText(R.string.xuanjuan_aggregate_source)
+        binding.aggregatePortal.setOnClickListener {
+            openExplore(
+                XUANJUAN_AGGREGATE_SOURCE_URL,
+                getString(R.string.xuanjuan_aggregate_title),
+                XUANJUAN_AGGREGATE_HOT_URL,
+            )
+        }
     }
 
     private fun initRecyclerView() {
@@ -171,26 +187,18 @@ class ExploreFragment() : VMBaseFragment<ExploreViewModel>(R.layout.fragment_exp
         exploreFlowJob = viewLifecycleOwner.lifecycleScope.launch {
             val selectedGroup = exploreGroupFromQuery(searchKey)
             when {
-                searchKey.isNullOrBlank() -> {
-                    appDb.bookSourceDao.flowExplore()
-                }
-
-                selectedGroup != null -> {
-                    appDb.bookSourceDao.flowGroupExplore(selectedGroup)
-                }
-
-                else -> {
-                    appDb.bookSourceDao.flowExplore(searchKey)
-                }
+                searchKey.isNullOrBlank() -> appDb.bookSourceDao.flowExplore()
+                selectedGroup != null -> appDb.bookSourceDao.flowGroupExplore(selectedGroup)
+                else -> appDb.bookSourceDao.flowExplore(searchKey)
             }.flowWithLifecycleAndDatabaseChange(
                 viewLifecycleOwner.lifecycle,
                 Lifecycle.State.RESUMED,
                 AppDatabase.BOOK_SOURCE_TABLE_NAME
             ).catch {
-                AppLog.put("发现界面更新数据出错", it)
-            }.conflate().flowOn(IO).collect {
-                binding.tvEmptyMsg.isGone = it.isNotEmpty() || searchView.query.isNotEmpty()
-                adapter.setItems(it, diffItemCallBack)
+                AppLog.put("推荐榜单更新数据出错", it)
+            }.conflate().flowOn(IO).collect { sources ->
+                binding.tvEmptyMsg.isGone = sources.isNotEmpty()
+                adapter.setItems(sources, diffItemCallBack)
                 delay(500)
             }
         }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="xuanjuan_explore_nav">Book Mall</string>
+    <string name="xuanjuan_explore_title">Recommendations · Rankings</string>
+    <string name="xuanjuan_explore_mark">XUANJUAN · DISCOVER</string>
+    <string name="xuanjuan_explore_heading">Popular picks &amp; genre rankings</string>
+    <string name="xuanjuan_explore_summary">Browse popular, completed, recent and genre lists from available public sources.</string>
+    <string name="xuanjuan_explore_search_hint">Search rankings or genres</string>
+    <string name="xuanjuan_explore_empty">No rankings are available yet. Manage book sources from the upper-right corner.</string>
+    <string name="xuanjuan_explore_badge">LIST</string>
+    <string name="xuanjuan_explore_source">Source · %1$s</string>
+    <string name="xuanjuan_aggregate_title">Xuanjuan Aggregate Ranking</string>
+    <string name="xuanjuan_aggregate_badge">MIX</string>
+    <string name="xuanjuan_aggregate_source">Cross-source heat · Deduplicated books</string>
+    <string name="xuanjuan_aggregate_sources">Aggregated from %1$d sources</string>
+    <string name="xuanjuan_book_mall_title">Xuanjuan Book Mall</string>
+    <string name="xuanjuan_book_mall_mark">XUANJUAN · BOOK MALL</string>
+    <string name="xuanjuan_book_mall_heading">Aggregate ranking &amp; source bookstores</string>
+    <string name="xuanjuan_book_mall_summary">Open the aggregate ranking for cross-source picks, or expand a source bookstore below for its complete discovery controls.</string>
+    <string name="xuanjuan_book_mall_search_hint">Search bookstore sources</string>
+    <string name="xuanjuan_book_mall_empty">No source bookstores are enabled. Manage book sources from the upper-right corner.</string>
+    <string name="xuanjuan_book_mall_source_badge">SRC</string>
+</resources>

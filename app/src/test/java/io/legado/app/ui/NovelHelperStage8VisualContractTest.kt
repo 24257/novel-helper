@@ -60,6 +60,7 @@ class NovelHelperStage8VisualContractTest {
             "activity_about.xml",
             "activity_book_search.xml",
             "fragment_explore.xml",
+            "activity_explore_show.xml",
             "activity_book_info.xml",
         ).forEach { name ->
             val layout = projectFile("src/main/res/layout/$name").readText()
@@ -68,6 +69,9 @@ class NovelHelperStage8VisualContractTest {
         val bookInfo = projectFile("src/main/res/layout/activity_book_info.xml").readText()
         assertTrue(bookInfo.contains("android:id=\"@+id/fl_action\""))
         assertTrue(bookInfo.contains("android:background=\"@drawable/novel_helper_preference_card\""))
+
+        val loadMore = projectFile("src/main/res/layout/view_load_more.xml").readText()
+        assertTrue(loadMore.contains("android:textColor=\"@color/secondaryText\""))
     }
 
     @Test

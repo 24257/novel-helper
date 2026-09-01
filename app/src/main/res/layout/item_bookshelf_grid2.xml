@@ -86,6 +86,27 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="RtlHardcoded" />
 
+            <TextView
+                android:id="@+id/tv_update_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="3dp"
+                android:background="@drawable/bg_find_book_group"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:paddingStart="5dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="5dp"
+                android:paddingBottom="2dp"
+                android:textColor="@color/xuanjuan_gold_soft"
+                android:textSize="9sp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="更新 3 章"
+                tools:visibility="visible" />
+
             <io.legado.app.ui.widget.anima.RotateLoading
                 android:id="@+id/rl_loading"
                 android:layout_width="22dp"

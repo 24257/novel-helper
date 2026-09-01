@@ -4,8 +4,12 @@ var config = {
     bookSourceType: 0,
     bookSourceGroup: "网文小助手内置",
     bookSourceComment: "网文小助手内置公开网页源。按 m.cuoceng.com 当前移动页面结构适配。",
-    exploreUrl: [],
-    lastUpdateTime: 1788152400000
+    exploreUrl: [
+        {title: "\u70ed\u95e8\u699c", url: "https://m.cuoceng.com/book/ranking.html"},
+        {title: "\u5b8c\u672c\u699c", url: "https://m.cuoceng.com/book/finish.html"},
+        {title: "\u7384\u5e7b", url: "https://m.cuoceng.com/book/category/catalog.html"}
+    ],
+    lastUpdateTime: 1788282000000
 };
 
 var Jsoup = org.jsoup.Jsoup;
@@ -88,12 +92,62 @@ function search(key, page) {
     return books;
 }
 
+function explore(url, page) {
+    if (Number(page) > 1) return [];
+    var pageUrl = trimText(url);
+    if (!pageUrl) return [];
+    var doc = Jsoup.parse(requestHtml(pageUrl), pageUrl);
+    var links = doc.select("a[href]");
+    var candidates = [];
+    var seen = {};
+    for (var i = 0; i < links.size() && candidates.length < 12; i++) {
+        var link = links.get(i);
+        var bookUrl = resolveUrl(pageUrl, link.attr("href"));
+        var name = trimText(link.text());
+        if (!/^https?:\/\/m\.cuoceng\.com\/book\/[^\/?#]+\.html(?:[?#].*)?$/i.test(bookUrl) || !name || seen[bookUrl]) continue;
+        seen[bookUrl] = true;
+        candidates.push({name: name, bookUrl: bookUrl});
+    }
+    if (!candidates.length) return [];
+    var urls = [];
+    for (var j = 0; j < candidates.length; j++) urls.push(candidates[j].bookUrl);
+    var responses = java.ajaxAll(urls, true);
+    var books = [];
+    for (var r = 0; r < responses.length; r++) {
+        try {
+            var candidate = candidates[r];
+            var html = responses[r] == null ? "" : safeString(responses[r].body());
+            if (!html) continue;
+            var detail = Jsoup.parse(html, candidate.bookUrl);
+            var info = detail.selectFirst("div.bookinfo");
+            var cover = detail.selectFirst("div.bookcover img.thumbnail, div.bookcover img, img.thumbnail, img[src*=bookCover], img[src*=cover]");
+            var coverUrl = imageUrl(candidate.bookUrl, cover);
+            if (!coverUrl) continue;
+            var tags = info == null ? null : info.select("p.booktag a");
+            var author = tags != null && !tags.isEmpty() ? trimText(tags.get(0).text()) : "";
+            var kind = tags != null && tags.size() > 1 ? trimText(tags.get(1).text()) : "";
+            books.push({
+                name: firstText(info, "h1.booktitle") || candidate.name,
+                author: author,
+                intro: firstText(info, "p.bookintro"),
+                coverUrl: coverUrl,
+                kind: kind,
+                latestChapterTitle: firstText(info, "a.bookchapter[href]"),
+                bookUrl: candidate.bookUrl,
+                tocUrl: toCatalogUrl(candidate.bookUrl)
+            });
+        } catch (e) {}
+    }
+    return books;
+}
+
 function getBookInfo(book) {
     var bookUrl = trimText(book.bookUrl);
     if (!bookUrl) throw "错层小说书籍地址为空";
     var doc = Jsoup.parse(requestHtml(bookUrl), bookUrl);
     var info = doc.selectFirst("div.bookinfo");
-    var cover = doc.selectFirst("div.bookcover img.thumbnail");
+    var cover = doc.selectFirst("div.bookcover img.thumbnail, div.bookcover img, img.thumbnail, img[src*=bookCover], img[src*=cover]");
+    var ogImage = doc.selectFirst('meta[property="og:image"]');
     var tags = info == null ? null : info.select("p.booktag a");
     var author = "";
     var kind = "";
@@ -115,7 +169,7 @@ function getBookInfo(book) {
         name: firstText(info, "h1.booktitle") || trimText(book.name),
         author: author || trimText(book.author),
         intro: firstText(info, "p.bookintro"),
-        coverUrl: imageUrl(bookUrl, cover) || trimText(book.coverUrl),
+        coverUrl: imageUrl(bookUrl, cover) || (ogImage == null ? "" : trimText(ogImage.attr("content"))) || trimText(book.coverUrl),
         kind: kind,
         latestChapterTitle: firstText(info, "a.bookchapter[href]"),
         tocUrl: toCatalogUrl(bookUrl)

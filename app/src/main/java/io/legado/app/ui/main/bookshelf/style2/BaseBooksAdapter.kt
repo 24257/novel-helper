@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import io.legado.app.data.entities.Book
+import io.legado.app.help.book.isUpError
 
 abstract class BaseBooksAdapter<VH : RecyclerView.ViewHolder>(
     val context: Context,
@@ -48,7 +49,10 @@ abstract class BaseBooksAdapter<VH : RecyclerView.ViewHolder>(
                             oldItem.author == newItem.author &&
                             oldItem.durChapterTitle == newItem.durChapterTitle &&
                             oldItem.latestChapterTitle == newItem.latestChapterTitle &&
+                            oldItem.latestChapterTime == newItem.latestChapterTime &&
+                            oldItem.lastCheckTime == newItem.lastCheckTime &&
                             oldItem.lastCheckCount == newItem.lastCheckCount &&
+                            oldItem.isUpError == newItem.isUpError &&
                             oldItem.getDisplayCover() == newItem.getDisplayCover() &&
                             oldItem.getUnreadChapterNum() == newItem.getUnreadChapterNum()
                 }
@@ -84,8 +88,13 @@ abstract class BaseBooksAdapter<VH : RecyclerView.ViewHolder>(
                     if (oldItem.lastCheckCount != newItem.lastCheckCount
                         || oldItem.durChapterTime != newItem.durChapterTime
                         || oldItem.getUnreadChapterNum() != newItem.getUnreadChapterNum()
+                        || oldItem.lastCheckTime != newItem.lastCheckTime
+                        || oldItem.isUpError != newItem.isUpError
                     ) {
                         bundle.putBoolean("refresh", true)
+                    }
+                    if (oldItem.latestChapterTime != newItem.latestChapterTime) {
+                        bundle.putBoolean("lastUpdateTime", true)
                     }
                 }
 

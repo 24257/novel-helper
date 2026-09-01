@@ -109,6 +109,11 @@ abstract class BaseBookshelfFragment(layoutId: Int) : VMBaseFragment<BookshelfVi
     private var continueBook: Book? = null
     private var shelfHeaderFlowJob: Job? = null
 
+    override fun onResume() {
+        super.onResume()
+        activityViewModel.xuanjuanAutoFollowBookshelf()
+    }
+
     override fun onDestroyView() {
         shelfHeaderFlowJob?.cancel()
         shelfHeaderFlowJob = null
@@ -119,6 +124,7 @@ abstract class BaseBookshelfFragment(layoutId: Int) : VMBaseFragment<BookshelfVi
 
     fun bindShelfHeader(header: ViewBookshelfHeaderBinding) {
         shelfHeaderBinding = header
+        header.autoFollowSummary.setOnClickListener { configBookshelf() }
         header.continueReading.setOnClickListener {
             continueBook?.let { startActivityForBook(it) }
         }
@@ -143,9 +149,15 @@ abstract class BaseBookshelfFragment(layoutId: Int) : VMBaseFragment<BookshelfVi
         val header = shelfHeaderBinding ?: return
         val showRecentReading = AppConfig.showBookshelfRecentReading
         val showBookshelfStats = AppConfig.showBookshelfStats
+        val autoFollow = AppConfig.xuanjuanBookshelfAutoFollow
+        header.tvAutoFollowState.setText(
+            if (autoFollow) R.string.xuanjuan_bookshelf_auto_follow_on
+            else R.string.xuanjuan_bookshelf_auto_follow_off
+        )
         header.tvShelfStats.visibility = if (showBookshelfStats) View.VISIBLE else View.GONE
         header.continueReading.gone()
-        header.root.visibility = if (showBookshelfStats) View.VISIBLE else View.GONE
+        header.root.visibility =
+            if (autoFollow || showRecentReading || showBookshelfStats) View.VISIBLE else View.GONE
         if (!showRecentReading && !showBookshelfStats) return
 
         shelfHeaderFlowJob = viewLifecycleOwner.lifecycleScope.launch {
@@ -276,7 +288,7 @@ abstract class BaseBookshelfFragment(layoutId: Int) : VMBaseFragment<BookshelfVi
 
     @SuppressLint("InflateParams")
     fun configBookshelf() {
-        alert(titleResource = R.string.bookshelf_layout) {
+        alert {
             var bookshelfLayout = AppConfig.bookshelfLayout
             var bookshelfSort = AppConfig.bookshelfSort
             var showBookname = AppConfig.showBookname
@@ -311,6 +323,7 @@ abstract class BaseBookshelfFragment(layoutId: Int) : VMBaseFragment<BookshelfVi
                         swShowBookshelfFastScroller.isChecked = AppConfig.showBookshelfFastScroller
                         swShowRecentReading.isChecked = AppConfig.showBookshelfRecentReading
                         swShowBookshelfStats.isChecked = AppConfig.showBookshelfStats
+                        swAutoFollow.isChecked = AppConfig.xuanjuanBookshelfAutoFollow
                         rgLayout.checkByIndex(bookshelfLayout)
                         rgbLayout.checkByIndex(showBookname)
                         if (bookshelfLayout < 2) {
@@ -367,6 +380,13 @@ abstract class BaseBookshelfFragment(layoutId: Int) : VMBaseFragment<BookshelfVi
                     if (AppConfig.showBookshelfStats != swShowBookshelfStats.isChecked) {
                         AppConfig.showBookshelfStats = swShowBookshelfStats.isChecked
                         recreate = true
+                    }
+                    if (AppConfig.xuanjuanBookshelfAutoFollow != swAutoFollow.isChecked) {
+                        AppConfig.xuanjuanBookshelfAutoFollow = swAutoFollow.isChecked
+                        subscribeShelfHeaderRefresh()
+                        if (swAutoFollow.isChecked) {
+                            activityViewModel.xuanjuanAutoFollowBookshelf()
+                        }
                     }
                     if (bookshelfSort != rgSort.getCheckedIndex()) {
                         AppConfig.bookshelfSort = rgSort.getCheckedIndex()

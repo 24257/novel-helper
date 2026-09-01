@@ -12,6 +12,7 @@ import io.legado.app.data.entities.SearchBook
 import io.legado.app.databinding.ActivityExploreShowBinding
 import io.legado.app.databinding.ViewLoadMoreBinding
 import io.legado.app.lib.dialogs.alert
+import io.legado.app.model.webBook.isXuanjuanAggregateRequest
 import io.legado.app.ui.book.info.BookInfoActivity
 import io.legado.app.ui.widget.number.NumberPickerDialog
 import io.legado.app.ui.widget.recycler.LoadMoreView
@@ -84,6 +85,10 @@ class ExploreShowActivity : VMBaseActivity<ActivityExploreShowBinding, ExploreSh
         binding.titleBar.title = intent.getStringExtra("exploreName")
         initRecyclerView()
         menuAddLoadedBooks
+        menuPage.isVisible = !isXuanjuanAggregateRequest(
+            intent.getStringExtra("sourceUrl"),
+            intent.getStringExtra("exploreUrl"),
+        )
         viewModel.booksData.observe(this) { upData(it) }
         viewModel.addBooksData.observe(this) { upDataTop(it) }
         viewModel.initData(intent)

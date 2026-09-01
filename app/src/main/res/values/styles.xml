@@ -56,6 +56,20 @@
 
     <style name="Spinner" parent="android:Theme.Holo.Light" />
 
+    <style name="XuanjuanBookMallSpinner" parent="android:Theme.Holo">
+        <item name="android:colorAccent">@color/xuanjuan_gold_soft</item>
+        <item name="android:textColorPrimary">@color/xuanjuan_text_primary</item>
+        <item name="android:textColorSecondary">@color/xuanjuan_text_secondary</item>
+    </style>
+
+    <!-- 玄卷深色卡片内专用下拉主题，不跟随系统日夜模式，避免深底黑字。 -->
+    <style name="XuanjuanSpinner" parent="android:Theme.Holo">
+        <item name="android:textColorPrimary">@color/primaryText</item>
+        <item name="android:textColorSecondary">@color/secondaryText</item>
+        <item name="android:colorAccent">@color/xuanjuan_gold_soft</item>
+        <item name="android:windowBackground">@color/xuanjuan_surface_high</item>
+    </style>
+
     //**********System Style******************//
 
     <style name="Style.NavigationView" parent="android:Widget">

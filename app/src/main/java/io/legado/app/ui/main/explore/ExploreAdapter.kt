@@ -578,7 +578,9 @@ class ExploreAdapter(context: Context, val callBack: CallBack) :
     @Synchronized
     private fun getFlexboxChild(flexbox: FlexboxLayout): TextView {
         return if (recycler.isEmpty()) {
-            ItemFilletTextBinding.inflate(inflater, flexbox, false).root
+            ItemFilletTextBinding.inflate(inflater, flexbox, false).root.apply {
+                setBackgroundResource(R.drawable.xuanjuan_explore_chip)
+            }
         } else {
             recycler.removeLastElement()
         }
@@ -587,7 +589,9 @@ class ExploreAdapter(context: Context, val callBack: CallBack) :
     @Synchronized
     private fun getFlexboxChildText(flexbox: FlexboxLayout): AutoCompleteTextView {
         return if (textRecycler.isEmpty()) {
-            ItemFilletCompleteTextBinding.inflate(inflater, flexbox, false).root
+            ItemFilletCompleteTextBinding.inflate(inflater, flexbox, false).root.apply {
+                setBackgroundResource(R.drawable.xuanjuan_explore_chip)
+            }
         } else {
             textRecycler.removeLastElement()
         }
@@ -596,7 +600,9 @@ class ExploreAdapter(context: Context, val callBack: CallBack) :
     @Synchronized
     private fun getFlexboxChildSelect(flexbox: FlexboxLayout): LinearLayout {
         return if (selectRecycler.isEmpty()) {
-            ItemFilletSelectorSingleBinding.inflate(inflater, flexbox, false).root
+            ItemFilletSelectorSingleBinding.inflate(inflater, flexbox, false).root.apply {
+                setBackgroundResource(R.drawable.xuanjuan_explore_chip)
+            }
         } else {
             selectRecycler.removeLastElement()
         }

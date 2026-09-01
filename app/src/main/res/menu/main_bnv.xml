@@ -10,7 +10,7 @@
     <item
         android:id="@+id/menu_discovery"
         android:icon="@drawable/novel_helper_nav_discover"
-        android:title="@string/discovery" />
+        android:title="@string/xuanjuan_explore_nav" />
     <item
         android:id="@+id/menu_rss"
         android:icon="@drawable/novel_helper_nav_notes"

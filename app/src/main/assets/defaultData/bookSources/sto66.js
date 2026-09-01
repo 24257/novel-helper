@@ -4,8 +4,11 @@ var config = {
     bookSourceType: 0,
     bookSourceGroup: "网文小助手内置",
     bookSourceComment: "网文小助手内置公开网页源。无需登录，按 sto66.com 当前公开页面结构适配。",
-    exploreUrl: [],
-    lastUpdateTime: 1788152400000
+    exploreUrl: [
+        {title: "热门榜", url: "https://www.sto66.com/ranking.html"},
+        {title: "完本榜", url: "https://www.sto66.com/full.html"}
+    ],
+    lastUpdateTime: 1788224400000
 };
 
 var Jsoup = org.jsoup.Jsoup;
@@ -137,6 +140,80 @@ function search(key, page) {
     }
 
     return books;
+}
+
+function exploreContainer(link) {
+    var node = link;
+    var fallback = link.parent();
+    for (var i = 0; i < 4 && node != null; i++) {
+        if (node.hasClass("bookbox") || node.selectFirst("div.author,.author,img,div.cat,div.update") != null) {
+            return node;
+        }
+        fallback = node;
+        node = node.parent();
+    }
+    return fallback;
+}
+
+function exploreAuthor(container) {
+    if (container == null) return "";
+    var node = container.selectFirst("div.author,.author,a[href*=author]");
+    var author = node == null ? "" : parseAuthor(node.text());
+    if (author) return author;
+    var text = trimText(container.text());
+    var match = text.match(/作者\s*[:：]\s*([^|｜]{1,40})/);
+    return match ? trimText(match[1]).replace(/\s{2,}.*/, "") : "";
+}
+
+function pushExploreBook(books, seen, pageUrl, link, container) {
+    if (link == null) return;
+    var bookUrl = resolveUrl(pageUrl, link.attr("href"));
+    var name = trimText(link.text());
+    if (!bookUrl || !name || seen[bookUrl] || !/^https?:\/\/(www\.)?sto66\.com\/book\/[^\/?#]+\.html(?:[?#].*)?$/i.test(bookUrl)) return;
+    seen[bookUrl] = true;
+    books.push({
+        name: name,
+        author: exploreAuthor(container),
+        intro: firstText(container, "div.update,.intro,.bookintro"),
+        coverUrl: imageUrl(pageUrl, container == null ? null : container.selectFirst("img")),
+        latestChapterTitle: firstText(container, "div.cat a[href],div.update a[href]"),
+        bookUrl: bookUrl,
+        tocUrl: toCatalogUrl(bookUrl)
+    });
+}
+
+function explore(url, page) {
+    if (Number(page) > 1) return [];
+    var pageUrl = trimText(url);
+    if (!pageUrl) return [];
+    var doc = Jsoup.parse(requestHtml(pageUrl), pageUrl);
+    var books = [];
+    var seen = {};
+    var rows = doc.select("div.bookbox");
+    for (var i = 0; i < rows.size(); i++) {
+        var row = rows.get(i);
+        pushExploreBook(books, seen, pageUrl, row.selectFirst("h2.bookname a[href],h3 a[href]"), row);
+    }
+    var links = doc.select("a[href]");
+    for (var j = 0; j < links.size(); j++) {
+        var link = links.get(j);
+        pushExploreBook(books, seen, pageUrl, link, exploreContainer(link));
+    }
+    var complete = [];
+    for (var k = 0; k < books.length && complete.length < 12; k++) {
+        var book = books[k];
+        if (!trimText(book.coverUrl)) {
+            try {
+                var info = getBookInfo(book);
+                book.coverUrl = trimText(info.coverUrl);
+                book.author = trimText(book.author) || trimText(info.author);
+                book.intro = trimText(book.intro) || trimText(info.intro);
+                book.latestChapterTitle = trimText(book.latestChapterTitle) || trimText(info.latestChapterTitle);
+            } catch (e) {}
+        }
+        if (trimText(book.coverUrl)) complete.push(book);
+    }
+    return complete;
 }
 
 function getBookInfo(book) {

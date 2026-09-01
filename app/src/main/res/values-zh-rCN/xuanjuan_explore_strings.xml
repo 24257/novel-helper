@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="xuanjuan_explore_nav">书城</string>
+    <string name="xuanjuan_explore_title">推荐 · 排行</string>
+    <string name="xuanjuan_explore_mark">玄卷 · 觅书</string>
+    <string name="xuanjuan_explore_heading">热门推荐与分类榜单</string>
+    <string name="xuanjuan_explore_summary">从可用公开书源汇聚热门、完本与分类书单，点开即可看榜。</string>
+    <string name="xuanjuan_explore_search_hint">搜索榜单或分类</string>
+    <string name="xuanjuan_explore_empty">暂时没有可用榜单，可从右上角管理书源。</string>
+    <string name="xuanjuan_explore_badge">榜</string>
+    <string name="xuanjuan_explore_source">来源 · %1$s</string>
+    <string name="xuanjuan_aggregate_title">玄卷聚合榜</string>
+    <string name="xuanjuan_aggregate_badge">聚</string>
+    <string name="xuanjuan_aggregate_source">跨源热度 · 同书去重</string>
+    <string name="xuanjuan_aggregate_sources">聚合 %1$d 源</string>
+    <string name="xuanjuan_book_mall_title">玄卷书城</string>
+    <string name="xuanjuan_book_mall_mark">玄卷 · 书城</string>
+    <string name="xuanjuan_book_mall_heading">聚合热榜与书源书城</string>
+    <string name="xuanjuan_book_mall_summary">上方进入跨源聚合榜，下方展开书源书城，完整保留分类、动态按钮、输入、切换、下拉与书源管理能力。</string>
+    <string name="xuanjuan_book_mall_search_hint">搜索书城书源</string>
+    <string name="xuanjuan_book_mall_empty">暂无启用的书源书城，可从右上角管理书源。</string>
+    <string name="xuanjuan_book_mall_source_badge">源</string>
+</resources>

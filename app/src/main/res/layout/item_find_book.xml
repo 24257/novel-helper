@@ -28,6 +28,17 @@
         android:gravity="center_vertical">
 
         <TextView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/xuanjuan_explore_chip"
+            android:gravity="center"
+            android:text="@string/xuanjuan_book_mall_source_badge"
+            android:textColor="@color/xuanjuan_gold_soft"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/tv_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -4,8 +4,17 @@ var config = {
     bookSourceType: 0,
     bookSourceGroup: "网文小助手内置",
     bookSourceComment: "网文小助手内置公开网页源。按 shudugu.org 当前页面结构适配。",
-    exploreUrl: [],
-    lastUpdateTime: 1788152400000
+    exploreUrl: [
+        {title: "热门榜", url: "https://www.shudugu.org/paihang/"},
+        {title: "完本榜", url: "https://www.shudugu.org/wanjie/"},
+        {title: "最新更新", url: "https://www.shudugu.org/zuixin/"},
+        {title: "玄幻", url: "https://www.shudugu.org/xuanhuan/"},
+        {title: "仙侠", url: "https://www.shudugu.org/xianxia/"},
+        {title: "都市", url: "https://www.shudugu.org/dushi/"},
+        {title: "历史", url: "https://www.shudugu.org/lishi/"},
+        {title: "科幻", url: "https://www.shudugu.org/kehuan/"}
+    ],
+    lastUpdateTime: 1788220800000
 };
 
 var Jsoup = org.jsoup.Jsoup;
@@ -74,6 +83,72 @@ function search(key, page) {
         });
     }
     return books;
+}
+
+function explore(url, page) {
+    var target = trimText(url);
+    if (!target) return [];
+    target = target.replace(/\/+$/, "");
+    var pageNo = Number(page) || 1;
+    if (pageNo > 1) target += "/" + pageNo + ".html";
+    else target += "/";
+
+    var doc = Jsoup.parse(requestHtml(target), target);
+    var books = [];
+    var seen = {};
+
+    function addBook(link, container) {
+        if (link == null) return;
+        var bookUrl = resolveUrl(target, link.attr("href"));
+        if (!/^https?:\/\/(www\.)?shudugu\.org\/\d+\/?$/i.test(bookUrl)) return;
+        var name = trimText(link.text());
+        if (!name || seen[bookUrl]) return;
+        seen[bookUrl] = true;
+
+        var scope = container;
+        if (scope == null) scope = link.parent();
+        for (var depth = 0; scope != null && depth < 5; depth++) {
+            var scopeText = trimText(scope.text());
+            var className = trimText(scope.className());
+            if (scopeText.indexOf("作者：") >= 0 || scopeText.indexOf("作者:") >= 0 ||
+                className.indexOf("item") >= 0) break;
+            var parent = scope.parent();
+            if (parent == null) break;
+            scope = parent;
+        }
+
+        var author = parseAuthor(firstText(scope, "a[href*=/zuozhe/]"));
+        if (!author && scope != null) {
+            var authorMatch = trimText(scope.text()).match(/作者\s*[:：]\s*([^\s]+)/);
+            if (authorMatch) author = trimText(authorMatch[1]);
+        }
+        var cover = scope == null ? null : scope.selectFirst("img");
+        var latest = firstText(scope, "a[href$=.html]");
+        books.push({
+            name: name,
+            author: author,
+            coverUrl: imageUrl(target, cover),
+            latestChapterTitle: latest,
+            bookUrl: bookUrl,
+            tocUrl: bookUrl
+        });
+    }
+
+    var rows = doc.select("div.item");
+    for (var i = 0; i < rows.size(); i++) {
+        var row = rows.get(i);
+        var link = row.selectFirst("h3 a[href]");
+        if (link == null) link = row.selectFirst("a[href]");
+        addBook(link, row);
+    }
+
+    var links = doc.select("a[href]");
+    for (var j = 0; j < links.size(); j++) {
+        addBook(links.get(j), null);
+    }
+    return books.filter(function(book) {
+        return trimText(book.coverUrl).length > 0;
+    });
 }
 
 function getBookInfo(book) {

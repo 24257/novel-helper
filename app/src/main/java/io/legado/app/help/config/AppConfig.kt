@@ -246,6 +246,12 @@ object AppConfig : SharedPreferences.OnSharedPreferenceChangeListener {
             appCtx.putPrefBoolean(PreferKey.showBookshelfStats, value)
         }
 
+    var xuanjuanBookshelfAutoFollow: Boolean
+        get() = appCtx.getPrefBoolean(PreferKey.xuanjuanBookshelfAutoFollow, true)
+        set(value) {
+            appCtx.putPrefBoolean(PreferKey.xuanjuanBookshelfAutoFollow, value)
+        }
+
     var showWaitUpCount: Boolean
         get() = appCtx.getPrefBoolean(PreferKey.showWaitUpCount, false)
         set(value) {

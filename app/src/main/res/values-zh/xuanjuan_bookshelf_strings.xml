@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="xuanjuan_bookshelf_auto_follow">自动追更</string>
+    <string name="xuanjuan_bookshelf_auto_follow_summary">打开书架时自动检查在线书籍，同一本书 30 分钟内不重复检查。</string>
+    <string name="xuanjuan_bookshelf_auto_follow_on">自动追更 · 30 分钟检查</string>
+    <string name="xuanjuan_bookshelf_auto_follow_off">自动追更 · 已关闭</string>
+    <string name="xuanjuan_bookshelf_update_failed">更新失败</string>
+    <string name="xuanjuan_bookshelf_updated_count">更新 %1$d 章</string>
+    <string name="xuanjuan_bookshelf_current">已是最新</string>
+</resources>

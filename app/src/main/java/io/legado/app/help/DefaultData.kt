@@ -51,10 +51,12 @@ internal fun prepareBuiltinBookSourceUpdate(
     ) {
         return null
     }
+    val enablesNewExplore = existing.exploreUrl.isNullOrBlank() &&
+        !packaged.exploreUrl.isNullOrBlank()
     return packaged.copy(
         customOrder = existing.customOrder,
         enabled = existing.enabled,
-        enabledExplore = existing.enabledExplore,
+        enabledExplore = if (enablesNewExplore) packaged.enabledExplore else existing.enabledExplore,
         respondTime = existing.respondTime,
         weight = existing.weight,
     )
@@ -120,6 +122,18 @@ object DefaultData {
         val lengskJs = loadSourceJs("lengsk.js")
         val userAgent =
             """{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"}"""
+        val sto66ExploreUrl =
+            """[{"title":"\u70ed\u95e8\u699c","url":"https://www.sto66.com/ranking.html"},{"title":"\u5b8c\u672c\u699c","url":"https://www.sto66.com/full.html"}]"""
+        val bqqugeExploreUrl =
+            """[{"title":"\u70ed\u95e8\u699c","url":"https://www.bqquge.org/paihang"},{"title":"\u8fde\u8f7d\u699c","url":"https://www.bqquge.org/lianzai"},{"title":"\u5b8c\u672c\u699c","url":"https://www.bqquge.org/wanjie"},{"title":"\u7384\u5e7b","url":"https://www.bqquge.org/xuanhuan"},{"title":"\u4ed9\u4fa0","url":"https://www.bqquge.org/xianxia"},{"title":"\u90fd\u5e02","url":"https://www.bqquge.org/dushi"}]"""
+        val shuduguExploreUrl =
+            """[{"title":"热门榜","url":"https://www.shudugu.org/paihang/"},{"title":"完本榜","url":"https://www.shudugu.org/wanjie/"},{"title":"最新更新","url":"https://www.shudugu.org/zuixin/"},{"title":"玄幻","url":"https://www.shudugu.org/xuanhuan/"},{"title":"仙侠","url":"https://www.shudugu.org/xianxia/"},{"title":"都市","url":"https://www.shudugu.org/dushi/"},{"title":"历史","url":"https://www.shudugu.org/lishi/"},{"title":"科幻","url":"https://www.shudugu.org/kehuan/"}]"""
+        val hetushuExploreUrl =
+            """[{"title":"\u70ed\u95e8\u699c","url":"https://m.hetushu.com/top/index.php"},{"title":"\u5b8c\u672c\u699c","url":"https://www.hetushu.com/book/index.php?state=2"},{"title":"\u7384\u5e7b","url":"https://m.hetushu.com/book/list.php?type=%E7%8E%84%E5%B9%BB%E5%B0%8F%E8%AF%B4"}]"""
+        val cuocengExploreUrl =
+            """[{"title":"\u70ed\u95e8\u699c","url":"https://m.cuoceng.com/book/ranking.html"},{"title":"\u5b8c\u672c\u699c","url":"https://m.cuoceng.com/book/finish.html"},{"title":"\u7384\u5e7b","url":"https://m.cuoceng.com/book/category/catalog.html"}]"""
+        val dingdian100ExploreUrl =
+            """[{"title":"\u70ed\u95e8\u699c","url":"https://www.dingdian100.com/"},{"title":"\u5b8c\u672c\u699c","url":"https://www.dingdian100.com/full/"},{"title":"\u7384\u5e7b","url":"https://www.dingdian100.com/sort/1_1/"},{"title":"\u4ed9\u4fa0","url":"https://www.dingdian100.com/sort/2_1/"},{"title":"\u90fd\u5e02","url":"https://www.dingdian100.com/sort/3_1/"}]"""
         val hetushuHeader =
             """{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36","Referer":"https://www.hetushu.com/"}"""
         listOf(
@@ -129,9 +143,10 @@ object DefaultData {
                 bookSourceGroup = "网文小助手内置",
                 bookSourceType = 0,
                 enabled = true,
-                enabledExplore = false,
+                enabledExplore = true,
                 enabledCookieJar = false,
                 header = userAgent,
+                exploreUrl = sto66ExploreUrl,
                 bookSourceComment = "网文小助手内置公开网页源。当前无需登录，按 sto66.com 页面结构解析。",
                 mainJs = sto66Js,
             ),
@@ -141,9 +156,10 @@ object DefaultData {
                 bookSourceGroup = "网文小助手内置",
                 bookSourceType = 0,
                 enabled = true,
-                enabledExplore = false,
+                enabledExplore = true,
                 enabledCookieJar = false,
                 header = userAgent,
+                exploreUrl = bqqugeExploreUrl,
                 bookSourceComment = "网文小助手内置公开网页源。按 bqquge.org 当前页面结构解析。",
                 mainJs = bqqugeJs,
             ),
@@ -191,9 +207,10 @@ object DefaultData {
                 bookSourceGroup = "网文小助手内置",
                 bookSourceType = 0,
                 enabled = true,
-                enabledExplore = false,
+                enabledExplore = true,
                 enabledCookieJar = false,
                 header = userAgent,
+                exploreUrl = shuduguExploreUrl,
                 bookSourceComment = "网文小助手内置公开网页源。按 shudugu.org 当前页面结构解析。",
                 mainJs = shuduguJs,
             ),
@@ -203,9 +220,10 @@ object DefaultData {
                 bookSourceGroup = "网文小助手内置",
                 bookSourceType = 0,
                 enabled = true,
-                enabledExplore = false,
+                enabledExplore = true,
                 enabledCookieJar = false,
                 header = userAgent,
+                exploreUrl = cuocengExploreUrl,
                 bookSourceComment = "网文小助手内置公开网页源。按 m.cuoceng.com 当前移动页面结构解析。",
                 mainJs = cuocengJs,
             ),
@@ -215,9 +233,10 @@ object DefaultData {
                 bookSourceGroup = "网文小助手内置",
                 bookSourceType = 0,
                 enabled = true,
-                enabledExplore = false,
+                enabledExplore = true,
                 enabledCookieJar = true,
                 header = hetushuHeader,
+                exploreUrl = hetushuExploreUrl,
                 bookSourceComment = "网文小助手内置公开网页源。使用普通 Cookie 会话访问公开搜索与阅读页面。",
                 mainJs = hetushuJs,
             ),
@@ -239,9 +258,10 @@ object DefaultData {
                 bookSourceGroup = NOVEL_HELPER_BUILTIN_SOURCE_GROUP,
                 bookSourceType = 0,
                 enabled = true,
-                enabledExplore = false,
+                enabledExplore = true,
                 enabledCookieJar = false,
                 header = userAgent,
+                exploreUrl = dingdian100ExploreUrl,
                 bookSourceComment = "网文小助手内置公开网页源。目录使用 newbook 分页入口。",
                 mainJs = dingdian100Js,
             ),

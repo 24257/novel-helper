@@ -10,6 +10,7 @@ import io.legado.app.base.adapter.RecyclerAdapter
 import io.legado.app.data.entities.SearchBook
 import io.legado.app.databinding.ItemSearchBinding
 import io.legado.app.help.config.AppConfig
+import io.legado.app.model.webBook.XUANJUAN_AGGREGATE_SOURCE_COUNT_KEY
 import io.legado.app.utils.gone
 import io.legado.app.utils.visible
 
@@ -50,7 +51,13 @@ class ExploreShowAdapter(context: Context, val callBack: CallBack) :
                 tvLasted.visible()
             }
             tvIntroduce.text = item.trimIntro(context)
-            val kinds = item.getKindList()
+            val kinds = buildList {
+                item.variableMap[XUANJUAN_AGGREGATE_SOURCE_COUNT_KEY]
+                    ?.toIntOrNull()
+                    ?.takeIf { it > 0 }
+                    ?.let { add(context.getString(R.string.xuanjuan_aggregate_sources, it)) }
+                addAll(item.getKindList())
+            }
             if (kinds.isEmpty()) {
                 llKind.gone()
             } else {

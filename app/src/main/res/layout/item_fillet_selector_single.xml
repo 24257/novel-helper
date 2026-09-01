@@ -21,6 +21,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:theme="@style/Spinner" />
+        android:theme="@style/XuanjuanBookMallSpinner" />
 
 </LinearLayout>

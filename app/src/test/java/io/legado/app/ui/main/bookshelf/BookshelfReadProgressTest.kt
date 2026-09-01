@@ -119,6 +119,7 @@ class BookshelfReadProgressTest {
             document.findElementById("@+id/sw_show_bookshelf_fast_scroller")
         val recentReadingSwitch = document.findElementById("@+id/sw_show_recent_reading")
         val statsSwitch = document.findElementById("@+id/sw_show_bookshelf_stats")
+        val autoFollowSwitch = document.findElementById("@+id/sw_auto_follow")
         val layout = document.findElementById("@+id/ll_layout")
         val sort = document.findElementById("@+id/ll_sort")
         val columnsBottom = document.findElementById("@+id/layout_columns_bottom")
@@ -154,10 +155,15 @@ class BookshelfReadProgressTest {
         assertEquals("@string/bookshelf_statistics", statsSwitch.androidAttribute("text"))
         assertEquals(
             "@+id/sw_show_bookshelf_stats",
+            autoFollowSwitch.appAttribute("layout_constraintTop_toBottomOf"),
+        )
+        assertEquals("@string/xuanjuan_bookshelf_auto_follow", autoFollowSwitch.androidAttribute("text"))
+        assertEquals(
+            "@+id/sw_auto_follow",
             layout.appAttribute("layout_constraintTop_toBottomOf"),
         )
         assertEquals(
-            "@+id/sw_show_bookshelf_stats",
+            "@+id/sw_auto_follow",
             sort.appAttribute("layout_constraintTop_toBottomOf"),
         )
         assertEquals("bottom", columnsBottom.appAttribute("barrierDirection"))
