@@ -22,7 +22,8 @@ class BookSourceEditLayoutTest {
 
         assertEquals(CARD_VIEW, card.tagName)
         assertEquals("@color/background_card", card.appAttribute("cardBackgroundColor"))
-        assertEquals("8dp", card.appAttribute("cardCornerRadius"))
+        assertEquals("18dp", card.appAttribute("cardCornerRadius"))
+        assertEquals("1dp", card.appAttribute("cardElevation"))
         assertFalse(card.hasAttributeNS(ANDROID_NAMESPACE, "clickable"))
         assertSame(card, header.parentNode?.parentNode)
         assertEquals("48dp", header.androidAttribute("minHeight"))

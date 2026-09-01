@@ -5,10 +5,16 @@
     android:id="@+id/tv_chapter_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
-    android:minHeight="48dp"
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="2dp"
+    android:background="@drawable/novel_helper_preference_card"
+    android:clipToOutline="true"
+    android:elevation="1dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:minHeight="54dp"
     android:orientation="vertical"
-    android:padding="12dp">
+    android:paddingHorizontal="14dp"
+    android:paddingVertical="12dp">
 
     <ImageView
         android:id="@+id/iv_locked"
@@ -30,6 +36,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:singleLine="true"
+        android:textSize="15sp"
         app:layout_constraintBottom_toTopOf="@+id/barrier"
         app:layout_constraintStart_toEndOf="@+id/iv_locked"
         app:layout_constraintEnd_toStartOf="@+id/end_actions"
@@ -97,7 +104,7 @@
             android:padding="4dp"
             android:src="@drawable/ic_check"
             android:visibility="invisible"
-            app:tint="@color/secondaryText"
+            app:tint="@color/xuanjuan_gold_soft"
             tools:visibility="visible" />
 
         <io.legado.app.lib.theme.view.ThemeCheckBox
@@ -120,7 +127,7 @@
             android:importantForAccessibility="no"
             android:src="@drawable/ic_expand_more"
             android:visibility="gone"
-            app:tint="@color/secondaryText"
+            app:tint="@color/xuanjuan_gold_soft"
             tools:visibility="visible" />
 
     </FrameLayout>

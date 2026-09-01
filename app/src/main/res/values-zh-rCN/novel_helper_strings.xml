@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome_tagline">万千故事，皆藏卷中</string>
+    <string name="welcome_footer">玄卷 · 为阅读而生</string>
+    <string name="my_header_summary">你的网文阅读空间</string>
+    <string name="my_reading_tools">阅读工具</string>
+    <string name="my_personalize">外观与偏好</string>
+    <string name="my_library_data">书库与记录</string>
+    <string name="my_about">关于玄卷</string>
+    <string name="about_description">玄卷是一款专注网文阅读的开源阅读器，基于 Legado 开源项目进行二次开发，并遵循 GPL 许可证。保留成熟阅读能力，同时提供更简洁的产品体验。</string>
+    <string name="app_share_description">玄卷下载地址：\nhttps://github.com/24257/novel-helper/releases/latest</string>
+</resources>

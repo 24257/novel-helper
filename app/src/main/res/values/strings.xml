@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--App-->
-    <string name="app_name">网文小助手</string>
-    <string name="app_name_a">网文小助手</string>
-    <string name="app_name_s" translatable="false">网文小助手</string>
-    <string name="receiving_shared_label">网文小助手·搜索</string>
-    <string name="receiving_shared_import_label">网文小助手·导入</string>
+    <string name="app_name">玄卷</string>
+    <string name="app_name_a">玄卷</string>
+    <string name="app_name_s" translatable="false">玄卷</string>
+    <string name="receiving_shared_label">玄卷·搜索</string>
+    <string name="receiving_shared_import_label">玄卷·导入</string>
     <string name="tip_perm_request_storage">Legado needs storage access to find and read books. please go "App Settings" to allow "Storage permission".</string>
 
     <!--Other-->
@@ -47,6 +47,10 @@
     <string name="enable">Enable</string>
     <string name="replace_purify_search">Search Replacement</string>
     <string name="bookshelf">Bookshelf</string>
+    <string name="xuanjuan_library">藏书阁</string>
+    <string name="xuanjuan_shelf_overview">卷藏概览</string>
+    <string name="xuanjuan_library_mark">玄卷 · 藏书阁</string>
+    <string name="xuanjuan_book_detail_mark">玄卷 · 书卷详情</string>
     <string name="favorites">Favorites</string>
     <string name="favorite">Favorite</string>
     <string name="in_favorites">in Favorites</string>
@@ -108,12 +112,15 @@
     <string name="offline_cache_t">Offline cache</string>
     <string name="offline_cache_s">cache the selected chapter(s) to Storage</string>
     <string name="change_origin">Change Origin</string>
-    <string name="about_description">
-        \u3000\u3000 This is an open source reading software newly developed by Kotlin, welcome to join us.
-    </string>
-    <string name="app_share_description">
-        Legado (YueDu 3.0) download link：\n https://github.com/LegadoTeam/legado/releases
-    </string>
+    <string name="welcome_tagline">万千故事，皆藏卷中</string>
+    <string name="welcome_footer">玄卷 · 为阅读而生</string>
+    <string name="my_header_summary">Your reading space, kept simple</string>
+    <string name="my_reading_tools">Reading tools</string>
+    <string name="my_personalize">Appearance &amp; preferences</string>
+    <string name="my_library_data">Library &amp; activity</string>
+    <string name="my_about">关于玄卷</string>
+    <string name="about_description">玄卷是一款专注网文阅读的开源阅读器，基于 Legado 开源项目进行二次开发，并遵循 GPL 许可证。</string>
+    <string name="app_share_description">玄卷下载地址：\nhttps://github.com/24257/novel-helper/releases/latest</string>
     <string name="version_name">Version %s</string>
     <string name="pt_background_verification">Background-verification</string>
     <string name="ps_background_verification">you can operate freely when verifying the book source</string>

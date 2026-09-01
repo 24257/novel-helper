@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:orientation="vertical">
 
     <ImageView
@@ -61,23 +62,21 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp">
 
-                        <io.legado.app.ui.widget.image.ArcView
+                        <View
                             android:id="@+id/arc_view"
                             android:layout_width="match_parent"
-                            android:layout_height="78dp"
-                            android:layout_marginTop="90dp"
-                            app:arcDirectionTop="true"
-                            app:arcHeight="36dp"
-                            app:bgColor="@color/background" />
+                            android:layout_height="96dp"
+                            android:layout_marginTop="86dp"
+                            android:background="@drawable/novel_helper_book_sheet" />
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/iv_cover_c"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
-                            android:layout_margin="3dp"
-                            app:cardCornerRadius="5dp"
-                            app:cardElevation="8dp">
+                            android:layout_margin="8dp"
+                            app:cardCornerRadius="16dp"
+                            app:cardElevation="2dp">
 
                             <io.legado.app.ui.widget.image.CoverImageView
                                 android:id="@+id/iv_cover"
@@ -97,9 +96,9 @@
                         android:layout_height="match_parent"
                         android:background="@color/background"
                         android:orientation="vertical"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:paddingBottom="8dp">
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingBottom="12dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -109,6 +108,19 @@
                             android:paddingTop="8dp"
                             android:paddingRight="10dp"
                             android:paddingBottom="3dp">
+
+                            <TextView
+                                android:id="@+id/tv_xuanjuan_book_detail_mark"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginBottom="6dp"
+                                android:includeFontPadding="false"
+                                android:letterSpacing="0.08"
+                                android:text="@string/xuanjuan_book_detail_mark"
+                                android:textColor="@color/xuanjuan_gold_soft"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
 
                             <HorizontalScrollView
                                 android:layout_width="wrap_content"
@@ -125,7 +137,8 @@
                                     android:singleLine="true"
                                     android:text="@string/book_name"
                                     android:textColor="@color/primaryText"
-                                    android:textSize="18sp"
+                                    android:textSize="22sp"
+                                    android:textStyle="bold"
                                     tools:ignore="RtlHardcoded" />
                             </HorizontalScrollView>
 
@@ -165,7 +178,7 @@
                                     android:layout_marginEnd="6dp"
                                     android:contentDescription="@string/author"
                                     android:src="@drawable/ic_author"
-                                    app:tint="@color/tv_text_summary" />
+                                    app:tint="@color/xuanjuan_gold_soft" />
 
                                 <TextView
                                     android:id="@+id/tv_author"
@@ -198,7 +211,7 @@
                                     android:layout_marginEnd="6dp"
                                     android:contentDescription="@string/origin_format"
                                     android:src="@drawable/ic_web_outline"
-                                    app:tint="@color/tv_text_summary" />
+                                    app:tint="@color/xuanjuan_gold_soft" />
 
                                 <TextView
                                     android:id="@+id/tv_origin"
@@ -219,11 +232,11 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="8dp"
-                                    android:paddingLeft="5dp"
-                                    android:paddingRight="5dp"
+                                    android:paddingHorizontal="10dp"
+                                    android:paddingVertical="4dp"
                                     android:text="@string/change_origin"
                                     android:textSize="13sp"
-                                    app:radius="2dp" />
+                                    app:radius="12dp" />
 
                             </LinearLayout>
 
@@ -243,7 +256,7 @@
                                     android:layout_marginEnd="6dp"
                                     android:contentDescription="@string/read_dur_progress"
                                     android:src="@drawable/ic_book_last"
-                                    app:tint="@color/tv_text_summary" />
+                                    app:tint="@color/xuanjuan_gold_soft" />
 
                                 <TextView
                                     android:id="@+id/tv_lasted"
@@ -275,7 +288,7 @@
                                     android:layout_marginEnd="6dp"
                                     android:contentDescription="@string/read_dur_progress"
                                     android:src="@drawable/ic_groups"
-                                    app:tint="@color/tv_text_summary" />
+                                    app:tint="@color/xuanjuan_gold_soft" />
 
                                 <TextView
                                     android:id="@+id/tv_group"
@@ -296,11 +309,11 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="8dp"
-                                    android:paddingLeft="5dp"
-                                    android:paddingRight="5dp"
+                                    android:paddingHorizontal="10dp"
+                                    android:paddingVertical="4dp"
                                     android:text="@string/change_group"
                                     android:textSize="13sp"
-                                    app:radius="2dp" />
+                                    app:radius="12dp" />
 
                             </LinearLayout>
 
@@ -319,7 +332,7 @@
                                     android:layout_marginEnd="6dp"
                                     android:contentDescription="@string/read_dur_progress"
                                     android:src="@drawable/ic_folder_open"
-                                    app:tint="@color/tv_text_summary" />
+                                    app:tint="@color/xuanjuan_gold_soft" />
 
                                 <TextView
                                     android:id="@+id/tv_toc"
@@ -340,11 +353,11 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="8dp"
-                                    android:paddingLeft="5dp"
-                                    android:paddingRight="5dp"
+                                    android:paddingHorizontal="10dp"
+                                    android:paddingVertical="4dp"
                                     android:text="@string/view_toc"
                                     android:textSize="13sp"
-                                    app:radius="2dp" />
+                                    app:radius="12dp" />
 
                             </LinearLayout>
 
@@ -358,7 +371,11 @@
                             <FrameLayout
                                 android:id="@+id/tv_intro_container"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="8dp"
+                                android:layout_marginTop="6dp"
+                                android:background="@drawable/novel_helper_section_outline"
+                                android:padding="14dp" />
 
                             <io.legado.app.ui.widget.text.AccentTextView
                                 android:id="@+id/tv_intro_toggle"
@@ -403,35 +420,39 @@
             android:id="@+id/fl_action"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_menu"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/novel_helper_preference_card"
+            android:elevation="8dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingHorizontal="12dp"
-            android:paddingVertical="8dp"
+            android:paddingVertical="10dp"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <io.legado.app.ui.widget.text.AccentTonalBgTextView
                 android:id="@+id/tv_shelf"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="50dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:includeFontPadding="false"
                 android:text="@string/remove_from_bookshelf"
                 android:textSize="15sp"
-                app:radius="8dp" />
+                app:radius="14dp" />
 
             <io.legado.app.ui.widget.text.AccentBgTextView
                 android:id="@+id/tv_read"
                 android:layout_width="0dp"
-                android:layout_height="48dp"
+                android:layout_height="50dp"
                 android:layout_weight="1"
                 android:layout_marginStart="12dp"
                 android:gravity="center"
                 android:includeFontPadding="false"
                 android:text="@string/reading"
                 android:textSize="15sp"
-                app:radius="8dp" />
+                app:radius="14dp" />
 
         </LinearLayout>
 

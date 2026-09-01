@@ -5,19 +5,19 @@
 
     <item
         android:id="@+id/menu_bookshelf"
-        android:icon="@drawable/ic_bottom_books"
+        android:icon="@drawable/novel_helper_nav_books"
         android:title="@string/bookshelf" />
     <item
         android:id="@+id/menu_discovery"
-        android:icon="@drawable/ic_bottom_explore"
+        android:icon="@drawable/novel_helper_nav_discover"
         android:title="@string/discovery" />
     <item
         android:id="@+id/menu_rss"
-        android:icon="@drawable/ic_bottom_rss_feed"
+        android:icon="@drawable/novel_helper_nav_notes"
         android:title="@string/rss" />
     <item
         android:id="@+id/menu_my_config"
-        android:icon="@drawable/ic_bottom_person"
+        android:icon="@drawable/novel_helper_nav_profile"
         android:title="@string/my" />
 
 </menu>

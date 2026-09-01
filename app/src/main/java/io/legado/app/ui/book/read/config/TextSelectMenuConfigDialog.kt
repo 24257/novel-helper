@@ -23,7 +23,6 @@ import io.legado.app.ui.book.read.TextSelectMenuItem
 import io.legado.app.ui.book.read.loadTextSelectMenuConfig
 import io.legado.app.ui.book.read.saveTextSelectMenuConfig
 import io.legado.app.ui.widget.recycler.ItemTouchCallback
-import io.legado.app.ui.widget.recycler.VerticalDivider
 import io.legado.app.utils.applyTint
 import io.legado.app.utils.gone
 import io.legado.app.utils.setLayout
@@ -52,7 +51,6 @@ class TextSelectMenuConfigDialog : BaseDialogFragment(R.layout.dialog_recycler_v
 
     private fun initView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.addItemDecoration(VerticalDivider(requireContext()))
         binding.recyclerView.adapter = adapter
         val itemTouchCallback = ItemTouchCallback(adapter).apply {
             isCanDrag = false

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme.Welcome.Starting" parent="AppTheme.Welcome">
+        <item name="android:windowBackground">#050202</item>
+        <item name="android:navigationBarColor">#050202</item>
+        <item name="android:statusBarColor">#050202</item>
+        <item name="android:windowSplashScreenBackground">#050202</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/xuanjuan_launcher_foreground</item>
+        <item name="android:windowSplashScreenAnimationDuration">200</item>
+    </style>
+</resources>

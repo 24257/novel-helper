@@ -115,7 +115,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.tag }}
-          name: 网文小助手 v${{ steps.version.outputs.name }}
+          name: 玄卷 v${{ steps.version.outputs.name }}
           generate_release_notes: true
           make_latest: true
           files: dist/novel-helper.apk

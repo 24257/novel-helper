@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:orientation="vertical">
 
     <io.legado.app.ui.widget.TitleBar
@@ -10,12 +11,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:attachToActivity="false"
-        app:title="@string/my" />
+        app:subtitle="@string/my"
+        app:title="@string/app_name" />
 
     <LinearLayout
+        android:id="@+id/brand_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/novel_helper_profile_header"
+        android:elevation="2dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="20dp">
+        <ImageView android:layout_width="58dp" android:layout_height="58dp" android:contentDescription="@string/app_name" android:src="@drawable/novel_helper_brand_mark" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="16dp" android:layout_weight="1" android:orientation="vertical">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/app_name" android:textColor="@color/xuanjuan_gold_soft" android:textSize="23sp" android:textStyle="bold" />
+            <TextView android:id="@+id/tv_brand_tagline" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:letterSpacing="0.04" android:text="@string/welcome_tagline" android:textColor="@color/xuanjuan_text_primary" android:textSize="13sp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="5dp" android:text="@string/my_header_summary" android:textColor="@color/xuanjuan_text_secondary" android:textSize="12sp" />
+            <TextView android:id="@+id/tv_version" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:textColor="@color/xuanjuan_text_secondary" android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
         android:id="@+id/pre_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" />
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="1" />
 
 </LinearLayout>

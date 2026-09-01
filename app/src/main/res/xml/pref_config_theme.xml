@@ -91,7 +91,7 @@
         app:layout="@layout/view_preference_category">
 
         <io.legado.app.lib.prefs.ColorPreference
-            android:defaultValue="@color/md_brown_500"
+            android:defaultValue="@color/novel_helper_brand_primary"
             android:key="colorPrimary"
             android:summary="@string/day_color_primary"
             android:title="@string/primary"
@@ -99,7 +99,7 @@
             app:iconSpaceReserved="false" />
 
         <io.legado.app.lib.prefs.ColorPreference
-            android:defaultValue="@color/md_red_600"
+            android:defaultValue="@color/novel_helper_brand_accent"
             android:key="colorAccent"
             android:summary="@string/day_color_accent"
             android:title="@string/accent"
@@ -107,7 +107,7 @@
             app:iconSpaceReserved="false" />
 
         <io.legado.app.lib.prefs.ColorPreference
-            android:defaultValue="@color/md_grey_100"
+            android:defaultValue="@color/background"
             android:key="colorBackground"
             android:summary="@string/day_background_color"
             android:title="@string/background_color"
@@ -115,7 +115,7 @@
             app:iconSpaceReserved="false" />
 
         <io.legado.app.lib.prefs.ColorPreference
-            android:defaultValue="@color/md_grey_200"
+            android:defaultValue="@color/background_card"
             android:key="colorBottomBackground"
             android:summary="@string/day_navbar_color"
             android:title="@string/navbar_color"
@@ -154,7 +154,7 @@
         app:layout="@layout/view_preference_category">
 
         <io.legado.app.lib.prefs.ColorPreference
-            android:defaultValue="@color/md_blue_grey_600"
+            android:defaultValue="@color/novel_helper_brand_primary"
             android:key="colorPrimaryNight"
             android:summary="@string/night_primary"
             android:title="@string/primary"
@@ -162,7 +162,7 @@
             app:iconSpaceReserved="false" />
 
         <io.legado.app.lib.prefs.ColorPreference
-            android:defaultValue="@color/md_deep_orange_800"
+            android:defaultValue="@color/novel_helper_brand_accent"
             android:key="colorAccentNight"
             android:summary="@string/night_accent"
             android:title="@string/accent"
@@ -170,7 +170,7 @@
             app:iconSpaceReserved="false" />
 
         <io.legado.app.lib.prefs.ColorPreference
-            android:defaultValue="@color/md_grey_900"
+            android:defaultValue="@color/background"
             android:key="colorBackgroundNight"
             android:summary="@string/night_background_color"
             android:title="@string/background_color"
@@ -178,7 +178,7 @@
             app:iconSpaceReserved="false" />
 
         <io.legado.app.lib.prefs.ColorPreference
-            android:defaultValue="@color/md_grey_850"
+            android:defaultValue="@color/background_card"
             android:key="colorBottomBackgroundNight"
             android:summary="@string/night_navbar_color"
             android:title="@string/navbar_color"

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.PorterDuff
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
@@ -27,9 +28,9 @@ import io.legado.app.lib.theme.getPrimaryTextColor
 import io.legado.app.model.AudioCacheKey
 import io.legado.app.model.AudioCacheStateChanged
 import io.legado.app.ui.widget.recycler.UpLinearLayoutManager
-import io.legado.app.ui.widget.recycler.VerticalDivider
 import io.legado.app.utils.ColorUtils
 import io.legado.app.utils.applyNavigationBarPadding
+import io.legado.app.utils.dpToPx
 import io.legado.app.utils.observeEvent
 import io.legado.app.utils.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.CoroutineScope
@@ -63,7 +64,11 @@ class ChapterListFragment : VMBaseFragment<TocViewModel>(R.layout.fragment_chapt
         viewModel.chapterListCallBack = this@ChapterListFragment
         val background = bottomBackground
         val foreground = requireContext().getPrimaryTextColor(ColorUtils.isColorLight(background))
-        llChapterBaseInfo.setBackgroundColor(background)
+        llChapterBaseInfo.background = GradientDrawable().apply {
+            setColor(background)
+            cornerRadius = 18.dpToPx().toFloat()
+            setStroke(1.dpToPx(), ColorUtils.withAlpha(foreground, 0.12f))
+        }
         tvCurrentChapterInfo.setTextColor(foreground)
         ivChapterTop.setColorFilter(foreground, PorterDuff.Mode.SRC_IN)
         ivChapterBottom.setColorFilter(foreground, PorterDuff.Mode.SRC_IN)
@@ -92,7 +97,6 @@ class ChapterListFragment : VMBaseFragment<TocViewModel>(R.layout.fragment_chapt
     private fun initRecyclerView() {
         adapter.attach()
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.addItemDecoration(VerticalDivider(requireContext()))
         binding.recyclerView.adapter = adapter
     }
 

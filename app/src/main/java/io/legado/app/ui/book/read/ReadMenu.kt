@@ -190,14 +190,23 @@ class ReadMenu @JvmOverloads constructor(
             tvChapterUrl.setTextColor(textColor)
         }
         val brightnessBackground = GradientDrawable()
-        brightnessBackground.cornerRadius = 5F.dpToPx()
+        brightnessBackground.cornerRadius = 18F.dpToPx()
         brightnessBackground.setColor(ColorUtils.adjustAlpha(bgColor, 0.5f))
         llBrightness.background = brightnessBackground
         if (AppConfig.isEInkMode) {
             titleBar.setBackgroundResource(R.drawable.bg_eink_border_bottom)
             llBottomBg.setBackgroundResource(R.drawable.bg_eink_border_top)
         } else {
-            llBottomBg.setBackgroundColor(bgColor)
+            val panelRadius = 24F.dpToPx()
+            llBottomBg.background = GradientDrawable().apply {
+                cornerRadii = floatArrayOf(
+                    panelRadius, panelRadius,
+                    panelRadius, panelRadius,
+                    0f, 0f,
+                    0f, 0f
+                )
+                setColor(bgColor)
+            }
         }
         fabSearch.backgroundTintList = bottomBackgroundList
         fabSearch.setColorFilter(textColor)

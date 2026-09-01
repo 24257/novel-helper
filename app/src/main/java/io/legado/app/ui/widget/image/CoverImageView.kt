@@ -190,7 +190,8 @@ class CoverImageView @JvmOverloads constructor(
         }
         outlineProvider = object : ViewOutlineProvider() {
             override fun getOutline(view: View, outline: Outline) {
-                outline.setRoundRect(0, 0, w, h, 12f)
+                val radius = 8f * resources.displayMetrics.density
+                outline.setRoundRect(0, 0, w, h, radius)
             }
         }
         clipToOutline = true

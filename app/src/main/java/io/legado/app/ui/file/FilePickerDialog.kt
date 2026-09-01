@@ -9,8 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,11 +28,9 @@ import io.legado.app.lib.theme.getPrimaryTextColor
 import io.legado.app.lib.theme.primaryColor
 import io.legado.app.ui.file.HandleFileContract.Companion.FILE
 import io.legado.app.ui.file.utils.FilePickerIcon
-import io.legado.app.ui.widget.recycler.VerticalDivider
 import io.legado.app.utils.ConvertUtils
 import io.legado.app.utils.FileUtils
 import io.legado.app.utils.applyTint
-import io.legado.app.utils.getCompatColor
 import io.legado.app.utils.setLayout
 import io.legado.app.utils.toastOnUi
 import io.legado.app.utils.viewbindingdelegate.viewBinding
@@ -107,7 +103,6 @@ class FilePickerDialog : BaseDialogFragment(R.layout.dialog_file_chooser),
         binding.rvPath.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         binding.rvPath.adapter = pathAdapter
 
-        binding.rvFile.addItemDecoration(VerticalDivider(requireContext()))
         binding.rvFile.layoutManager = LinearLayoutManager(activity)
         binding.rvFile.adapter = fileAdapter
 
@@ -170,7 +165,7 @@ class FilePickerDialog : BaseDialogFragment(R.layout.dialog_file_chooser),
         init {
             addHeaderView {
                 ItemPathPickerBinding.inflate(inflater, it, false).apply {
-                    textView.text = "root"
+                    textView.text = "根目录"
                     imageView.setImageDrawable(arrowIcon)
                     root.setOnClickListener {
                         viewModel.subDocs.clear()
@@ -212,10 +207,6 @@ class FilePickerDialog : BaseDialogFragment(R.layout.dialog_file_chooser),
         private val upIcon = ConvertUtils.toDrawable(FilePickerIcon.getUpDir())!!
         private val folderIcon = ConvertUtils.toDrawable(FilePickerIcon.getFolder())!!
         private val fileIcon = ConvertUtils.toDrawable(FilePickerIcon.getFile())!!
-        private val selectDrawable =
-            ResourcesCompat.getDrawable(resources, R.drawable.shape_radius_1dp, null)!!.apply {
-                DrawableCompat.setTint(this, primaryTextColor)
-            }
         var selectFile: File? = null
 
         override fun getViewBinding(parent: ViewGroup): ItemFilePickerBinding {
@@ -280,11 +271,10 @@ class FilePickerDialog : BaseDialogFragment(R.layout.dialog_file_chooser),
                 }
             }
             binding.root.isSelected = item == selectFile
-            if (item == selectFile) {
-                binding.root.background = selectDrawable
-            } else {
-                binding.root.setBackgroundColor(getCompatColor(R.color.transparent))
-            }
+            binding.root.setBackgroundResource(
+                if (item == selectFile) R.drawable.novel_helper_search_field
+                else R.drawable.novel_helper_preference_card
+            )
         }
 
     }

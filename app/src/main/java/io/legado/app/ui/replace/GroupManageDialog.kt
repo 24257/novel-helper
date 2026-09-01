@@ -21,7 +21,6 @@ import io.legado.app.databinding.ItemGroupManageBinding
 import io.legado.app.lib.dialogs.alert
 import io.legado.app.lib.theme.backgroundColor
 import io.legado.app.lib.theme.primaryColor
-import io.legado.app.ui.widget.recycler.VerticalDivider
 import io.legado.app.utils.applyTint
 import io.legado.app.utils.requestInputMethod
 import io.legado.app.utils.setLayout
@@ -55,7 +54,6 @@ class GroupManageDialog : BaseDialogFragment(R.layout.dialog_recycler_view),
         toolBar.menu.applyTint(requireContext())
         toolBar.setOnMenuItemClickListener(this@GroupManageDialog)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.addItemDecoration(VerticalDivider(requireContext()))
         recyclerView.adapter = adapter
     }
 
@@ -121,7 +119,7 @@ class GroupManageDialog : BaseDialogFragment(R.layout.dialog_recycler_view),
             payloads: MutableList<Any>
         ) {
             binding.run {
-                root.setBackgroundColor(context.backgroundColor)
+                root.setBackgroundResource(R.drawable.novel_helper_preference_card)
                 tvGroup.text = item
             }
         }

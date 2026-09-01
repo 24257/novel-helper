@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:orientation="vertical">
 
     <androidx.viewpager.widget.ViewPager
@@ -17,10 +18,16 @@
         android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background"
-        android:minHeight="50dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="8dp"
+        android:clipToOutline="true"
+        android:elevation="8dp"
+        android:minHeight="64dp"
         app:itemActiveIndicatorStyle="@color/transparent"
-        app:labelVisibilityMode="unlabeled"
+        app:itemRippleColor="@color/novel_helper_focus_overlay"
+        app:labelVisibilityMode="labeled"
         app:menu="@menu/main_bnv" />
 
 </LinearLayout>

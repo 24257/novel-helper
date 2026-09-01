@@ -37,7 +37,6 @@ import io.legado.app.ui.book.read.ReadBookActivity
 import io.legado.app.ui.book.source.edit.BookSourceEditActivity
 import io.legado.app.ui.book.source.manage.BookSourceActivity
 import io.legado.app.ui.widget.dialog.WaitDialog
-import io.legado.app.ui.widget.recycler.VerticalDivider
 import io.legado.app.utils.ColorUtils
 import io.legado.app.utils.StartActivityContract
 import io.legado.app.utils.applyTint
@@ -137,7 +136,6 @@ class ChangeBookSourceDialog() : BaseDialogFragment(R.layout.dialog_book_change_
 
     private fun initRecyclerView() {
         val recyclerView = binding.recyclerView
-        recyclerView.addItemDecoration(VerticalDivider(requireContext()))
         recyclerView.adapter = adapter
         adapterDataObserver = object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {

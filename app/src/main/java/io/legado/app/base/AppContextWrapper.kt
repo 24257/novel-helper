@@ -8,7 +8,6 @@ import android.os.Build
 import android.os.LocaleList
 import io.legado.app.constant.PreferKey
 import io.legado.app.utils.getPrefInt
-import io.legado.app.utils.getPrefString
 import io.legado.app.utils.sysConfiguration
 import java.util.*
 
@@ -74,14 +73,8 @@ object AppContextWrapper {
     /**
      * 当前设置语言
      */
-    private fun getSetLocale(context: Context): Locale {
-        return when (context.getPrefString(PreferKey.language)) {
-            "zh" -> Locale.SIMPLIFIED_CHINESE
-            "tw" -> Locale.TRADITIONAL_CHINESE
-            "en" -> Locale.ENGLISH
-            else -> getSystemLocale()
-        }
-    }
+    private fun getSetLocale(@Suppress("UNUSED_PARAMETER") context: Context): Locale =
+        Locale.SIMPLIFIED_CHINESE
 
     /**
      * 判断App语言和设置语言是否相同

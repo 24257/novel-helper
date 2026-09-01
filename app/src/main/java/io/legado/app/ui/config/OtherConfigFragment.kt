@@ -280,9 +280,6 @@ class OtherConfigFragment : PreferenceFragment(),
             }
 
             PreferKey.showDiscovery, PreferKey.showRss -> postEvent(EventBus.NOTIFY_MAIN, true)
-            PreferKey.language -> listView.postDelayed(1000) {
-                appCtx.restart()
-            }
 
             PreferKey.userAgent -> listView.post {
                 upPreferenceSummary(PreferKey.userAgent, AppConfig.userAgent)

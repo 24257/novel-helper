@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:orientation="vertical"
     tools:context=".ui.highlight.HighlightRuleActivity">
 
@@ -25,19 +26,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
+            android:padding="12dp"
             tools:ignore="SpeakableTextPresentCheck"
             tools:listitem="@layout/item_highlight_rule" />
 
         <TextView
             android:id="@+id/tv_empty_msg"
-            android:layout_width="wrap_content"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="16dp"
+            android:background="@drawable/novel_helper_state_card"
             android:gravity="center"
+            android:padding="20dp"
             android:text="@string/highlight_rule_empty"
-            android:textColor="@color/secondaryText"
+            android:textColor="@color/tv_text_summary"
             android:visibility="gone"
+            tools:text="暂无高亮规则"
             tools:visibility="visible" />
 
     </FrameLayout>

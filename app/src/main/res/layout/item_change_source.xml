@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
+    android:layout_marginHorizontal="6dp"
+    android:layout_marginVertical="3dp"
+    android:background="@drawable/novel_helper_preference_card"
+    android:clipToOutline="true"
+    android:elevation="1dp"
+    android:foreground="?android:attr/selectableItemBackground"
     tools:ignore="RtlHardcoded,RtlSymmetry">
 
     <View
@@ -53,7 +58,9 @@
         android:layout_marginTop="10dp"
         android:singleLine="true"
         android:textColor="@color/primaryText"
-        tools:text="bookSourceName"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        tools:text="示例书源"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/tv_author"
         app:layout_constraintTop_toTopOf="parent" />
@@ -65,7 +72,7 @@
         android:layout_marginTop="10dp"
         android:maxWidth="160dp"
         android:singleLine="true"
-        tools:text="author"
+        tools:text="作者"
         android:textColor="@color/secondaryText"
         app:layout_constraintRight_toLeftOf="@+id/iv_checked"
         app:layout_constraintTop_toTopOf="parent" />
@@ -77,7 +84,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginBottom="10dp"
         android:singleLine="true"
-        tools:text="latest chapter name"
+        tools:text="最新章节"
         android:textColor="@color/secondaryText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/iv_checked"
@@ -90,7 +97,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginBottom="10dp"
         android:singleLine="false"
-        tools:text="word count"
+        tools:text="当前章字数"
         android:textColor="@color/secondaryText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/iv_checked"
@@ -103,7 +110,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginBottom="10dp"
         android:singleLine="false"
-        tools:text="respond time"
+        tools:text="响应耗时"
         android:textColor="@color/secondaryText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -122,7 +129,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/primaryText"
+        app:tint="@color/xuanjuan_gold_soft"
         tools:visibility="visible" />
 
 

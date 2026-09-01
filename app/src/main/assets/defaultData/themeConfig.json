@@ -1,11 +1,11 @@
 [
   {
-    "themeName": "默认",
-    "isNightTheme": false,
-    "primaryColor": "#795548",
-    "accentColor": "#E53935",
-    "backgroundColor": "#F5F5F5",
-    "bottomBackground": "#EEEEEE"
+    "themeName": "玄卷暗金",
+    "isNightTheme": true,
+    "primaryColor": "#1A120D",
+    "accentColor": "#C79A4A",
+    "backgroundColor": "#0B0908",
+    "bottomBackground": "#17120F"
   },
   {
     "themeName": "典雅蓝",

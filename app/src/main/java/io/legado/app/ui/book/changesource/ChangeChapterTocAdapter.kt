@@ -9,7 +9,6 @@ import io.legado.app.base.adapter.ItemViewHolder
 import io.legado.app.base.adapter.RecyclerAdapter
 import io.legado.app.data.entities.BookChapter
 import io.legado.app.databinding.ItemChapterListBinding
-import io.legado.app.lib.theme.ThemeUtils
 import io.legado.app.lib.theme.accentColor
 import io.legado.app.utils.getCompatColor
 import io.legado.app.utils.gone
@@ -63,11 +62,10 @@ class ChangeChapterTocAdapter(context: Context, val callback: Callback) :
             tvChapterName.text = item.title
             if (item.isVolume) {
                 //卷名，如第一卷 突出显示
-                tvChapterItem.setBackgroundColor(context.getCompatColor(R.color.btn_bg_press))
+                tvChapterItem.setBackgroundResource(R.drawable.novel_helper_search_field)
             } else {
-                //普通章节 保持不变
-                tvChapterItem.background =
-                    ThemeUtils.resolveDrawable(context, android.R.attr.selectableItemBackground)
+                //普通章节使用玄卷暗色卡片，点击反馈由布局 foreground 提供
+                tvChapterItem.setBackgroundResource(R.drawable.novel_helper_preference_card)
             }
             if (!item.tag.isNullOrEmpty() && !item.isVolume) {
                 //卷名不显示tag(更新时间规则)

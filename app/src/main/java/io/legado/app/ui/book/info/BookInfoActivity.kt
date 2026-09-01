@@ -3,6 +3,7 @@ package io.legado.app.ui.book.info
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -258,10 +259,28 @@ class BookInfoActivity :
         binding.titleBar.setBackgroundResource(R.color.transparent)
         binding.refreshLayout?.setColorSchemeColors(accentColor)
         binding.refreshProgressBar.secondColor = accentColor
-        binding.arcView?.setBgColor(backgroundColor)
+        val sheetRadius = 28.dpToPx().toFloat()
+        binding.arcView?.background = GradientDrawable().apply {
+            setColor(backgroundColor)
+            cornerRadii = floatArrayOf(
+                sheetRadius, sheetRadius,
+                sheetRadius, sheetRadius,
+                0f, 0f,
+                0f, 0f,
+            )
+        }
         binding.llInfo.setBackgroundColor(backgroundColor)
         binding.ivCoverC.setCardBackgroundColor(backgroundColor)
-        binding.flAction.setBackgroundColor(bottomBackground)
+        val actionRadius = 20.dpToPx().toFloat()
+        binding.flAction.background = GradientDrawable().apply {
+            setColor(bottomBackground)
+            cornerRadii = floatArrayOf(
+                actionRadius, actionRadius,
+                actionRadius, actionRadius,
+                0f, 0f,
+                0f, 0f,
+            )
+        }
         binding.vwBg.applyNavigationBarPadding()
         binding.tvShelf.setTextColor(getPrimaryTextColor(ColorUtils.isColorLight(bottomBackground)))
         binding.tvToc.text = getString(R.string.toc_s, getString(R.string.loading))
@@ -1380,7 +1399,7 @@ class BookInfoActivity :
     ) {
         val webFiles = viewModel.webFiles
         if (webFiles.isEmpty()) {
-            toastOnUi("Unexpected webFileData")
+            toastOnUi("未获取到可下载文件")
             return
         }
         val uploadCheckBox = CheckBox(this).apply {
@@ -1569,7 +1588,7 @@ class BookInfoActivity :
     }
 
     private fun upWaitDialogStatus(isShow: Boolean) {
-        val showText = "Loading....."
+        val showText = getString(R.string.loading)
         if (isShow) {
             waitDialog.run {
                 setText(showText)

@@ -17,8 +17,8 @@ class BookInfoShelfActionStyleTest {
         layouts.forEach { layout ->
             assertTrue(layout.contains("AccentTonalBgTextView"))
             assertTrue(layout.contains("android:id=\"@+id/tv_shelf\""))
-            assertTrue(layout.contains("android:layout_height=\"48dp\""))
-            assertTrue(layout.contains("app:radius=\"8dp\""))
+            assertTrue(layout.contains("android:layout_height=\"50dp\""))
+            assertTrue(layout.contains("app:radius=\"14dp\""))
         }
     }
 

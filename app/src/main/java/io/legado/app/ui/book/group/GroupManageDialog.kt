@@ -21,10 +21,8 @@ import io.legado.app.data.entities.BookGroup
 import io.legado.app.databinding.DialogRecyclerViewBinding
 import io.legado.app.databinding.ItemBookGroupManageBinding
 import io.legado.app.lib.theme.accentColor
-import io.legado.app.lib.theme.backgroundColor
 import io.legado.app.lib.theme.primaryColor
 import io.legado.app.ui.widget.recycler.ItemTouchCallback
-import io.legado.app.ui.widget.recycler.VerticalDivider
 import io.legado.app.utils.applyTint
 import io.legado.app.utils.setLayout
 import io.legado.app.utils.showDialogFragment
@@ -62,7 +60,6 @@ class GroupManageDialog : BaseDialogFragment(R.layout.dialog_recycler_view),
 
     private fun initView() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.addItemDecoration(VerticalDivider(requireContext()))
         binding.recyclerView.adapter = adapter
         val itemTouchCallback = ItemTouchCallback(adapter)
         itemTouchCallback.isCanDrag = true
@@ -120,7 +117,7 @@ class GroupManageDialog : BaseDialogFragment(R.layout.dialog_recycler_view),
             payloads: MutableList<Any>
         ) {
             binding.run {
-                root.setBackgroundColor(context.backgroundColor)
+                root.setBackgroundResource(R.drawable.novel_helper_preference_card)
                 tvGroup.text = item.getManageName(context)
                 swShow.isChecked = item.show
             }

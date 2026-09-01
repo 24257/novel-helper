@@ -4,7 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:layout_marginStart="4dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/novel_helper_preference_card"
+    android:elevation="1dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:padding="12dp">
 
     <io.legado.app.lib.theme.view.ThemeCheckBox
         android:id="@+id/cb_source_name"
@@ -25,9 +32,12 @@
         android:id="@+id/tv_source_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:background="@drawable/novel_helper_section_outline"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
         android:singleLine="true"
-        android:textColor="@color/secondaryText"
+        android:textColor="@color/xuanjuan_gold_soft"
+        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/show_comment"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintLeft_toRightOf="@id/cb_source_name"
@@ -42,7 +52,7 @@
         android:background="?attr/selectableItemBackground"
         android:padding="8dp"
         android:text="@string/open"
-        android:textColor="@color/secondaryText"
+        android:textColor="@color/xuanjuan_gold_soft"
         app:layout_constraintBottom_toTopOf="@+id/show_comment"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +64,7 @@
         android:maxLines="3"
         android:ellipsize="end"
         android:padding="8dp"
-        android:textColor="@color/secondaryText"
+        android:textColor="@color/tv_text_summary"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

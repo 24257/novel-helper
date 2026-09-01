@@ -10,7 +10,6 @@ import io.legado.app.R
 import io.legado.app.base.BaseActivity
 import io.legado.app.databinding.ActivityAboutBinding
 import io.legado.app.lib.theme.accentColor
-import io.legado.app.lib.theme.filletBackground
 import io.legado.app.utils.openUrl
 import io.legado.app.utils.share
 import io.legado.app.utils.viewbindingdelegate.viewBinding
@@ -21,7 +20,6 @@ class AboutActivity : BaseActivity<ActivityAboutBinding>() {
     override val binding by viewBinding(ActivityAboutBinding::inflate)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        binding.llAbout.background = filletBackground
         val fTag = "aboutFragment"
         var aboutFragment = supportFragmentManager.findFragmentByTag(fTag)
         if (aboutFragment == null) aboutFragment = AboutFragment()
@@ -32,13 +30,15 @@ class AboutActivity : BaseActivity<ActivityAboutBinding>() {
             kotlin.runCatching {
                 val span = ForegroundColorSpan(accentColor)
                 val spannableString = SpannableString(binding.tvAppSummary.text)
-                val gzh = getString(R.string.legado_gzh)
-                val start = spannableString.indexOf(gzh)
-                spannableString.setSpan(
-                    span, start, start + gzh.length,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                )
-                binding.tvAppSummary.text = spannableString
+                val appName = getString(R.string.app_name)
+                val start = spannableString.indexOf(appName)
+                if (start >= 0) {
+                    spannableString.setSpan(
+                        span, start, start + appName.length,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                    binding.tvAppSummary.text = spannableString
+                }
             }
         }
     }

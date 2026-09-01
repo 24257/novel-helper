@@ -3,18 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background"
+    android:layout_marginStart="4dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginBottom="3dp"
+    android:background="@drawable/novel_helper_preference_card"
+    android:elevation="1dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="8dp">
 
     <TextView
         android:id="@+id/tv_group"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textColor="@color/secondaryText"
-        tools:text="group" />
+        android:textColor="@color/primaryText"
+        android:textSize="15sp"
+        tools:text="默认分组" />
 
     <TextView
         android:id="@+id/tv_edit"
@@ -23,7 +30,7 @@
         android:background="?attr/selectableItemBackground"
         android:padding="8dp"
         android:text="@string/edit"
-        android:textColor="@color/secondaryText" />
+        android:textColor="@color/xuanjuan_gold_soft" />
 
     <io.legado.app.lib.theme.view.ThemeSwitch
         android:id="@+id/sw_show"

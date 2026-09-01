@@ -4,20 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginBottom="6dp"
+    android:background="@drawable/novel_helper_preference_card"
     android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingTop="8dp"
-    android:paddingRight="16dp"
+    android:paddingStart="14dp"
+    android:paddingTop="12dp"
+    android:paddingEnd="14dp"
     android:paddingBottom="12dp"
     android:visibility="gone">
+
+    <TextView
+        android:id="@+id/tv_shelf_kicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:letterSpacing="0.08"
+        android:text="@string/xuanjuan_shelf_overview"
+        android:textColor="@color/xuanjuan_gold_soft"
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_shelf_stats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
         android:textColor="@color/tv_text_summary"
         android:textSize="@dimen/font_size_normal"
-        tools:text="128 books · 23 reading" />
+        tools:text="128 本 · 23 本阅读中" />
 
     <LinearLayout
         android:id="@+id/continue_reading"
@@ -53,7 +70,7 @@
             android:singleLine="true"
             android:textColor="@color/primaryText"
             android:textSize="@dimen/font_size_normal"
-            tools:text="A book" />
+            tools:text="某本小说" />
 
         <TextView
             android:id="@+id/tv_continue_chapter"
@@ -65,7 +82,7 @@
             android:singleLine="true"
             android:textColor="@color/tv_text_summary"
             android:textSize="@dimen/font_size_normal"
-            tools:text="Chapter 60" />
+            tools:text="第 60 章" />
 
         <TextView
             android:id="@+id/tv_continue_percent"

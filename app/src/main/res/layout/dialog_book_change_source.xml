@@ -31,6 +31,9 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="6dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/ll_bottom_bar"
         app:layout_constraintTop_toBottomOf="@+id/refresh_progress_bar" />
@@ -38,8 +41,12 @@
     <LinearLayout
         android:id="@+id/ll_bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:background="@color/background"
+        android:layout_height="44dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/novel_helper_preference_card"
+        android:elevation="4dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
@@ -68,7 +75,7 @@
             android:contentDescription="@string/go_to_top"
             android:src="@drawable/ic_arrow_drop_up"
             android:tooltipText="@string/go_to_top"
-            app:tint="@color/primaryText"
+            app:tint="@color/xuanjuan_gold_soft"
             tools:ignore="UnusedAttribute" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -79,7 +86,7 @@
             android:contentDescription="@string/go_to_bottom"
             android:src="@drawable/ic_arrow_drop_down"
             android:tooltipText="@string/go_to_bottom"
-            app:tint="@color/primaryText"
+            app:tint="@color/xuanjuan_gold_soft"
             tools:ignore="UnusedAttribute" />
     </LinearLayout>
 

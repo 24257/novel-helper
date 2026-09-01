@@ -31,8 +31,9 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/novel_helper_launcher"
         android:label="${app_name}"
+        android:roundIcon="@mipmap/novel_helper_launcher"
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
@@ -41,7 +42,8 @@
         <!-- 主入口 -->
         <activity
             android:name=".ui.welcome.WelcomeActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/AppTheme.Welcome.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,7 +55,8 @@
             android:name=".ui.welcome.Launcher1"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/launcher1">
+            android:icon="@mipmap/novel_helper_launcher"
+            android:theme="@style/AppTheme.Welcome.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -65,7 +68,8 @@
             android:name=".ui.welcome.Launcher2"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/launcher2">
+            android:icon="@mipmap/novel_helper_launcher"
+            android:theme="@style/AppTheme.Welcome.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -77,7 +81,8 @@
             android:name=".ui.welcome.Launcher3"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/launcher3">
+            android:icon="@mipmap/novel_helper_launcher"
+            android:theme="@style/AppTheme.Welcome.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -89,7 +94,8 @@
             android:name=".ui.welcome.Launcher4"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/launcher4">
+            android:icon="@mipmap/novel_helper_launcher"
+            android:theme="@style/AppTheme.Welcome.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -101,7 +107,8 @@
             android:name=".ui.welcome.Launcher5"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/launcher5">
+            android:icon="@mipmap/novel_helper_launcher"
+            android:theme="@style/AppTheme.Welcome.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -113,7 +120,8 @@
             android:name=".ui.welcome.Launcher6"
             android:enabled="false"
             android:exported="true"
-            android:icon="@mipmap/launcher6">
+            android:icon="@mipmap/novel_helper_launcher"
+            android:theme="@style/AppTheme.Welcome.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -531,8 +539,8 @@
             android:name=".service.WebTileService"
             android:exported="true"
             android:foregroundServiceType="dataSync"
-            android:icon="@drawable/ic_web_service_noti"
-            android:label="legado Web Service"
+            android:icon="@drawable/novel_helper_service_noti"
+            android:label="@string/app_name"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
             tools:targetApi="24">
             <intent-filter>

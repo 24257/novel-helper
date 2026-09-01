@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewStub
 import android.widget.FrameLayout
 import android.widget.ProgressBar
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
@@ -72,7 +73,9 @@ class DynamicFrameLayout @JvmOverloads constructor(
         setViewVisible(progressView, false)
 
         errorTextView?.text = message
-        errorImage?.setImageDrawable(errorIcon)
+        errorImage?.setImageDrawable(
+            errorIcon ?: AppCompatResources.getDrawable(context, R.drawable.novel_helper_state_mark)
+        )
 
         actionBtn?.let {
             it.tag = ACTION_WHEN_ERROR
@@ -97,7 +100,9 @@ class DynamicFrameLayout @JvmOverloads constructor(
         setViewVisible(progressView, false)
 
         errorTextView?.text = emptyDescription
-        errorImage?.setImageDrawable(emptyIcon)
+        errorImage?.setImageDrawable(
+            emptyIcon ?: AppCompatResources.getDrawable(context, R.drawable.novel_helper_state_mark)
+        )
 
         actionBtn?.let {
             it.tag = ACTION_WHEN_EMPTY

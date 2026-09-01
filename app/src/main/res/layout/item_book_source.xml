@@ -4,9 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
+    android:layout_marginStart="4dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/novel_helper_preference_card"
     android:clipToPadding="false"
-    android:padding="16dp"
+    android:elevation="1dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:padding="12dp"
     android:scrollbars="none">
 
     <io.legado.app.ui.widget.text.AccentTextView
@@ -22,7 +28,7 @@
         app:layout_constraintBottom_toTopOf="@id/barrier"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="host"
+        tools:text="示例域名"
         tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.Barrier
@@ -85,7 +91,7 @@
         android:padding="6dp"
         android:scrollbars="none"
         android:src="@drawable/ic_edit"
-        android:tint="@color/primaryText"
+        android:tint="@color/xuanjuan_gold_soft"
         app:layout_constraintBottom_toTopOf="@id/iv_debug_text"
         app:layout_constraintRight_toLeftOf="@id/iv_menu_more"
         app:layout_constraintTop_toBottomOf="@id/barrier" />
@@ -99,7 +105,7 @@
         android:padding="6dp"
         android:scrollbars="none"
         android:src="@drawable/ic_more_vert"
-        android:tint="@color/primaryText"
+        android:tint="@color/xuanjuan_gold_soft"
         app:layout_constraintBottom_toTopOf="@id/iv_debug_text"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrier"
@@ -122,6 +128,7 @@
         android:layout_marginTop="6dp"
         android:scrollbars="none"
         android:singleLine="true"
+        android:textColor="@color/tv_text_summary"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

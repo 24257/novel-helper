@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,29 +18,39 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_path"
         android:layout_width="match_parent"
-        android:layout_height="24dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/novel_helper_preference_card"
+        android:elevation="1dp"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:background="@color/background_card"
-        android:elevation="5dp" />
+        android:paddingRight="10dp" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/background_card">
+        android:background="@color/background">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_file"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="8dp" />
 
         <TextView
             android:id="@+id/tv_empty"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/novel_helper_state_card"
             android:gravity="center"
-            android:visibility="gone" />
+            android:padding="20dp"
+            android:textColor="@color/tv_text_summary"
+            android:visibility="gone"
+            tools:text="当前目录暂无可选文件" />
 
     </FrameLayout>
 
@@ -48,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:layout_margin="3dp"
+        android:layout_margin="8dp"
         android:text="@string/ok"
         android:gravity="center" />
 

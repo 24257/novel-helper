@@ -21,7 +21,6 @@ import io.legado.app.help.config.AppConfig
 import io.legado.app.lib.theme.primaryColor
 import io.legado.app.ui.book.read.HighlightNoteDialog
 import io.legado.app.ui.widget.recycler.UpLinearLayoutManager
-import io.legado.app.ui.widget.recycler.VerticalDivider
 import io.legado.app.utils.applyNavigationBarPadding
 import io.legado.app.utils.setEdgeEffectColor
 import io.legado.app.utils.showDialogFragment
@@ -91,7 +90,6 @@ class HighlightFragment : VMBaseFragment<TocViewModel>(R.layout.fragment_bookmar
         this.adapter = adapter
         binding.recyclerView.setEdgeEffectColor(primaryColor)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.addItemDecoration(VerticalDivider(requireContext()))
         binding.recyclerView.adapter = adapter
         binding.recyclerView.applyNavigationBarPadding()
     }

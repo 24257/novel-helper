@@ -1,13 +1,13 @@
 <resources>
     <!--App-->
-    <string name="app_name">网文小助手</string>
-    <string name="app_name_a">网文小助手</string>
-    <string name="receiving_shared_label">网文小助手·搜索</string>
-    <string name="receiving_shared_import_label">网文小助手·导入</string>
+    <string name="app_name">玄卷</string>
+    <string name="app_name_a">玄卷</string>
+    <string name="receiving_shared_label">玄卷·搜索</string>
+    <string name="receiving_shared_import_label">玄卷·导入</string>
     <string name="tip_perm_request_storage">阅读需要访问存储卡权限，请前往“设置”—“应用权限”，打开所需权限</string>
 
     <!--Other-->
-    <string name="menu_backup">Home</string>
+    <string name="menu_backup">主页</string>
     <string name="menu_restore">恢复</string>
     <string name="menu_import_old">导入阅读数据</string>
     <string name="webdav_cache_backup">离线缓存书籍备份</string>
@@ -45,6 +45,10 @@
     <string name="enable">启用</string>
     <string name="replace_purify_search">替换管理-搜索</string>
     <string name="bookshelf">书架</string>
+    <string name="xuanjuan_library">藏书阁</string>
+    <string name="xuanjuan_shelf_overview">卷藏概览</string>
+    <string name="xuanjuan_library_mark">玄卷 · 藏书阁</string>
+    <string name="xuanjuan_book_detail_mark">玄卷 · 书卷详情</string>
     <string name="favorites">收藏夹</string>
     <string name="favorite">收藏</string>
     <string name="in_favorites">已收藏</string>

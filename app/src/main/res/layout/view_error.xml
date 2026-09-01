@@ -1,27 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="280dp"
     android:layout_height="wrap_content"
+    android:background="@drawable/novel_helper_state_card"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="24dp">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_error_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:contentDescription="@null"
+        android:src="@drawable/novel_helper_state_mark" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_error_message"
-        style="@style/Style.Text.Primary.Normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
         android:paddingTop="16dp"
-        android:paddingBottom="16dp" />
+        android:paddingBottom="20dp"
+        android:textColor="@color/primaryText"
+        android:textSize="15sp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_error_retry"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/accent"
-        android:minWidth="96dp"
-        android:text="@string/dynamic_click_retry" />
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:backgroundTint="@color/novel_helper_brand_accent"
+        android:minWidth="120dp"
+        android:paddingHorizontal="18dp"
+        android:text="@string/dynamic_click_retry"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

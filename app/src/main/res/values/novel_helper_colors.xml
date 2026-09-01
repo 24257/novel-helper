@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="novel_helper_brand_primary">#1A120D</color>
+    <color name="novel_helper_brand_primary_dark">#090605</color>
+    <color name="novel_helper_brand_secondary">#302116</color>
+    <color name="novel_helper_brand_accent">#C79A4A</color>
+    <color name="novel_helper_launcher_bg">#050202</color>
+    <color name="novel_helper_search_surface">#17120F</color>
+    <color name="novel_helper_search_stroke">#5E4629</color>
+    <color name="novel_helper_card_stroke">#594126</color>
+    <color name="novel_helper_focus_overlay">#28C79A4A</color>
+    <color name="xuanjuan_surface">#100D0B</color>
+    <color name="xuanjuan_surface_raised">#1B1511</color>
+    <color name="xuanjuan_surface_high">#241A13</color>
+    <color name="xuanjuan_gold">#C79A4A</color>
+    <color name="xuanjuan_gold_soft">#E0BD7A</color>
+    <color name="xuanjuan_gold_outline">#9AC79A4A</color>
+    <color name="xuanjuan_gold_dim">#66C79A4A</color>
+    <color name="xuanjuan_crimson">#7E2925</color>
+    <color name="xuanjuan_text_primary">#F2E8D8</color>
+    <color name="xuanjuan_text_secondary">#B9A895</color>
+</resources>

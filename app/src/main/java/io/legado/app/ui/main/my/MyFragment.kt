@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.preference.Preference
+import io.legado.app.BuildConfig
 import io.legado.app.R
 import io.legado.app.base.BaseFragment
 import io.legado.app.constant.EventBus
@@ -58,6 +59,7 @@ class MyFragment() : BaseFragment(R.layout.fragment_my_config), MainFragmentInte
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
         setSupportToolbar(binding.titleBar.toolbar)
+        binding.tvVersion.text = getString(R.string.version_name, BuildConfig.VERSION_NAME)
         val fragmentTag = "prefFragment"
         var preferenceFragment = childFragmentManager.findFragmentByTag(fragmentTag)
         if (preferenceFragment == null) preferenceFragment = MyPreferenceFragment()

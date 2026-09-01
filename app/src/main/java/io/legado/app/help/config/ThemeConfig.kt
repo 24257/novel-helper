@@ -50,6 +50,15 @@ object ThemeConfig {
     const val configFileName = "themeConfig.json"
     val configFilePath = FileUtils.getPath(appCtx.filesDir, configFileName)
 
+    private val xuanjuanDayPrimary = "#1A120D".toColorInt()
+    private val xuanjuanDayAccent = "#C79A4A".toColorInt()
+    private val xuanjuanDayBackground = "#0B0908".toColorInt()
+    private val xuanjuanDayBottom = "#17120F".toColorInt()
+    private val xuanjuanNightPrimary = "#17100C".toColorInt()
+    private val xuanjuanNightAccent = "#D4A957".toColorInt()
+    private val xuanjuanNightBackground = "#070504".toColorInt()
+    private val xuanjuanNightBottom = "#18120F".toColorInt()
+
     val configList: ArrayList<Config> by lazy {
         val cList = getConfigs() ?: DefaultData.themeConfigs
         ArrayList(cList)
@@ -79,8 +88,31 @@ object ThemeConfig {
     }
 
     fun applyDayNightInit(context: Context) {
+        migrateLegacyDefaultTheme(context)
         applyTheme(context)
         initNightMode()
+    }
+
+    /**
+     * 仅将 Legado 原始默认配色迁移为玄卷暗金，用户自定义的其它颜色保持不变。
+     * 判断基于旧默认值本身，因此迁移是幂等的。
+     */
+    private fun migrateLegacyDefaultTheme(context: Context) {
+        val migrations = listOf(
+            Triple(PreferKey.cPrimary, context.getCompatColor(R.color.md_brown_500), xuanjuanDayPrimary),
+            Triple(PreferKey.cAccent, context.getCompatColor(R.color.md_red_600), xuanjuanDayAccent),
+            Triple(PreferKey.cBackground, context.getCompatColor(R.color.md_grey_100), xuanjuanDayBackground),
+            Triple(PreferKey.cBBackground, context.getCompatColor(R.color.md_grey_200), xuanjuanDayBottom),
+            Triple(PreferKey.cNPrimary, context.getCompatColor(R.color.md_blue_grey_600), xuanjuanNightPrimary),
+            Triple(PreferKey.cNAccent, context.getCompatColor(R.color.md_deep_orange_800), xuanjuanNightAccent),
+            Triple(PreferKey.cNBackground, context.getCompatColor(R.color.md_grey_900), xuanjuanNightBackground),
+            Triple(PreferKey.cNBBackground, context.getCompatColor(R.color.md_grey_850), xuanjuanNightBottom),
+        )
+        migrations.forEach { (key, legacyColor, xuanjuanColor) ->
+            if (context.getPrefInt(key, legacyColor) == legacyColor) {
+                context.putPrefInt(key, xuanjuanColor)
+            }
+        }
     }
 
     private fun initNightMode() {
@@ -319,13 +351,13 @@ object ThemeConfig {
 
     private fun getDayTheme(context: Context, name: String): Config {
         val primary =
-            context.getPrefInt(PreferKey.cPrimary, context.getCompatColor(R.color.md_brown_500))
+            context.getPrefInt(PreferKey.cPrimary, xuanjuanDayPrimary)
         val accent =
-            context.getPrefInt(PreferKey.cAccent, context.getCompatColor(R.color.md_red_600))
+            context.getPrefInt(PreferKey.cAccent, xuanjuanDayAccent)
         val background =
-            context.getPrefInt(PreferKey.cBackground, context.getCompatColor(R.color.md_grey_100))
+            context.getPrefInt(PreferKey.cBackground, xuanjuanDayBackground)
         val bBackground =
-            context.getPrefInt(PreferKey.cBBackground, context.getCompatColor(R.color.md_grey_200))
+            context.getPrefInt(PreferKey.cBBackground, xuanjuanDayBottom)
         val transparentNavBar =
             context.getPrefBoolean(PreferKey.tNavBar, false)
         val bgImgPath =
@@ -353,19 +385,13 @@ object ThemeConfig {
 
     private fun getNightTheme(context: Context, name: String): Config {
         val primary =
-            context.getPrefInt(
-                PreferKey.cNPrimary,
-                context.getCompatColor(R.color.md_blue_grey_600)
-            )
+            context.getPrefInt(PreferKey.cNPrimary, xuanjuanNightPrimary)
         val accent =
-            context.getPrefInt(
-                PreferKey.cNAccent,
-                context.getCompatColor(R.color.md_deep_orange_800)
-            )
+            context.getPrefInt(PreferKey.cNAccent, xuanjuanNightAccent)
         val background =
-            context.getPrefInt(PreferKey.cNBackground, context.getCompatColor(R.color.md_grey_900))
+            context.getPrefInt(PreferKey.cNBackground, xuanjuanNightBackground)
         val bBackground =
-            context.getPrefInt(PreferKey.cNBBackground, context.getCompatColor(R.color.md_grey_850))
+            context.getPrefInt(PreferKey.cNBBackground, xuanjuanNightBottom)
         val transparentNavBar =
             context.getPrefBoolean(PreferKey.tNavBarN, false)
         val bgImgPath =
@@ -407,17 +433,17 @@ object ThemeConfig {
 
             AppConfig.isNightTheme -> {
                 val primary =
-                    getPrefInt(PreferKey.cNPrimary, getCompatColor(R.color.md_blue_grey_600))
+                    getPrefInt(PreferKey.cNPrimary, xuanjuanNightPrimary)
                 val accent =
-                    getPrefInt(PreferKey.cNAccent, getCompatColor(R.color.md_deep_orange_800))
+                    getPrefInt(PreferKey.cNAccent, xuanjuanNightAccent)
                 var background =
-                    getPrefInt(PreferKey.cNBackground, getCompatColor(R.color.md_grey_900))
+                    getPrefInt(PreferKey.cNBackground, xuanjuanNightBackground)
                 if (ColorUtils.isColorLight(background)) {
-                    background = getCompatColor(R.color.md_grey_900)
+                    background = xuanjuanNightBackground
                     putPrefInt(PreferKey.cNBackground, background)
                 }
                 val bBackground =
-                    getPrefInt(PreferKey.cNBBackground, getCompatColor(R.color.md_grey_850))
+                    getPrefInt(PreferKey.cNBBackground, xuanjuanNightBottom)
                 val transparentNavBar =
                     getPrefBoolean(PreferKey.tNavBarN, false)
                 ThemeStore.editTheme(this)
@@ -431,17 +457,13 @@ object ThemeConfig {
 
             else -> {
                 val primary =
-                    getPrefInt(PreferKey.cPrimary, getCompatColor(R.color.md_brown_500))
+                    getPrefInt(PreferKey.cPrimary, xuanjuanDayPrimary)
                 val accent =
-                    getPrefInt(PreferKey.cAccent, getCompatColor(R.color.md_red_600))
-                var background =
-                    getPrefInt(PreferKey.cBackground, getCompatColor(R.color.md_grey_100))
-                if (!ColorUtils.isColorLight(background)) {
-                    background = getCompatColor(R.color.md_grey_100)
-                    putPrefInt(PreferKey.cBackground, background)
-                }
+                    getPrefInt(PreferKey.cAccent, xuanjuanDayAccent)
+                val background =
+                    getPrefInt(PreferKey.cBackground, xuanjuanDayBackground)
                 val bBackground =
-                    getPrefInt(PreferKey.cBBackground, getCompatColor(R.color.md_grey_200))
+                    getPrefInt(PreferKey.cBBackground, xuanjuanDayBottom)
                 val transparentNavBar =
                     getPrefBoolean(PreferKey.tNavBar, false)
                 ThemeStore.editTheme(this)

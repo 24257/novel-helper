@@ -38,6 +38,8 @@ open class WelcomeActivity : BaseActivity<ActivityWelcomeBinding>() {
         if (intent.flags and Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT != 0) {
             // 避免从桌面启动程序后，会重新实例化入口类的activity
             finish()
+        } else if (!getPrefBoolean(PreferKey.customWelcome)) {
+            startMainActivity()
         } else {
             val welcomeShowTime = getPrefInt(PreferKey.welcomeShowTime, 500)
             if (welcomeShowTime == 0) {
@@ -49,7 +51,7 @@ open class WelcomeActivity : BaseActivity<ActivityWelcomeBinding>() {
                 }
             }
         }
-        binding.ivBook.setColorFilter(accentColor)
+        binding.ivBook.clearColorFilter()
         binding.vwTitleLine.setBackgroundColor(accentColor)
     }
 
@@ -67,8 +69,9 @@ open class WelcomeActivity : BaseActivity<ActivityWelcomeBinding>() {
 
     override fun upBackgroundImage() {
         val isDarkTheme = ThemeConfig.getTheme() == Theme.Dark
-        val showText = if (isDarkTheme) AppConfig.welcomeShowTextDark else AppConfig.welcomeShowText
-        val showIcon = if (isDarkTheme) AppConfig.welcomeShowIconDark else AppConfig.welcomeShowIcon
+        val customWelcome = getPrefBoolean(PreferKey.customWelcome)
+        val showText = customWelcome && if (isDarkTheme) AppConfig.welcomeShowTextDark else AppConfig.welcomeShowText
+        val showIcon = customWelcome && if (isDarkTheme) AppConfig.welcomeShowIconDark else AppConfig.welcomeShowIcon
         binding.tvLegado.visible(showText)
         binding.ivBook.visible(showIcon)
         binding.tvGzh.visible(showText)

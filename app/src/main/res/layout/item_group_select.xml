@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background"
+    android:layout_marginHorizontal="6dp"
+    android:layout_marginVertical="3dp"
+    android:background="@drawable/novel_helper_preference_card"
+    android:clipToOutline="true"
+    android:elevation="1dp"
     android:padding="8dp"
     android:gravity="center_vertical"
     android:orientation="horizontal">
@@ -14,7 +19,8 @@
         android:layout_gravity="center"
         android:layout_weight="1"
         android:singleLine="true"
-        android:textColor="@color/primaryText" />
+        android:textColor="@color/primaryText"
+        tools:text="默认分组" />
 
     <TextView
         android:id="@+id/tv_edit"
@@ -22,6 +28,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:padding="8dp"
-        android:text="@string/edit" />
+        android:text="@string/edit"
+        android:textColor="@color/xuanjuan_gold_soft" />
 
 </LinearLayout>

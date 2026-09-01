@@ -11,7 +11,7 @@ import io.legado.app.lib.theme.getPrimaryTextColor
 import io.legado.app.utils.ColorUtils
 
 
-class NameListPreference(context: Context, attrs: AttributeSet) : ListPreference(context, attrs) {
+open class NameListPreference(context: Context, attrs: AttributeSet) : ListPreference(context, attrs) {
 
     private val isBottomBackground: Boolean
 

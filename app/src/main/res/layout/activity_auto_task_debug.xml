@@ -37,7 +37,7 @@
             android:textColor="@color/primaryText"
             android:textIsSelectable="true"
             android:textSize="13sp"
-            tools:text="Running task..." />
+            tools:text="正在运行任务…" />
 
     </ScrollView>
 

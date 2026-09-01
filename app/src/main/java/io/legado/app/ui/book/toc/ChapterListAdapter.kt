@@ -19,7 +19,6 @@ import io.legado.app.databinding.ItemChapterListBinding
 import io.legado.app.help.book.ContentProcessor
 import io.legado.app.help.config.AppConfig
 import io.legado.app.help.coroutine.Coroutine
-import io.legado.app.lib.theme.ThemeUtils
 import io.legado.app.lib.theme.accentColor
 import io.legado.app.model.AudioCacheKey
 import io.legado.app.utils.dpToPx
@@ -210,10 +209,9 @@ class ChapterListAdapter(context: Context, val callback: Callback) :
                     tvChapterName.setTextColor(context.getCompatColor(R.color.primaryText))
                 }
                 if (isVolume) {
-                    tvChapterItem.setBackgroundColor(context.getCompatColor(R.color.btn_bg_press))
+                    tvChapterItem.setBackgroundResource(R.drawable.novel_helper_search_field)
                 } else {
-                    tvChapterItem.background =
-                        ThemeUtils.resolveDrawable(context, android.R.attr.selectableItemBackground)
+                    tvChapterItem.setBackgroundResource(R.drawable.novel_helper_preference_card)
                 }
 
                 if (item is TocListItem.Volume) {

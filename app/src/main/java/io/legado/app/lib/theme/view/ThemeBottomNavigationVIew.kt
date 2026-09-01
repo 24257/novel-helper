@@ -19,7 +19,6 @@ import io.legado.app.lib.theme.Selector
 import io.legado.app.lib.theme.ThemeStore
 import io.legado.app.lib.theme.backgroundColor
 import io.legado.app.lib.theme.bottomBackground
-import io.legado.app.lib.theme.elevation
 import io.legado.app.lib.theme.getSecondaryTextColor
 import io.legado.app.lib.theme.transparentNavBar
 import io.legado.app.ui.widget.text.BadgeView
@@ -33,32 +32,49 @@ class ThemeBottomNavigationVIew(context: Context, attrs: AttributeSet) :
 
     /** menu id -> 默认矢量图标; applySkin(null) 时据此还原 */
     private val defaultIcons = mapOf(
-        R.id.menu_bookshelf to R.drawable.ic_bottom_books,
-        R.id.menu_discovery to R.drawable.ic_bottom_explore,
-        R.id.menu_rss to R.drawable.ic_bottom_rss_feed,
-        R.id.menu_my_config to R.drawable.ic_bottom_person,
+        R.id.menu_bookshelf to R.drawable.novel_helper_nav_books,
+        R.id.menu_discovery to R.drawable.novel_helper_nav_discover,
+        R.id.menu_rss to R.drawable.novel_helper_nav_notes,
+        R.id.menu_my_config to R.drawable.novel_helper_nav_profile,
     )
 
     init {
         val transparentNavBar = context.transparentNavBar
-        val bgColor = if (transparentNavBar) context.backgroundColor else context.bottomBackground
+        val themeBgColor = if (transparentNavBar) context.backgroundColor else context.bottomBackground
+        val bgColor = if (transparentNavBar || AppConfig.isEInkMode) {
+            themeBgColor
+        } else {
+            ContextCompat.getColor(context, R.color.xuanjuan_surface_raised)
+        }
         if (transparentNavBar) {
             setBackgroundColor(Color.TRANSPARENT)
         } else {
-            setBackgroundColor(bgColor)
-            elevation = context.elevation
+            ContextCompat.getDrawable(context, R.drawable.novel_helper_bottom_bar)
+                ?.mutate()
+                ?.let { background = it }
+                ?: setBackgroundColor(bgColor)
+            elevation = 8.dpToPx().toFloat()
         }
         val textIsDark = ColorUtils.isColorLight(bgColor)
-        val textColor = context.getSecondaryTextColor(textIsDark)
+        val textColor = if (AppConfig.isEInkMode || transparentNavBar) {
+            context.getSecondaryTextColor(textIsDark)
+        } else {
+            ContextCompat.getColor(context, R.color.xuanjuan_text_secondary)
+        }
+        val selectedColor = if (AppConfig.isEInkMode || transparentNavBar) {
+            ThemeStore.accentColor(context)
+        } else {
+            ContextCompat.getColor(context, R.color.xuanjuan_gold_soft)
+        }
         val colorStateList = Selector.colorBuild()
             .setDefaultColor(textColor)
-            .setSelectedColor(ThemeStore.accentColor(context))
+            .setSelectedColor(selectedColor)
             .create()
         themeIconTint = colorStateList
         itemIconTintList = colorStateList
         itemTextColor = colorStateList
+        isItemHorizontalTranslationEnabled = false
         if (AppConfig.isEInkMode || transparentNavBar) {
-            isItemHorizontalTranslationEnabled = false
             itemBackground = Color.TRANSPARENT.toDrawable()
         }
 

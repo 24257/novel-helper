@@ -4,9 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:layout_marginStart="4dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/novel_helper_preference_card"
+    android:elevation="1dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/tv_book_name"
@@ -18,7 +23,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/tv_remove"
-        tools:text="name"
+        tools:text="小说名称"
         tools:ignore="RtlHardcoded" />
 
     <TextView
@@ -55,7 +60,7 @@
         app:layout_constraintLeft_toRightOf="@+id/tv_reading_time_tag"
         app:layout_constraintTop_toBottomOf="@id/tv_author"
         app:layout_constraintRight_toLeftOf="@+id/tv_remove"
-        tools:text="readingTime" />
+        tools:text="阅读时长" />
 
     <TextView
         android:id="@+id/tv_last_read_time_tag"
@@ -78,7 +83,7 @@
         app:layout_constraintLeft_toRightOf="@+id/tv_last_read_time_tag"
         app:layout_constraintTop_toBottomOf="@id/tv_reading_time_tag"
         app:layout_constraintRight_toLeftOf="@+id/tv_remove"
-        tools:text="readingTime" />
+        tools:text="最后阅读时间" />
 
     <TextView
         android:id="@+id/tv_remove"
