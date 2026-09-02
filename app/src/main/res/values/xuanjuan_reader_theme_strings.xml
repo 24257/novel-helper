@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="xuanjuan_reader_theme_section">Comfort themes · long press to customize</string>
+    <string name="xuanjuan_reader_theme_add">Add</string>
+    <string name="xuanjuan_reader_theme_custom">Custom</string>
+</resources>

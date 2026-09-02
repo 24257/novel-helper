@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="xuanjuan_cache_range_hint">Select the chapter range to keep available offline</string>
+    <string name="xuanjuan_cache_quick_title">Quick cache</string>
+    <string name="xuanjuan_cache_next_20">Next 20</string>
+    <string name="xuanjuan_cache_next_50">Next 50</string>
+    <string name="xuanjuan_cache_unread">Unread</string>
+    <string name="xuanjuan_cache_all">Full book</string>
+    <string name="xuanjuan_cache_quick_hint">Choose a range, then confirm to start caching</string>
+    <string name="xuanjuan_reader_progress">Chapter %1$d / %2$d · %3$d%%</string>
+    <string name="xuanjuan_reader_change_source">Source</string>
+    <string name="xuanjuan_reader_preload_status">Preload %1$d</string>
+    <string name="xuanjuan_reader_preload_off">Preload off</string>
+    <string name="xuanjuan_reader_preload_title">Chapter preload</string>
+    <string name="xuanjuan_reader_preload_option_off">Off</string>
+    <string name="xuanjuan_reader_preload_option_1">1 chapter</string>
+    <string name="xuanjuan_reader_preload_option_2">2 chapters</string>
+    <string name="xuanjuan_reader_preload_option_3">3 chapters</string>
+</resources>

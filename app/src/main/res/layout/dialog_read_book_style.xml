@@ -276,7 +276,7 @@
             android:layout_marginStart="16dp"
             android:layout_weight="1"
             android:alpha="0.75"
-            android:text="@string/text_bg_style"
+            android:text="@string/xuanjuan_reader_theme_section"
             android:textSize="12sp" />
 
         <TextView

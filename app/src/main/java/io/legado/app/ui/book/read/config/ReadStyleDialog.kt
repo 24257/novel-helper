@@ -92,6 +92,8 @@ class ReadStyleDialog : BaseDialogFragment(R.layout.dialog_read_book_style),
                 ivStyle.setColorFilter(textColor)
                 ivStyle.borderColor = textColor
                 ivStyle.setImageResource(R.drawable.ic_add)
+                tvStyleName.setTextColor(textColor)
+                tvStyleName.setText(R.string.xuanjuan_reader_theme_add)
                 root.setOnClickListener {
                     ReadBookConfig.configList.add(ReadBookConfig.Config())
                     showBgTextConfig(ReadBookConfig.configList.lastIndex)
@@ -222,15 +224,26 @@ class ReadStyleDialog : BaseDialogFragment(R.layout.dialog_read_book_style),
             payloads: MutableList<Any>
         ) {
             binding.apply {
-                ivStyle.setText(item.name.ifBlank { "文字" })
+                ivStyle.setText("Aa")
                 ivStyle.setTextColor(item.curTextColor())
                 ivStyle.setImageDrawable(item.curBgDrawable(100, 150))
+                tvStyleName.text = item.name.ifBlank {
+                    context.getString(R.string.xuanjuan_reader_theme_custom)
+                }
                 if (ReadBookConfig.styleSelect == holder.layoutPosition) {
                     ivStyle.borderColor = accentColor
                     ivStyle.setTextBold(true)
+                    tvStyleName.setTextColor(accentColor)
+                    tvStyleName.setTypeface(tvStyleName.typeface, android.graphics.Typeface.BOLD)
                 } else {
                     ivStyle.borderColor = item.curTextColor()
                     ivStyle.setTextBold(false)
+                    tvStyleName.setTextColor(
+                        requireContext().getPrimaryTextColor(
+                            ColorUtils.isColorLight(requireContext().bottomBackground)
+                        )
+                    )
+                    tvStyleName.setTypeface(tvStyleName.typeface, android.graphics.Typeface.NORMAL)
                 }
             }
         }

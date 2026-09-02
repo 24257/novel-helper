@@ -1585,11 +1585,11 @@ object ReadBook : CoroutineScope by MainScope() {
     private fun preDownload() {
         if (book?.isLocal == true) return
         executor.execute {
+            preDownloadTask?.cancel()
             if (AppConfig.preDownloadNum < 2) {
                 upToc()
                 return@execute
             }
-            preDownloadTask?.cancel()
             preDownloadTask = launch(IO) {
                 //预下载
                 launch {
@@ -1611,6 +1611,16 @@ object ReadBook : CoroutineScope by MainScope() {
                 }
             }
         }
+    }
+
+    /**
+     * Apply a changed preload level to the active reading session.
+     * Reuses the existing preload pipeline without cancelling the shared download scope.
+     */
+    fun applyPreDownloadConfig() {
+        preDownloadTask?.cancel()
+        if (book?.isLocal == true || AppConfig.preDownloadNum < 2) return
+        preDownload()
     }
 
     fun cancelPreDownloadTask() {

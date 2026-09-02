@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/xuanjuan_reader_dialog_bg"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/tv_preload_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
+        android:text="@string/xuanjuan_reader_preload_title"
+        android:textColor="@color/xuanjuan_gold_soft"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/preload_off"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@drawable/xuanjuan_reader_preload_option_bg"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        android:text="@string/xuanjuan_reader_preload_option_off"
+        android:textColor="@color/xuanjuan_text_primary"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/preload_1"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/xuanjuan_reader_preload_option_bg"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        android:text="@string/xuanjuan_reader_preload_option_1"
+        android:textColor="@color/xuanjuan_text_primary"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/preload_2"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/xuanjuan_reader_preload_option_bg"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        android:text="@string/xuanjuan_reader_preload_option_2"
+        android:textColor="@color/xuanjuan_text_primary"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/preload_3"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/xuanjuan_reader_preload_option_bg"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        android:text="@string/xuanjuan_reader_preload_option_3"
+        android:textColor="@color/xuanjuan_text_primary"
+        android:textSize="16sp" />
+
+</LinearLayout>

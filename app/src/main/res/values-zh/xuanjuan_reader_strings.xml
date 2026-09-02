@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="xuanjuan_cache_range_hint">选择需要离线保存的章节范围</string>
+    <string name="xuanjuan_cache_quick_title">快捷缓存</string>
+    <string name="xuanjuan_cache_next_20">后20章</string>
+    <string name="xuanjuan_cache_next_50">后50章</string>
+    <string name="xuanjuan_cache_unread">全部未读</string>
+    <string name="xuanjuan_cache_all">缓存全本</string>
+    <string name="xuanjuan_cache_quick_hint">选择范围后，点击确定开始缓存</string>
+    <string name="xuanjuan_reader_progress">第 %1$d / %2$d 章 · %3$d%%</string>
+    <string name="xuanjuan_reader_change_source">换源</string>
+    <string name="xuanjuan_reader_preload_status">预载 %1$d 章</string>
+    <string name="xuanjuan_reader_preload_off">预载关闭</string>
+    <string name="xuanjuan_reader_preload_title">章节预载</string>
+    <string name="xuanjuan_reader_preload_option_off">关闭</string>
+    <string name="xuanjuan_reader_preload_option_1">1章</string>
+    <string name="xuanjuan_reader_preload_option_2">2章</string>
+    <string name="xuanjuan_reader_preload_option_3">3章</string>
+</resources>

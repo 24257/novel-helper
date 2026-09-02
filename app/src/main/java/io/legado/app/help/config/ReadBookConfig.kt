@@ -90,6 +90,34 @@ internal fun parseReadConfigObject(json: String): Result<ReadBookConfig.Config> 
     migrateLegacyUnderline(config, raw)
 }
 
+private val legacyBuiltinReadPresetNames = listOf(
+    "预设1",
+    "预设2",
+    "预设3",
+    "预设4",
+    "预设5",
+)
+
+internal fun upgradeLegacyBuiltinReadPresets(
+    configs: List<ReadBookConfig.Config>,
+    defaults: List<ReadBookConfig.Config>,
+): Pair<List<ReadBookConfig.Config>, Boolean> {
+    if (configs.isEmpty() || defaults.size < legacyBuiltinReadPresetNames.size) {
+        return configs to false
+    }
+    var changed = false
+    val upgraded = configs.map { config ->
+        val presetIndex = legacyBuiltinReadPresetNames.indexOf(config.name)
+        if (presetIndex >= 0) {
+            changed = true
+            defaults[presetIndex].copy()
+        } else {
+            config
+        }
+    }
+    return upgraded to changed
+}
+
 /**
  * Converts the old per-style underline field into one shared, backup-friendly value.
  * New fields live on every Config so existing readConfig.json archives remain readable.
@@ -249,9 +277,21 @@ object ReadBookConfig {
                 AppLog.put("读取排版配置文件出错", e)
             }
         }
-        (configs ?: DefaultData.readConfigs).let {
+        val defaults = DefaultData.readConfigs
+        val (resolvedConfigs, upgradedLegacyPresets) = if (configs != null) {
+            upgradeLegacyBuiltinReadPresets(configs, defaults)
+        } else {
+            defaults to false
+        }
+        resolvedConfigs.let {
             configList.clear()
             configList.addAll(it)
+        }
+        if (upgradedLegacyPresets) {
+            runCatching {
+                FileUtils.createFileIfNotExist(configFilePath)
+                    .writeText(GSON.toJson(configList))
+            }.onFailure { it.printOnDebug() }
         }
     }
 

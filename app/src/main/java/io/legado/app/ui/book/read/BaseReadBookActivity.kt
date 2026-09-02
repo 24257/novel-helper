@@ -21,7 +21,7 @@ import io.legado.app.constant.AppConst.charsets
 import io.legado.app.constant.PreferKey
 import io.legado.app.data.entities.Book
 import io.legado.app.databinding.ActivityBookReadBinding
-import io.legado.app.databinding.DialogDownloadChoiceBinding
+import io.legado.app.databinding.DialogXuanjuanDownloadChoiceBinding
 import io.legado.app.databinding.DialogEditTextBinding
 import io.legado.app.databinding.DialogSimulatedReadingBinding
 import io.legado.app.help.book.cacheLocalUri
@@ -57,12 +57,32 @@ import java.time.format.DateTimeFormatter
 
 @SuppressLint("InflateParams", "SetTextI18n")
 fun Context.showBookDownloadDialog(book: Book) {
-    alert(titleResource = R.string.offline_cache) {
-        val alertBinding = DialogDownloadChoiceBinding
+    alert(title = null as CharSequence?) {
+        val alertBinding = DialogXuanjuanDownloadChoiceBinding
             .inflate(LayoutInflater.from(this@showBookDownloadDialog))
             .apply {
                 editStart.setText((book.durChapterIndex + 1).toString())
                 editEnd.setText(book.totalChapterNum.toString())
+
+                fun applyPreset(preset: XuanjuanReaderCachePreset) {
+                    book.xuanjuanReaderCacheRange(preset)?.let { range ->
+                        editStart.setText((range.startIndex + 1).toString())
+                        editEnd.setText((range.endIndex + 1).toString())
+                    }
+                }
+
+                cacheNext20.setOnClickListener {
+                    applyPreset(XuanjuanReaderCachePreset.NEXT_20)
+                }
+                cacheNext50.setOnClickListener {
+                    applyPreset(XuanjuanReaderCachePreset.NEXT_50)
+                }
+                cacheUnread.setOnClickListener {
+                    applyPreset(XuanjuanReaderCachePreset.UNREAD)
+                }
+                cacheAll.setOnClickListener {
+                    applyPreset(XuanjuanReaderCachePreset.ALL)
+                }
             }
         customView { alertBinding.root }
         okButton {

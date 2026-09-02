@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="xuanjuan_reader_theme_section">舒适主题 · 长按自定义</string>
+    <string name="xuanjuan_reader_theme_add">添加</string>
+    <string name="xuanjuan_reader_theme_custom">自定义</string>
+</resources>

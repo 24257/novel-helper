@@ -44,6 +44,7 @@ import io.legado.app.data.entities.BookProgress
 import io.legado.app.data.entities.BookSource
 import io.legado.app.data.entities.Bookmark
 import io.legado.app.data.entities.rule.ReviewRule
+import io.legado.app.databinding.DialogXuanjuanPreloadBinding
 import io.legado.app.exception.NoStackTraceException
 import io.legado.app.help.AppWebDav
 import io.legado.app.help.HighlightColors
@@ -1705,6 +1706,42 @@ class ReadBookActivity : BaseReadBookActivity(),
             bookInfoActivity.launch {
                 putExtra("name", it.name)
                 putExtra("author", it.author)
+            }
+        }
+    }
+
+    override fun openOfflineCache() {
+        showDownloadDialog()
+    }
+
+    override fun openBookChangeSource() {
+        showBookChangeSource()
+    }
+
+    override fun showPreloadSelector() {
+        val preloadBinding = DialogXuanjuanPreloadBinding.inflate(layoutInflater)
+        val options = listOf(
+            preloadBinding.preloadOff,
+            preloadBinding.preload1,
+            preloadBinding.preload2,
+            preloadBinding.preload3,
+        )
+        options.forEachIndexed { index, view ->
+            view.isSelected = AppConfig.preDownloadNum.coerceIn(0, 3) == index
+        }
+        val dialog = alert(title = null as CharSequence?) {
+            customView { preloadBinding.root }
+        }
+        dialog.window?.run {
+            setBackgroundDrawableResource(android.R.color.transparent)
+            attributes = attributes.apply { dimAmount = 0.28f }
+        }
+        options.forEachIndexed { index, view ->
+            view.setOnClickListener {
+                AppConfig.preDownloadNum = index.coerceIn(0, 3)
+                ReadBook.applyPreDownloadConfig()
+                binding.readMenu.upPreloadState()
+                dialog.dismiss()
             }
         }
     }

@@ -25,7 +25,6 @@ import io.legado.app.constant.PreferKey
 import io.legado.app.data.appDb
 import io.legado.app.databinding.ViewReadMenuBinding
 import io.legado.app.help.config.AppConfig
-import io.legado.app.help.config.LocalConfig
 import io.legado.app.help.config.ReadBookConfig
 import io.legado.app.help.config.ThemeConfig
 import io.legado.app.help.coroutine.Coroutine
@@ -92,18 +91,10 @@ class ReadMenu @JvmOverloads constructor(
     }
     private val immersiveMenu: Boolean
         get() = AppConfig.readBarStyleFollowPage && ReadBookConfig.durConfig.curBgType() == 0
-    private var bgColor: Int = if (immersiveMenu) {
-        kotlin.runCatching {
-            ReadBookConfig.durConfig.curBgStr().toColorInt()
-        }.getOrDefault(context.bottomBackground)
-    } else {
-        context.bottomBackground
-    }
-    private var textColor: Int = if (immersiveMenu) {
-        ReadBookConfig.durConfig.curTextColor()
-    } else {
-        context.getPrimaryTextColor(ColorUtils.isColorLight(bgColor))
-    }
+    // The reading page still follows the user's selected theme, while the transient
+    // reader controls use a fixed high-contrast Xuanjuan palette for legibility.
+    private var bgColor: Int = context.getColor(R.color.xuanjuan_surface_high)
+    private var textColor: Int = context.getColor(R.color.xuanjuan_text_primary)
 
     private var bottomBackgroundList: ColorStateList = Selector.colorBuild()
         .setDefaultColor(bgColor)
@@ -120,6 +111,8 @@ class ReadMenu @JvmOverloads constructor(
             binding.tvSourceAction.text =
                 ReadBook.bookSource?.bookSourceName ?: context.getString(R.string.book_source)
             binding.tvSourceAction.isGone = ReadBook.isLocalBook
+            updateQuickActionAvailability()
+            upPreloadState()
             ReadBook.bookSource?.let {
                 if (it.customButton) {
                     binding.tvCustomBtn.visibility = VISIBLE
@@ -133,9 +126,6 @@ class ReadMenu @JvmOverloads constructor(
         override fun onAnimationEnd(animation: Animation) {
             binding.vwMenuBg.setOnClickListener { runMenuOut() }
             callBack.upSystemUiVisibility()
-            if (!LocalConfig.readMenuHelpVersionIsLast) {
-                callBack.showHelp()
-            }
         }
 
         override fun onAnimationRepeat(animation: Animation) = Unit
@@ -173,25 +163,20 @@ class ReadMenu @JvmOverloads constructor(
         }
         initAnimation()
         tvCustomBtn.setColorFilter(context.accentColor)
-        if (immersiveMenu) {
-            val lightTextColor = ColorUtils.withAlpha(ColorUtils.lightenColor(textColor), 0.75f)
-            titleBar.setTextColor(textColor)
-            titleBar.setBackgroundColor(bgColor)
-            titleBar.setColorFilter(textColor)
-            tvChapterName.setTextColor(lightTextColor)
-            tvChapterUrl.setTextColor(lightTextColor)
-        } else if (reset) {
-            val bgColor = context.primaryColor
-            val textColor = context.primaryTextColor
-            titleBar.setTextColor(textColor)
-            titleBar.setBackgroundColor(bgColor)
-            titleBar.setColorFilter(textColor)
-            tvChapterName.setTextColor(textColor)
-            tvChapterUrl.setTextColor(textColor)
-        }
+        val secondaryTextColor = context.getColor(R.color.xuanjuan_text_secondary)
+        val accentTextColor = context.getColor(R.color.xuanjuan_gold_soft)
+        titleBar.setTextColor(textColor)
+        titleBar.setBackgroundColor(bgColor)
+        titleBar.setColorFilter(textColor)
+        tvChapterName.setTextColor(textColor)
+        tvChapterUrl.setTextColor(secondaryTextColor)
         val brightnessBackground = GradientDrawable()
         brightnessBackground.cornerRadius = 18F.dpToPx()
         brightnessBackground.setColor(ColorUtils.adjustAlpha(bgColor, 0.5f))
+        brightnessBackground.setStroke(
+            1F.dpToPx().toInt(),
+            ColorUtils.adjustAlpha(context.accentColor, 0.5f)
+        )
         llBrightness.background = brightnessBackground
         if (AppConfig.isEInkMode) {
             titleBar.setBackgroundResource(R.drawable.bg_eink_border_bottom)
@@ -206,6 +191,10 @@ class ReadMenu @JvmOverloads constructor(
                     0f, 0f
                 )
                 setColor(bgColor)
+                setStroke(
+                    1F.dpToPx().toInt(),
+                    ColorUtils.adjustAlpha(context.accentColor, 0.55f)
+                )
             }
         }
         fabSearch.backgroundTintList = bottomBackgroundList
@@ -222,6 +211,8 @@ class ReadMenu @JvmOverloads constructor(
             .create()
         tvPre.setTextColor(chapterTextColor)
         tvNext.setTextColor(chapterTextColor)
+        tvReadProgress.setTextColor(secondaryTextColor)
+        tvPreload.setTextColor(textColor)
         ivCatalog.setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
         tvCatalog.setTextColor(textColor)
         ivReadAloud.setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
@@ -230,6 +221,13 @@ class ReadMenu @JvmOverloads constructor(
         tvFont.setTextColor(textColor)
         ivSetting.setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
         tvSetting.setTextColor(textColor)
+        val quickActionColor = accentTextColor
+        ivBookmark.setColorFilter(quickActionColor, PorterDuff.Mode.SRC_IN)
+        ivCache.setColorFilter(quickActionColor, PorterDuff.Mode.SRC_IN)
+        ivChangeSource.setColorFilter(quickActionColor, PorterDuff.Mode.SRC_IN)
+        tvBookmark.setTextColor(textColor)
+        tvCache.setTextColor(textColor)
+        tvChangeSource.setTextColor(textColor)
         vwBrightnessPosAdjust.setColorFilter(textColor, PorterDuff.Mode.SRC_IN)
         seekBrightness.applyTint(context.accentColor)
         llBrightness.setOnClickListener(null)
@@ -261,21 +259,11 @@ class ReadMenu @JvmOverloads constructor(
     }
 
     private fun upColorConfig() {
-        bgColor = if (immersiveMenu) {
-            kotlin.runCatching {
-                ReadBookConfig.durConfig.curBgStr().toColorInt()
-            }.getOrDefault(context.bottomBackground)
-        } else {
-            context.bottomBackground
-        }
-        textColor = if (immersiveMenu) {
-            ReadBookConfig.durConfig.curTextColor()
-        } else {
-            context.getPrimaryTextColor(ColorUtils.isColorLight(bgColor))
-        }
+        bgColor = context.getColor(R.color.xuanjuan_surface_high)
+        textColor = context.getColor(R.color.xuanjuan_text_primary)
         bottomBackgroundList = Selector.colorBuild()
             .setDefaultColor(bgColor)
-            .setPressedColor(ColorUtils.darkenColor(bgColor))
+            .setPressedColor(context.getColor(R.color.xuanjuan_surface_raised))
             .create()
     }
 
@@ -406,6 +394,14 @@ class ReadMenu @JvmOverloads constructor(
 
     private fun brightnessAuto(): Boolean {
         return context.getPrefBoolean("brightnessAuto", true) || !showBrightnessView
+    }
+
+    private fun updateQuickActionAvailability() = binding.run {
+        val onlineBook = !ReadBook.isLocalBook
+        llCache.isEnabled = onlineBook
+        llChangeSource.isEnabled = onlineBook
+        llCache.alpha = if (onlineBook) 1f else 0.4f
+        llChangeSource.alpha = if (onlineBook) 1f else 0.4f
     }
 
     private fun bindEvent() = binding.run {
@@ -594,6 +590,32 @@ class ReadMenu @JvmOverloads constructor(
             }
         }
 
+        llBookmark.setOnClickListener {
+            runMenuOut {
+                callBack.addBookmark()
+            }
+        }
+
+        llCache.setOnClickListener {
+            if (!ReadBook.isLocalBook) {
+                runMenuOut {
+                    callBack.openOfflineCache()
+                }
+            }
+        }
+
+        llChangeSource.setOnClickListener {
+            if (!ReadBook.isLocalBook) {
+                runMenuOut {
+                    callBack.openBookChangeSource()
+                }
+            }
+        }
+
+        tvPreload.setOnClickListener {
+            callBack.showPreloadSelector()
+        }
+
         //朗读
         llReadAloud.setOnClickListener {
             runMenuOut {
@@ -687,20 +709,41 @@ class ReadMenu @JvmOverloads constructor(
     }
 
     fun upSeekBar() {
-        binding.seekReadPage.apply {
-            when (AppConfig.progressBarBehavior) {
-                "page" -> {
-                    ReadBook.curTextChapter?.let {
-                        max = it.pageSize.minus(1)
-                        progress = ReadBook.durPageIndex
+        binding.run {
+            seekReadPage.apply {
+                when (AppConfig.progressBarBehavior) {
+                    "page" -> {
+                        ReadBook.curTextChapter?.let {
+                            max = it.pageSize.minus(1)
+                            progress = ReadBook.durPageIndex
+                        }
+                    }
+
+                    "chapter" -> {
+                        max = ReadBook.simulatedChapterSize - 1
+                        progress = ReadBook.durChapterIndex
                     }
                 }
-
-                "chapter" -> {
-                    max = ReadBook.simulatedChapterSize - 1
-                    progress = ReadBook.durChapterIndex
-                }
             }
+            val totalChapter = ReadBook.simulatedChapterSize.coerceAtLeast(1)
+            val currentChapter = (ReadBook.durChapterIndex + 1).coerceIn(1, totalChapter)
+            val percent = (currentChapter * 100f / totalChapter).toInt().coerceIn(0, 100)
+            tvReadProgress.text = context.getString(
+                R.string.xuanjuan_reader_progress,
+                currentChapter,
+                totalChapter,
+                percent,
+            )
+            upPreloadState()
+        }
+    }
+
+    fun upPreloadState() = binding.run {
+        val preloadNum = AppConfig.preDownloadNum.coerceAtLeast(0)
+        tvPreload.text = if (preloadNum == 0) {
+            context.getString(R.string.xuanjuan_reader_preload_off)
+        } else {
+            context.getString(R.string.xuanjuan_reader_preload_status, preloadNum)
         }
     }
 
@@ -740,6 +783,10 @@ class ReadMenu @JvmOverloads constructor(
         fun openSearchActivity(searchWord: String?)
         fun openSourceEditActivity()
         fun openBookInfoActivity()
+        fun addBookmark()
+        fun openOfflineCache()
+        fun openBookChangeSource()
+        fun showPreloadSelector()
         fun showReadStyle()
         fun showMoreSetting()
         fun showReadAloudDialog()

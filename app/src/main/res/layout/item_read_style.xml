@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<io.legado.app.ui.widget.image.CircleImageView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/iv_style"
-    android:layout_width="48dp"
-    android:layout_height="48dp"
-    android:layout_marginLeft="6dp"
-    android:layout_marginRight="6dp"
-    android:scaleType="centerCrop"
-    android:src="@drawable/image_cover_default"
-    app:civ_border_color="@color/primaryText"
-    app:civ_border_width="1dp"
-    app:text="@string/text" />
+    android:layout_width="76dp"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="3dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingVertical="3dp">
+
+    <io.legado.app.ui.widget.image.CircleImageView
+        android:id="@+id/iv_style"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/image_cover_default"
+        app:civ_border_color="@color/primaryText"
+        app:civ_border_width="1.5dp"
+        app:text="Aa" />
+
+    <TextView
+        android:id="@+id/tv_style_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/primaryText"
+        android:textSize="11sp" />
+
+</LinearLayout>
