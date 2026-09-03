@@ -17,11 +17,11 @@ apply from: 'download.gradle'
 def name = "legado"
 def version = project.findProperty("NOVEL_VERSION_NAME")
         ?: System.getenv("NOVEL_VERSION_NAME")
-        ?: "0.1.5"
+        ?: "0.1.6"
 def versionCodeValue = Integer.parseInt(
         project.findProperty("NOVEL_VERSION_CODE")?.toString()
                 ?: System.getenv("NOVEL_VERSION_CODE")
-                ?: "41005"
+                ?: "41006"
 )
 def releaseStoreFile = project.findProperty("RELEASE_STORE_FILE")
         ?: System.getenv("RELEASE_STORE_FILE")

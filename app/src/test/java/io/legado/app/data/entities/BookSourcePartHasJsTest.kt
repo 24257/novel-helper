@@ -74,7 +74,7 @@ class BookSourcePartHasJsTest {
         val badgeLayout = itemLayout.substringAfter("android:id=\"@+id/tv_js_badge\"")
             .substringBefore("<io.legado.app.lib.theme.view.ThemeSwitch")
         assertTrue(badgeLayout.contains("android:visibility=\"gone\""))
-        assertTrue(itemLayout.contains("app:layout_constraintRight_toLeftOf=\"@id/tv_js_badge\""))
+        assertTrue(itemLayout.contains("app:layout_constraintEnd_toStartOf=\"@id/tv_js_badge\""))
         assertTrue(itemLayout.contains("android:text=\"@string/js_source_badge\""))
     }
 

@@ -77,10 +77,13 @@
             android:id="@+id/input_help_panel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/novel_helper_search_history_panel"
-            android:elevation="2dp"
+            android:background="@android:color/transparent"
+            android:elevation="0dp"
             android:orientation="vertical"
-            android:padding="12dp">
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="12dp">
 
             <TextView
                 android:id="@+id/tv_book_show"

@@ -163,6 +163,18 @@ val Context.filletBackground: GradientDrawable
         return background
     }
 
+val Context.xuanjuanDialogBackground: GradientDrawable
+    get() {
+        val background = GradientDrawable()
+        background.cornerRadius = 22f.dpToPx()
+        background.setColor(bottomBackground)
+        background.setStroke(
+            1.dpToPx(),
+            ContextCompat.getColor(this, R.color.xuanjuan_gold_outline)
+        )
+        return background
+    }
+
 val Context.popupBackground: GradientDrawable
     get() {
         val background = GradientDrawable()

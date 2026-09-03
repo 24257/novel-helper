@@ -1249,6 +1249,8 @@
     <string name="show_default_book_icon">显示默认书籍图标</string>
     <string name="cache_export">缓存/导出</string>
     <string name="assists_key_config">辅助按键配置</string>
+    <string name="keyboard_assist_key_hint">按键</string>
+    <string name="keyboard_assist_value_hint">映射值</string>
     <string name="show_line_number">展示%d行</string>
     <string name="setting_show_line_number">设置辅助按键展示的行数</string>
     <string name="url_option">URL 参数</string>
@@ -1647,6 +1649,9 @@
     <string name="auto_task_batch_cron">批量修改定时</string>
     <string name="auto_task_script_empty">请输入 JavaScript 任务脚本</string>
     <string name="auto_task_no_tasks">暂无定时任务</string>
+    <string name="txt_toc_rule_empty">暂无 TXT 目录规则</string>
+    <string name="replace_rule_empty">暂无替换规则</string>
+    <string name="dict_rule_empty">暂无字典规则</string>
     <string name="auto_task_no_log">该任务还没有执行日志</string>
     <string name="auto_task_log">最近执行日志</string>
     <string name="auto_task_move_up">上移</string>

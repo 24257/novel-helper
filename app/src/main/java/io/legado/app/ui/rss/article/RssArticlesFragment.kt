@@ -25,7 +25,6 @@ import io.legado.app.lib.theme.accentColor
 import io.legado.app.lib.theme.primaryColor
 import io.legado.app.ui.rss.read.ReadRss
 import io.legado.app.ui.widget.recycler.LoadMoreView
-import io.legado.app.ui.widget.recycler.VerticalDivider
 import io.legado.app.utils.applyNavigationBarPadding
 import io.legado.app.utils.setEdgeEffectColor
 import io.legado.app.utils.viewbindingdelegate.viewBinding
@@ -124,7 +123,6 @@ class RssArticlesFragment() : VMBaseFragment<RssArticlesViewModel>(R.layout.frag
                 GridLayoutManager(requireContext(), 3)
             }
             else -> {
-                recyclerView.addItemDecoration(VerticalDivider(requireContext()))
                 LinearLayoutManager(requireContext())
             }
         }

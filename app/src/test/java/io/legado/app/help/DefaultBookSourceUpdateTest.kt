@@ -89,6 +89,43 @@ class DefaultBookSourceUpdateTest {
     }
 
     @Test
+    fun unavailableManagedBuiltinIsDisabledWithoutDeletingIt() {
+        val packaged = packagedSource().copy(
+            bookSourceUrl = "https://www.hetushu.com",
+            bookSourceName = "和图书",
+            enabled = false,
+            enabledExplore = false,
+        )
+        val existing = packaged.copy(
+            enabled = true,
+            enabledExplore = true,
+        )
+
+        val merged = prepareBuiltinBookSourceUpdate(packaged, existing)!!
+
+        assertEquals(false, merged.enabled)
+        assertEquals(false, merged.enabledExplore)
+        assertEquals("https://www.hetushu.com", merged.bookSourceUrl)
+    }
+
+    @Test
+    fun unavailableSourceCustomizedByUserIsNotManaged() {
+        val packaged = packagedSource().copy(
+            bookSourceUrl = "https://www.hetushu.com",
+            bookSourceName = "和图书",
+            enabled = false,
+            enabledExplore = false,
+        )
+
+        assertNull(
+            prepareBuiltinBookSourceUpdate(
+                packaged,
+                packaged.copy(bookSourceName = "我的和图书"),
+            )
+        )
+    }
+
+    @Test
     fun renamedOrRegroupedSourceIsTreatedAsUserCustomized() {
         val packaged = packagedSource()
         assertNull(

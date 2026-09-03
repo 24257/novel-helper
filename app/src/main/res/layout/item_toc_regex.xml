@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/novel_helper_preference_card"
+    android:clipToOutline="true"
+    android:elevation="1dp"
+    android:foreground="?android:attr/selectableItemBackground"
     android:padding="16dp">
 
     <io.legado.app.lib.theme.view.ThemeRadioButton
@@ -34,7 +39,7 @@
         android:contentDescription="@string/edit"
         android:padding="6dp"
         android:src="@drawable/ic_edit"
-        android:tint="@color/primaryText"
+        android:tint="@color/xuanjuan_gold_soft"
         android:tooltipText="@string/edit"
         app:layout_constraintBottom_toTopOf="@id/title_example"
         app:layout_constraintRight_toLeftOf="@id/iv_delete"
@@ -49,7 +54,7 @@
         android:contentDescription="@string/delete"
         android:padding="6dp"
         android:src="@drawable/ic_clear_all"
-        android:tint="@color/primaryText"
+        android:tint="@color/xuanjuan_gold_soft"
         android:tooltipText="@string/delete"
         app:layout_constraintBottom_toTopOf="@id/title_example"
         app:layout_constraintRight_toRightOf="parent"
@@ -60,6 +65,7 @@
         android:id="@+id/title_example"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/tv_text_summary"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />

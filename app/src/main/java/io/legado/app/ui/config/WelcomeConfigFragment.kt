@@ -14,6 +14,7 @@ import io.legado.app.help.http.addHeaders
 import io.legado.app.help.http.newCallResponse
 import io.legado.app.help.http.okHttpClient
 import io.legado.app.lib.dialogs.selector
+import io.legado.app.lib.prefs.SeekBarPreference
 import io.legado.app.lib.prefs.SwitchPreference
 import io.legado.app.lib.prefs.fragment.PreferenceFragment
 import io.legado.app.lib.theme.primaryColor
@@ -50,6 +51,9 @@ class WelcomeConfigFragment : PreferenceFragment(),
     // 虽然启动页文字和图标都不显示不太好看，但仍然应该吧权力交给用户，故注释相关代码
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.pref_config_welcome)
+        applyXuanjuanPreferenceCards(preferenceScreen)
+        findPreference<SeekBarPreference>(PreferKey.welcomeShowTime)?.layoutResource =
+            R.layout.view_preference_seekbar
         val welcomeImage = AppConfig.welcomeImage
         val welcomeImageDark = AppConfig.welcomeImageDark
         upPreferenceSummary(PreferKey.welcomeImage, welcomeImage)

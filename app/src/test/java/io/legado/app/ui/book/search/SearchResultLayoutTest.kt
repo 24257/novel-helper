@@ -2,6 +2,7 @@ package io.legado.app.ui.book.search
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.w3c.dom.Element
 import java.io.File
@@ -59,6 +60,27 @@ class SearchResultLayoutTest {
         assertEquals("3", introduction.androidAttribute("maxLines"))
         assertEquals("parent", introduction.appAttribute("layout_constraintBottom_toBottomOf"))
         assertEquals("0.5", cover.appAttribute("layout_constraintVertical_bias"))
+    }
+
+    @Test
+    fun xuanjuanResultCardUsesRestrainedSurfaceAndSpacing() {
+        val root = searchLayout().documentElement
+        assertEquals("@drawable/xuanjuan_search_result_card", root.androidAttribute("background"))
+        assertEquals("12dp", root.androidAttribute("layout_marginStart"))
+        assertEquals("12dp", root.androidAttribute("layout_marginEnd"))
+        assertEquals("7dp", root.androidAttribute("layout_marginTop"))
+        assertEquals("7dp", root.androidAttribute("layout_marginBottom"))
+        assertEquals("10dp", root.androidAttribute("padding"))
+        assertEquals("0dp", root.androidAttribute("elevation"))
+
+        val card = listOf(
+            File("src/main/res/drawable/xuanjuan_search_result_card.xml"),
+            File("app/src/main/res/drawable/xuanjuan_search_result_card.xml"),
+        ).firstOrNull { it.isFile } ?: error("xuanjuan_search_result_card.xml not found")
+        val cardText = card.readText()
+        assertTrue(cardText.contains("@color/xuanjuan_surface_raised"))
+        assertTrue(cardText.contains("@color/xuanjuan_gold_dim"))
+        assertFalse(cardText.contains("@color/xuanjuan_gold_outline"))
     }
 
     private fun searchLayout() = DocumentBuilderFactory.newInstance().apply {

@@ -34,11 +34,22 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primaryDark</item>
         <item name="colorAccent">@color/accent</item>
+        <item name="alertDialogTheme">@style/XuanjuanAlertDialogTheme</item>
         <item name="actionOverflowMenuStyle">@style/Style.PopupMenu</item>
         <item name="android:itemTextAppearance">@style/Style.MenuItemText</item>
         <item name="android:popupMenuStyle">@style/Style.PopupMenu</item>
         <item name="android:statusBarColor">@color/transparent</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <!-- 玄卷统一确认弹窗：避免 DayNight 在深色玄卷界面上仍给 AlertDialog 使用黑色正文。 -->
+    <style name="XuanjuanAlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/xuanjuan_reader_dialog_bg</item>
+        <item name="android:textColorPrimary">@color/xuanjuan_text_primary</item>
+        <item name="android:textColorSecondary">@color/xuanjuan_text_secondary</item>
+        <item name="textColorAlertDialogListItem">@color/xuanjuan_text_primary</item>
+        <item name="colorAccent">@color/xuanjuan_gold</item>
+        <item name="android:colorAccent">@color/xuanjuan_gold</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay.Light" parent="ThemeOverlay.AppCompat.Light">

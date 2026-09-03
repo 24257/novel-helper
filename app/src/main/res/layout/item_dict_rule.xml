@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/novel_helper_preference_card"
+    android:clipToOutline="true"
+    android:elevation="1dp"
+    android:foreground="?android:attr/selectableItemBackground"
     android:gravity="center"
     android:orientation="horizontal"
     android:padding="8dp">
@@ -12,6 +17,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:textColor="@color/primaryText"
         tools:ignore="RtlSymmetry" />
 
     <io.legado.app.lib.theme.view.ThemeSwitch
@@ -32,7 +38,7 @@
         android:contentDescription="@string/edit"
         android:padding="6dp"
         android:src="@drawable/ic_edit"
-        android:tint="@color/primaryText" />
+        android:tint="@color/xuanjuan_gold_soft" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_delete"
@@ -41,7 +47,7 @@
         android:padding="6dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_outline_delete"
-        android:tint="@color/primaryText"
+        android:tint="@color/xuanjuan_gold_soft"
         android:contentDescription="@string/delete"
         tools:ignore="RtlHardcoded" />
 

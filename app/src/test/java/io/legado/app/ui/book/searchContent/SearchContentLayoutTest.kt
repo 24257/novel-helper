@@ -26,22 +26,17 @@ class SearchContentLayoutTest {
     @Test
     fun searchResultItemUsesFlatClickableCard() {
         val card = searchResultLayout().documentElement
-        val content = card.getElementsByTagName("androidx.constraintlayout.widget.ConstraintLayout")
-            .item(0) as Element
 
-        assertEquals("androidx.cardview.widget.CardView", card.tagName)
+        assertEquals("androidx.constraintlayout.widget.ConstraintLayout", card.tagName)
         assertEquals("match_parent", card.getAttributeNS(ANDROID_NS, "layout_width"))
         assertEquals("wrap_content", card.getAttributeNS(ANDROID_NS, "layout_height"))
-        assertEquals("10dp", card.getAttributeNS(ANDROID_NS, "layout_marginStart"))
-        assertEquals("3dp", card.getAttributeNS(ANDROID_NS, "layout_marginTop"))
-        assertEquals("10dp", card.getAttributeNS(ANDROID_NS, "layout_marginEnd"))
-        assertEquals("3dp", card.getAttributeNS(ANDROID_NS, "layout_marginBottom"))
+        assertEquals("8dp", card.getAttributeNS(ANDROID_NS, "layout_marginHorizontal"))
+        assertEquals("4dp", card.getAttributeNS(ANDROID_NS, "layout_marginVertical"))
+        assertEquals("@drawable/novel_helper_preference_card", card.getAttributeNS(ANDROID_NS, "background"))
+        assertEquals("true", card.getAttributeNS(ANDROID_NS, "clipToOutline"))
+        assertEquals("1dp", card.getAttributeNS(ANDROID_NS, "elevation"))
         assertEquals("?android:attr/selectableItemBackground", card.getAttributeNS(ANDROID_NS, "foreground"))
-        assertEquals("@color/background_card", card.getAttributeNS(APP_NS, "cardBackgroundColor"))
-        assertEquals("8dp", card.getAttributeNS(APP_NS, "cardCornerRadius"))
-        assertEquals("0dp", card.getAttributeNS(APP_NS, "cardElevation"))
-        assertEquals("12dp", content.getAttributeNS(ANDROID_NS, "padding"))
-        assertEquals("?android:attr/selectableItemBackground", content.getAttributeNS(ANDROID_NS, "background"))
+        assertEquals("12dp", card.getAttributeNS(ANDROID_NS, "padding"))
     }
 
     private fun searchResultView(): Element {

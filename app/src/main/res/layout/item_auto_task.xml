@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/novel_helper_preference_card"
+    android:clipToOutline="true"
+    android:elevation="1dp"
+    android:foreground="?android:attr/selectableItemBackground"
     android:minHeight="80dp"
     android:paddingStart="16dp"
     android:paddingTop="8dp"
@@ -62,7 +67,7 @@
             android:contentDescription="@string/auto_task_debug"
             android:padding="12dp"
             android:src="@drawable/ic_bug_report"
-            app:tint="@color/primaryText" />
+            app:tint="@color/xuanjuan_gold_soft" />
 
         <ImageButton
             android:id="@+id/iv_edit"
@@ -72,7 +77,7 @@
             android:contentDescription="@string/edit"
             android:padding="12dp"
             android:src="@drawable/ic_edit"
-            app:tint="@color/primaryText" />
+            app:tint="@color/xuanjuan_gold_soft" />
 
         <ImageButton
             android:id="@+id/iv_menu_more"
@@ -82,7 +87,7 @@
             android:contentDescription="@string/more_menu"
             android:padding="12dp"
             android:src="@drawable/ic_more_vert"
-            app:tint="@color/primaryText" />
+            app:tint="@color/xuanjuan_gold_soft" />
 
     </LinearLayout>
 

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.format.DateUtils
 import android.view.MenuItem
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.core.view.get
@@ -264,7 +265,7 @@ class MainActivity : VMBaseActivity<ActivityMainBinding, MainViewModel>(),
             return@sc
         }
         val privacyPolicy = String(assets.open("privacyPolicy.md").readBytes())
-        alert(getString(R.string.privacy_policy), privacyPolicy) {
+        val dialog = alert(getString(R.string.privacy_policy), privacyPolicy) {
             positiveButton(R.string.agree) {
                 LocalConfig.privacyPolicyOk = true
                 block.resume(true)
@@ -274,6 +275,20 @@ class MainActivity : VMBaseActivity<ActivityMainBinding, MainViewModel>(),
                 block.resume(false)
             }
         }
+        dialog.setCancelable(false)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.window?.setBackgroundDrawableResource(R.drawable.xuanjuan_reader_dialog_bg)
+        dialog.findViewById<TextView>(android.R.id.message)?.apply {
+            setTextColor(getColor(R.color.xuanjuan_text_primary))
+            setLineSpacing(0f, 1.18f)
+        }
+        dialog.findViewById<TextView>(androidx.appcompat.R.id.alertTitle)?.apply {
+            setTextColor(getColor(R.color.xuanjuan_gold_soft))
+        }
+        dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
+            ?.setTextColor(getColor(R.color.xuanjuan_gold))
+        dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE)
+            ?.setTextColor(getColor(R.color.xuanjuan_gold))
     }
 
     /**

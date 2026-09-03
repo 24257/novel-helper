@@ -20,6 +20,18 @@ class CodeEditorSelectionContractTest {
         assertTrue(activity.contains("props.maxIPCTextLength = 64 * 1024"))
     }
 
+    @Test
+    fun `code editor search chrome stays readable on xuanjuan dark surface`() {
+        val layout = projectFile("app/src/main/res/layout/activity_code_edit.xml").readText()
+
+        assertTrue(layout.contains("@drawable/novel_helper_preference_card"))
+        assertTrue(layout.contains("@color/xuanjuan_gold_outline"))
+        assertTrue(layout.contains("@color/xuanjuan_text_secondary"))
+        assertTrue(layout.contains("@color/xuanjuan_text_primary"))
+        assertTrue(layout.split("@color/xuanjuan_gold_soft").size - 1 >= 5)
+        assertTrue(layout.contains("android:layout_marginBottom=\"8dp\""))
+    }
+
     private fun projectFile(path: String): File {
         val userDir = requireNotNull(System.getProperty("user.dir"))
         return generateSequence(File(userDir)) { it.parentFile }

@@ -1,7 +1,6 @@
 package io.legado.app.ui.book.source.manage
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +13,12 @@ import io.legado.app.base.adapter.ItemViewHolder
 import io.legado.app.base.adapter.RecyclerAdapter
 import io.legado.app.data.entities.BookSourcePart
 import io.legado.app.databinding.ItemBookSourceBinding
-import io.legado.app.lib.theme.backgroundColor
 import io.legado.app.model.Debug
 import io.legado.app.ui.login.SourceLoginActivity
 import io.legado.app.ui.widget.popupActionMenu
 import io.legado.app.ui.widget.recycler.DragSelectTouchHelper
 import io.legado.app.ui.widget.recycler.ItemTouchCallback
-import io.legado.app.utils.ColorUtils
+import io.legado.app.utils.applyTint
 import io.legado.app.utils.buildMainHandler
 import io.legado.app.utils.gone
 import io.legado.app.utils.invisible
@@ -90,7 +88,9 @@ class BookSourceAdapter(
     }
 
     override fun getViewBinding(parent: ViewGroup): ItemBookSourceBinding {
-        return ItemBookSourceBinding.inflate(inflater, parent, false)
+        return ItemBookSourceBinding.inflate(inflater, parent, false).apply {
+            cbBookSource.applyTint(context.getColor(R.color.xuanjuan_gold_soft), true)
+        }
     }
 
     override fun convert(
@@ -101,10 +101,11 @@ class BookSourceAdapter(
     ) {
         binding.run {
             if (payloads.isEmpty()) {
-                root.setBackgroundColor(ColorUtils.withAlpha(context.backgroundColor, 0.5f))
                 cbBookSource.text = item.getDisPlayNameGroup()
+                tvSourceUrl.text = item.bookSourceUrl
                 swtEnabled.isChecked = item.enabled
                 cbBookSource.isChecked = selected.contains(item)
+                selectionAccent.gone(!selected.contains(item))
                 upCheckSourceMessage(binding, item)
                 upShowExplore(ivExplore, item)
                 tvJsBadge.gone(!item.hasJs)
@@ -118,7 +119,10 @@ class BookSourceAdapter(
                             "upName" -> cbBookSource.text = item.getDisPlayNameGroup()
                             "upExplore" -> upShowExplore(ivExplore, item)
                             "upJs" -> tvJsBadge.gone(!item.hasJs)
-                            "selected" -> cbBookSource.isChecked = selected.contains(item)
+                            "selected" -> {
+                                cbBookSource.isChecked = selected.contains(item)
+                                selectionAccent.gone(!selected.contains(item))
+                            }
                             "checkSourceMessage" -> upCheckSourceMessage(binding, item)
                             "upSourceHost" -> upSourceHost(binding, holder.layoutPosition)
                         }
@@ -214,13 +218,13 @@ class BookSourceAdapter(
             }
 
             source.enabledExplore -> {
-                iv.setColorFilter(Color.GREEN)
+                iv.setColorFilter(context.getColor(R.color.xuanjuan_gold_soft))
                 iv.visible()
                 iv.contentDescription = context.getString(R.string.tag_explore_enabled)
             }
 
             else -> {
-                iv.setColorFilter(Color.RED)
+                iv.setColorFilter(context.getColor(R.color.xuanjuan_crimson))
                 iv.visible()
                 iv.contentDescription = context.getString(R.string.tag_explore_disabled)
             }

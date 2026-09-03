@@ -25,7 +25,6 @@ import io.legado.app.model.AutoTask
 import io.legado.app.ui.file.HandleFileContract
 import io.legado.app.ui.widget.SelectActionBar
 import io.legado.app.ui.widget.recycler.DragSelectTouchHelper
-import io.legado.app.ui.widget.recycler.VerticalDivider
 import io.legado.app.utils.CronSchedule
 import io.legado.app.utils.applyTint
 import io.legado.app.utils.setEdgeEffectColor
@@ -85,7 +84,6 @@ class AutoTaskActivity : BaseActivity<ActivityAutoTaskBinding>(), AutoTaskAdapte
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
-        binding.recyclerView.addItemDecoration(VerticalDivider(this))
         binding.recyclerView.setEdgeEffectColor(primaryColor)
         searchView.applyTint(primaryTextColor)
         searchView.queryHint = getString(R.string.search)

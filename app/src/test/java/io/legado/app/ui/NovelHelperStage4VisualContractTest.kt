@@ -22,16 +22,18 @@ class NovelHelperStage4VisualContractTest {
     }
 
     @Test
-    fun searchHelpUsesDedicatedHistoryCard() {
+    fun searchHelpUsesFlatHistorySurfaceAndXuanjuanChips() {
         val layout = projectFile("src/main/res/layout/activity_book_search.xml").readText()
-        val panel = projectFile(
-            "src/main/res/drawable/novel_helper_search_history_panel.xml",
+        val adapter = projectFile(
+            "src/main/java/io/legado/app/ui/book/search/HistoryKeyAdapter.kt",
         ).readText()
 
         assertTrue(layout.contains("@+id/input_help_panel"))
-        assertTrue(layout.contains("@drawable/novel_helper_search_history_panel"))
-        assertTrue(panel.contains("android:radius=\"20dp\""))
-        assertTrue(panel.contains("@color/novel_helper_card_stroke"))
+        assertTrue(layout.contains("android:background=\"@android:color/transparent\""))
+        assertTrue(layout.contains("@+id/rv_history_key"))
+        assertTrue(layout.contains("android:clipToPadding=\"false\""))
+        assertTrue(adapter.contains("R.drawable.xuanjuan_explore_chip"))
+        assertTrue(adapter.contains("R.color.xuanjuan_text_primary"))
     }
 
     @Test

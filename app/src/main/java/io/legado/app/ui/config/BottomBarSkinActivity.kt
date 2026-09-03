@@ -24,7 +24,6 @@ import io.legado.app.databinding.ItemBottomBarSkinBinding
 import io.legado.app.help.BottomBarSkinManager
 import io.legado.app.lib.dialogs.alert
 import io.legado.app.lib.dialogs.selector
-import io.legado.app.lib.theme.accentColor
 import io.legado.app.ui.file.HandleFileContract
 import io.legado.app.utils.FileDoc
 import io.legado.app.utils.applyNavigationBarPadding
@@ -265,7 +264,7 @@ class BottomBarSkinActivity : BaseActivity<ActivityBottomBarSkinBinding>() {
                     ).forEach { res ->
                         val iv = makeIconView()
                         iv.setImageResource(res)
-                        iv.setColorFilter(context.accentColor)
+                        iv.setColorFilter(context.getColor(R.color.xuanjuan_gold_soft))
                         llPreview.addView(iv)
                     }
                 } else {
@@ -280,15 +279,15 @@ class BottomBarSkinActivity : BaseActivity<ActivityBottomBarSkinBinding>() {
                 } else {
                     BottomBarSkinManager.active == item.name
                 }
-                val accent = context.accentColor
+                val accent = context.getColor(R.color.xuanjuan_gold_soft)
                 llCard.background = if (isActive) {
                     GradientDrawable().apply {
-                        cornerRadius = 8.dpToPx().toFloat()
+                        cornerRadius = 16.dpToPx().toFloat()
                         setStroke(2.dpToPx(), accent)
                         setColor(ColorUtils.setAlphaComponent(accent, 0x14))
                     }
                 } else {
-                    null
+                    context.getDrawable(R.drawable.novel_helper_preference_card)
                 }
                 ivChecked.setColorFilter(accent)
                 ivChecked.visibility = if (isActive) View.VISIBLE else View.GONE

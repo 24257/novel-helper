@@ -23,7 +23,6 @@
         android:paddingRight="10dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:background="@drawable/bg_find_book_group"
         android:orientation="horizontal"
         android:gravity="center_vertical">
 

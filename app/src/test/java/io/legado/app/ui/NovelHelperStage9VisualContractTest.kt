@@ -41,6 +41,8 @@ class NovelHelperStage9VisualContractTest {
         listOf(
             "@+id/cb_book_source",
             "@+id/tv_js_badge",
+            "@+id/tv_source_url",
+            "@+id/selection_accent",
             "@+id/swt_enabled",
             "@+id/iv_edit",
             "@+id/iv_menu_more",
@@ -48,6 +50,7 @@ class NovelHelperStage9VisualContractTest {
             "@+id/iv_progressBar",
         ).forEach { id -> assertTrue(item.contains(id)) }
         assertTrue(item.contains("tools:text=\"示例域名\""))
+        assertTrue(item.contains("@drawable/novel_helper_section_outline"))
         assertTrue(item.split("@color/xuanjuan_gold_soft").size - 1 >= 2)
     }
 

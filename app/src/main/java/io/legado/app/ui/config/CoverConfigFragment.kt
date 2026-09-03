@@ -47,6 +47,7 @@ class CoverConfigFragment : PreferenceFragment(),
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.pref_config_cover)
+        applyXuanjuanPreferenceCards(preferenceScreen)
         upPreferenceSummary(PreferKey.defaultCover, getPrefString(PreferKey.defaultCover))
         upPreferenceSummary(PreferKey.defaultCoverDark, getPrefString(PreferKey.defaultCoverDark))
         findPreference<SwitchPreference>(PreferKey.coverShowAuthor)

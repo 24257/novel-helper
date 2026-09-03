@@ -1257,6 +1257,8 @@
     <string name="show_default_book_icon">Show default book icon</string>
     <string name="cache_export">Cache / Export</string>
     <string name="assists_key_config">Secondary button configuration</string>
+    <string name="keyboard_assist_key_hint">Key</string>
+    <string name="keyboard_assist_value_hint">Mapped value</string>
     <string name="url_option">Url parameter</string>
     <string name="only_wifi">WIFI only</string>
     <string name="only_wifi_summary">Load network cover only under wifi</string>
@@ -1765,6 +1767,9 @@
     <string name="auto_task_batch_cron">Change schedule</string>
     <string name="auto_task_script_empty">Enter a JavaScript task</string>
     <string name="auto_task_no_tasks">No automatic tasks</string>
+    <string name="txt_toc_rule_empty">No TXT TOC rules</string>
+    <string name="replace_rule_empty">No replacement rules</string>
+    <string name="dict_rule_empty">No dictionary rules</string>
     <string name="auto_task_no_log">This task has not produced a log yet</string>
     <string name="auto_task_log">Last run log</string>
     <string name="auto_task_move_up">Move up</string>

@@ -50,7 +50,13 @@ class ExploreShowAdapter(context: Context, val callBack: CallBack) :
                 tvLasted.text = context.getString(R.string.lasted_show, item.latestChapterTitle)
                 tvLasted.visible()
             }
-            tvIntroduce.text = item.trimIntro(context)
+            val intro = item.intro?.trim()
+            if (intro.isNullOrEmpty()) {
+                tvIntroduce.gone()
+            } else {
+                tvIntroduce.text = context.getString(R.string.intro_show, intro)
+                tvIntroduce.visible()
+            }
             val kinds = buildList {
                 item.variableMap[XUANJUAN_AGGREGATE_SOURCE_COUNT_KEY]
                     ?.toIntOrNull()

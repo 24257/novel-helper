@@ -11,6 +11,7 @@ import io.legado.app.base.adapter.ItemViewHolder
 import io.legado.app.data.entities.SearchBook
 import io.legado.app.databinding.ItemSearchBinding
 import io.legado.app.help.config.AppConfig
+import io.legado.app.utils.getCompatColor
 import io.legado.app.utils.gone
 import io.legado.app.utils.visible
 
@@ -85,8 +86,10 @@ class SearchAdapter(context: Context, val callBack: CallBack) :
             tvAuthor.text = context.getString(R.string.author_show, searchBook.author)
             upIndicator(binding, searchBook)
             bvOriginCount.setBadgeCount(searchBook.origins.size)
+            bvOriginCount.setBackgroundColor(context.getCompatColor(R.color.xuanjuan_gold_dim))
+            bvOriginCount.setTextColor(context.getCompatColor(R.color.xuanjuan_text_primary))
             upLasted(binding, searchBook.latestChapterTitle)
-            tvIntroduce.text = searchBook.trimIntro(context)
+            upIntro(binding, searchBook.intro)
             upKind(binding, searchBook.getKindList())
             ivCover.load(
                 searchBook,
@@ -101,7 +104,7 @@ class SearchAdapter(context: Context, val callBack: CallBack) :
                 when (it) {
                     "origins" -> bvOriginCount.setBadgeCount(searchBook.origins.size)
                     "last" -> upLasted(binding, searchBook.latestChapterTitle)
-                    "intro" -> tvIntroduce.text = searchBook.trimIntro(context)
+                    "intro" -> upIntro(binding, searchBook.intro)
                     "kind" -> upKind(binding, searchBook.getKindList())
                     "isInBookshelf", "hasReadRecord" -> upIndicator(binding, searchBook)
                     "cover" -> ivCover.load(
@@ -131,6 +134,16 @@ class SearchAdapter(context: Context, val callBack: CallBack) :
                     context.getString(R.string.lasted_show, latestChapterTitle)
                 tvLasted.visible()
             }
+        }
+    }
+
+    private fun upIntro(binding: ItemSearchBinding, intro: String?) = binding.run {
+        val text = intro?.trim()
+        if (text.isNullOrEmpty()) {
+            tvIntroduce.gone()
+        } else {
+            tvIntroduce.text = context.getString(R.string.intro_show, text)
+            tvIntroduce.visible()
         }
     }
 

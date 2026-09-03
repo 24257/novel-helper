@@ -24,11 +24,9 @@ import io.legado.app.databinding.DialogRecyclerViewBinding
 import io.legado.app.databinding.Item1lineTextAndDelBinding
 import io.legado.app.help.config.AppConfig
 import io.legado.app.lib.dialogs.alert
-import io.legado.app.lib.theme.backgroundColor
 import io.legado.app.lib.theme.primaryColor
 import io.legado.app.ui.widget.number.NumberPickerDialog
 import io.legado.app.ui.widget.recycler.ItemTouchCallback
-import io.legado.app.ui.widget.recycler.VerticalDivider
 import io.legado.app.utils.applyTint
 import io.legado.app.utils.dpToPx
 import io.legado.app.utils.postEvent
@@ -80,7 +78,8 @@ class KeyboardAssistsConfig : BaseDialogFragment(R.layout.dialog_recycler_view),
             }
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.addItemDecoration(VerticalDivider(requireContext()))
+        binding.recyclerView.clipToPadding = false
+        binding.recyclerView.setPadding(8.dpToPx(), 8.dpToPx(), 8.dpToPx(), 0)
         binding.recyclerView.adapter = adapter
         val itemTouchCallback = ItemTouchCallback(adapter)
         itemTouchCallback.isCanDrag = true
@@ -113,11 +112,11 @@ class KeyboardAssistsConfig : BaseDialogFragment(R.layout.dialog_recycler_view),
 
     private fun editKey(keyboardAssist: KeyboardAssist?) {
         alert {
-            setTitle("辅助按键")
+            setTitle(R.string.assists_key_config)
             val alertBinding = DialogMultipleEditTextBinding.inflate(layoutInflater).apply {
-                layout1.hint = "key"
+                layout1.hint = getString(R.string.keyboard_assist_key_hint)
                 edit1.setText(keyboardAssist?.key)
-                layout2.hint = "value"
+                layout2.hint = getString(R.string.keyboard_assist_value_hint)
                 layout2.visible()
                 edit2.setText(keyboardAssist?.value)
             }
@@ -151,7 +150,12 @@ class KeyboardAssistsConfig : BaseDialogFragment(R.layout.dialog_recycler_view),
         override fun getViewBinding(parent: ViewGroup): Item1lineTextAndDelBinding {
             return Item1lineTextAndDelBinding.inflate(inflater, parent, false).apply {
                 root.setPadding(16.dpToPx())
+                root.setBackgroundResource(R.drawable.novel_helper_preference_card)
+                root.clipToOutline = true
+                root.elevation = 1.dpToPx().toFloat()
+                (root.layoutParams as? ViewGroup.MarginLayoutParams)?.bottomMargin = 8.dpToPx()
                 ivDelete.visible()
+                ivDelete.setColorFilter(context.getColor(R.color.xuanjuan_gold_soft))
             }
         }
 
@@ -161,7 +165,6 @@ class KeyboardAssistsConfig : BaseDialogFragment(R.layout.dialog_recycler_view),
             item: KeyboardAssist,
             payloads: MutableList<Any>
         ) {
-            binding.root.setBackgroundColor(context.backgroundColor)
             binding.textView.text = item.key
         }
 

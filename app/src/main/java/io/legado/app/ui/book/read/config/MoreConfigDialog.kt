@@ -84,6 +84,7 @@ class MoreConfigDialog : BasePrefDialogFragment() {
         @SuppressLint("RestrictedApi")
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.pref_config_read)
+            applyXuanjuanPreferenceCards(preferenceScreen)
             upPreferenceSummary(PreferKey.pageTouchSlop, slopSquare.toString())
             upPreferenceSummary(PreferKey.pullBookmarkDistance, (slopSquare * 6).toString())
             if (!CanvasRecorderFactory.isSupport) {

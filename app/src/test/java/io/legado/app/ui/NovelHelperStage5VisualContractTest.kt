@@ -9,9 +9,12 @@ class NovelHelperStage5VisualContractTest {
     @Test
     fun searchResultUsesUnifiedNovelHelperCard() {
         val layout = projectFile("src/main/res/layout/item_search.xml").readText()
-        assertTrue(layout.contains("@drawable/novel_helper_preference_card"))
-        assertTrue(layout.contains("android:elevation=\"1dp\""))
-        assertTrue(layout.contains("android:padding=\"6dp\""))
+        assertTrue(layout.contains("@drawable/xuanjuan_search_result_card"))
+        assertTrue(layout.contains("android:elevation=\"0dp\""))
+        assertTrue(layout.contains("android:padding=\"10dp\""))
+        assertTrue(layout.contains("android:layout_marginStart=\"12dp\""))
+        assertTrue(layout.contains("android:layout_marginTop=\"7dp\""))
+        assertTrue(layout.contains("@+id/xuanjuan_result_spine"))
     }
 
     @Test

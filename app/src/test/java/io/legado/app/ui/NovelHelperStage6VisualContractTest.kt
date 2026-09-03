@@ -28,9 +28,14 @@ class NovelHelperStage6VisualContractTest {
             .forEach { name ->
                 val layout = projectFile("src/main/res/layout/$name").readText()
                 assertTrue(layout.contains("@drawable/novel_helper_state_card"))
+            }
+        listOf("fragment_bookshelf2.xml", "fragment_books.xml")
+            .forEach { name ->
+                val layout = projectFile("src/main/res/layout/$name").readText()
                 assertTrue(layout.contains("android:textColor=\"@color/tv_text_summary\""))
             }
         val explore = projectFile("src/main/res/layout/fragment_explore.xml").readText()
+        assertTrue(explore.contains("android:textColor=\"@color/xuanjuan_text_secondary\""))
         assertTrue(explore.contains("android:clipToPadding=\"false\""))
         assertTrue(explore.contains("@+id/fast_scroller"))
     }

@@ -1,11 +1,13 @@
 package io.legado.app.ui.book.search
 
 import android.view.ViewGroup
+import io.legado.app.R
 import io.legado.app.base.adapter.ItemViewHolder
 import io.legado.app.base.adapter.RecyclerAdapter
 import io.legado.app.data.entities.SearchKeyword
 import io.legado.app.databinding.ItemFilletTextBinding
 import io.legado.app.ui.widget.anima.explosion_field.ExplosionField
+import io.legado.app.utils.getCompatColor
 import splitties.views.onLongClick
 
 class HistoryKeyAdapter(activity: SearchActivity, val callBack: CallBack) :
@@ -29,6 +31,8 @@ class HistoryKeyAdapter(activity: SearchActivity, val callBack: CallBack) :
     ) {
         binding.run {
             textView.text = item.word
+            textView.setBackgroundResource(R.drawable.xuanjuan_explore_chip)
+            textView.setTextColor(textView.context.getCompatColor(R.color.xuanjuan_text_primary))
         }
     }
 

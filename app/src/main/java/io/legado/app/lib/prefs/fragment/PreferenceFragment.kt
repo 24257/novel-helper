@@ -8,7 +8,10 @@ import androidx.preference.EditTextPreference
 import androidx.preference.ListPreference
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceGroup
+import io.legado.app.R
 import io.legado.app.lib.prefs.EditTextPreferenceDialog
 import io.legado.app.lib.prefs.ListPreferenceDialog
 import io.legado.app.lib.prefs.MultiSelectListPreferenceDialog
@@ -22,6 +25,22 @@ abstract class PreferenceFragment : PreferenceFragmentCompat() {
         super.onViewCreated(view, savedInstanceState)
         listView.clipToPadding = false
         listView.applyNavigationBarPadding()
+    }
+
+    protected fun applyXuanjuanPreferenceCards(group: PreferenceGroup) {
+        repeat(group.preferenceCount) { index ->
+            val preference = group.getPreference(index)
+            preference.isIconSpaceReserved = false
+            when (preference) {
+                is PreferenceCategory -> {
+                    preference.layoutResource = R.layout.novel_helper_preference_category
+                    applyXuanjuanPreferenceCards(preference)
+                }
+
+                is PreferenceGroup -> applyXuanjuanPreferenceCards(preference)
+                else -> preference.layoutResource = R.layout.novel_helper_config_preference
+            }
+        }
     }
 
     @SuppressLint("RestrictedApi")

@@ -41,6 +41,10 @@ internal val NOVEL_HELPER_BUILTIN_SOURCE_URLS = listOf(
     "https://www.lengsk.com",
 )
 
+internal val NOVEL_HELPER_UNAVAILABLE_BUILTIN_SOURCE_URLS = setOf(
+    "https://www.hetushu.com",
+)
+
 internal fun prepareBuiltinBookSourceUpdate(
     packaged: BookSource,
     existing: BookSource?,
@@ -51,12 +55,20 @@ internal fun prepareBuiltinBookSourceUpdate(
     ) {
         return null
     }
+    val forceDisabled = packaged.bookSourceUrl in NOVEL_HELPER_UNAVAILABLE_BUILTIN_SOURCE_URLS &&
+        !packaged.enabled
     val enablesNewExplore = existing.exploreUrl.isNullOrBlank() &&
         !packaged.exploreUrl.isNullOrBlank()
     return packaged.copy(
         customOrder = existing.customOrder,
-        enabled = existing.enabled,
-        enabledExplore = if (enablesNewExplore) packaged.enabledExplore else existing.enabledExplore,
+        enabled = if (forceDisabled) false else existing.enabled,
+        enabledExplore = if (forceDisabled) {
+            false
+        } else if (enablesNewExplore) {
+            packaged.enabledExplore
+        } else {
+            existing.enabledExplore
+        },
         respondTime = existing.respondTime,
         weight = existing.weight,
     )
@@ -232,12 +244,12 @@ object DefaultData {
                 bookSourceName = "和图书",
                 bookSourceGroup = "网文小助手内置",
                 bookSourceType = 0,
-                enabled = true,
-                enabledExplore = true,
+                enabled = false,
+                enabledExplore = false,
                 enabledCookieJar = true,
                 header = hetushuHeader,
                 exploreUrl = hetushuExploreUrl,
-                bookSourceComment = "网文小助手内置公开网页源。使用普通 Cookie 会话访问公开搜索与阅读页面。",
+                bookSourceComment = "网文小助手内置公开网页源。当前站点由 Cloudflare 拦截普通客户端访问，暂时默认停用，站点恢复后可手动重新启用。",
                 mainJs = hetushuJs,
             ),
             BookSource(

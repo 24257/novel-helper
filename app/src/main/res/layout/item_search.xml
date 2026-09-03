@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginEnd="10dp"
-    android:layout_marginBottom="5dp"
-    android:background="@drawable/novel_helper_preference_card"
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="7dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginBottom="7dp"
+    android:background="@drawable/xuanjuan_search_result_card"
     android:clickable="true"
-    android:elevation="1dp"
+    android:elevation="0dp"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:padding="6dp"
+    android:padding="10dp"
     android:scrollbars="none">
 
     <View

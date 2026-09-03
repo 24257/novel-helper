@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import io.legado.app.R
 import io.legado.app.base.VMBaseActivity
@@ -48,6 +49,7 @@ class AllBookmarkActivity : VMBaseActivity<ActivityAllBookmarkBinding, AllBookma
             appDb.bookmarkDao.flowAll().catch {
                 AppLog.put("所有书签界面获取数据失败\n${it.localizedMessage}", it)
             }.flowOn(IO).collect {
+                binding.tvEmptyMsg.isVisible = it.isEmpty()
                 adapter.setItems(it)
             }
         }

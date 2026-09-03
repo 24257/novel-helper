@@ -90,6 +90,7 @@ class ThemeConfigFragment : PreferenceFragment(),
             preferenceScreen.removePreferenceRecursively(PreferKey.wallpaperColorFollow)
             preferenceScreen.removePreferenceRecursively(PreferKey.wallpaperColorAutoUpdate)
         }
+        applyXuanjuanPreferenceCards(preferenceScreen)
         upPreferenceSummary(PreferKey.bgImage, getPrefString(PreferKey.bgImage))
         upPreferenceSummary(PreferKey.bgImageN, getPrefString(PreferKey.bgImageN))
         upPreferenceSummary(PreferKey.barElevation, AppConfig.elevation.toString())

@@ -66,6 +66,7 @@ class ReadAloudConfigDialog : BasePrefDialogFragment() {
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             addPreferencesFromResource(R.xml.pref_config_aloud)
+            applyXuanjuanPreferenceCards(preferenceScreen)
             upSpeakEngineSummary()
             findPreference<SwitchPreference>(PreferKey.pauseReadAloudWhilePhoneCalls)?.let {
                 it.isEnabled = AppConfig.ignoreAudioFocus
