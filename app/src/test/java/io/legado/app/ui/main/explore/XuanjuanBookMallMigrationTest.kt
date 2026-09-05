@@ -33,7 +33,7 @@ class XuanjuanBookMallMigrationTest {
     @Test
     fun builtinSourceMigrationVersionIsBumpedForExploreBackfill() {
         val localConfig = projectFile("src/main/java/io/legado/app/help/config/LocalConfig.kt").readText()
-        assertTrue(localConfig.contains("!isLastVersion(15, \"bookSourceVersion\")"))
+        assertTrue(localConfig.contains("!isLastVersion(20, \"bookSourceVersion\")"))
         val defaultData = projectFile("src/main/java/io/legado/app/help/DefaultData.kt").readText()
         assertTrue(defaultData.contains("bqqugeExploreUrl"))
         assertTrue(defaultData.contains("cuocengExploreUrl"))

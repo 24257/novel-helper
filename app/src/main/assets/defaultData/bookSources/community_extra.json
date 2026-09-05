@@ -1,0 +1,140 @@
+[
+    {
+        "bookSourceComment":  "",
+        "bookSourceGroup":  "校验可用",
+        "bookSourceName":  "夜伴书屋",
+        "bookSourceType":  0,
+        "bookSourceUrl":  "https://www.yeban360.com",
+        "customOrder":  1037,
+        "enabled":  true,
+        "enabledCookieJar":  true,
+        "enabledExplore":  true,
+        "exploreUrl":  "[{\"title\":\"奇幻玄幻\",\"url\":\"/list/qihuan{{page}}.html\",\"style\":{\"layout_flexBasisPercent\":0.25,\"layout_flexGrow\":1}},\n{\"title\":\"科幻游戏\",\"url\":\"/list/kehuan{{page}}.html\",\"style\":{\"layout_flexBasisPercent\":0.25,\"layout_flexGrow\":1}},\n{\"title\":\"武侠仙侠\",\"url\":\"/list/wuxia{{page}}.html\",\"style\":{\"layout_flexBasisPercent\":0.25,\"layout_flexGrow\":1}},\n{\"title\":\"女生言情\",\"url\":\"/list/yanqing{{page}}.html\",\"style\":{\"layout_flexBasisPercent\":0.25,\"layout_flexGrow\":1}},\n{\"title\":\"都市娱乐\",\"url\":\"/list/dushi{{page}}.html\",\"style\":{\"layout_flexBasisPercent\":0.25,\"layout_flexGrow\":1}},\n{\"title\":\"历史军事\",\"url\":\"/list/lishi{{page}}.html\",\"style\":{\"layout_flexBasisPercent\":0.25,\"layout_flexGrow\":1}},\n{\"title\":\"悬疑灵异\",\"url\":\"/list/xuanyi{{page}}.html\",\"style\":{\"layout_flexBasisPercent\":0.25,\"layout_flexGrow\":1}},\n{\"title\":\"耽美纯爱\",\"url\":\"/list/chunai{{page}}.html\",\"style\":{\"layout_flexBasisPercent\":0.25,\"layout_flexGrow\":1}},\n{\"title\":\"外国文学\",\"url\":\"/list/foreign{{page}}.html\",\"style\":{\"layout_flexBasisPercent\":0.25,\"layout_flexGrow\":1}},\n{\"title\":\"成长励志\",\"url\":\"/list/lizhi{{page}}.html\",\"style\":{\"layout_flexBasisPercent\":0.25,\"layout_flexGrow\":1}},\n{\"title\":\"散文随笔\",\"url\":\"/list/sanwen{{page}}.html\",\"style\":{\"layout_flexBasisPercent\":0.25,\"layout_flexGrow\":1}},\n{\"title\":\"现代当代\",\"url\":\"/list/china{{page}}.html\",\"style\":{\"layout_flexBasisPercent\":0.25,\"layout_flexGrow\":1}},\n{\"title\":\"轻小说\",\"url\":\"/list/lightnovel{{page}}.html\",\"style\":{\"layout_flexBasisPercent\":0.25,\"layout_flexGrow\":1}},\n{\"title\":\"健康生活\",\"url\":\"/list/health{{page}}.html\",\"style\":{\"layout_flexBasisPercent\":0.25,\"layout_flexGrow\":1}},\n{\"title\":\"文学名著\",\"url\":\"/list/mingzhu{{page}}.html\",\"style\":{\"layout_flexBasisPercent\":0.25,\"layout_flexGrow\":1}}]",
+        "header":  "{\n  \"User-Agent\": \"Mozilla/5.0 (Linux; Android 9; HWI-AL00 Build/HUAWEIHWI-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/88.0.4324.152 Mobile Safari/537.36\"\n}",
+        "lastUpdateTime":  1678685283239,
+        "loginUrl":  "",
+        "respondTime":  5008,
+        "ruleBookInfo":  {
+                             "author":  "[property$=author]@content",
+                             "coverUrl":  "[property$=image]@content",
+                             "intro":  ".book-detail@html##(^|[。！？]+[”」）】]?)##$1\u003cbr\u003e",
+                             "kind":  "[property~=category|status|update_time]@content##\\s.*",
+                             "lastChapter":  "[property$=latest_chapter_name]@content##[\\(（【].*?[求更谢乐发订合补加].*?[】）\\)]",
+                             "name":  "[property$=book_name]@content"
+                         },
+        "ruleContent":  {
+                            "content":  "#cont-body@html",
+                            "imageStyle":  "FULL",
+                            "nextContentUrl":  ".text-center a.2@href"
+                        },
+        "ruleExplore":  {
+                            "bookList":  ".media",
+                            "bookUrl":  "a.1@href",
+                            "coverUrl":  "img@src",
+                            "intro":  ".media-info@text",
+                            "name":  "a.1@text"
+                        },
+        "ruleSearch":  {
+                           "author":  "td.1@text",
+                           "bookList":  "tbody tr",
+                           "bookUrl":  "a@href",
+                           "kind":  "",
+                           "name":  "td.0@text##\\《|\\》|没有找到包.*"
+                       },
+        "ruleToc":  {
+                        "chapterList":  ".col-md-6 a",
+                        "chapterName":  "text##[\\(（【].*?[求更谢乐发订合补加].*?[】）\\)]",
+                        "chapterUrl":  "href"
+                    },
+        "searchUrl":  "/plus/search.php?q={{key}}",
+        "weight":  0
+    },
+    {
+        "bookSourceComment":  "",
+        "bookSourceGroup":  "校验可用",
+        "bookSourceName":  "种田小说",
+        "bookSourceType":  0,
+        "bookSourceUrl":  "https://zhongtianwen.cn",
+        "customOrder":  169,
+        "enabled":  true,
+        "enabledCookieJar":  false,
+        "enabledExplore":  true,
+        "exploreUrl":  "完本::/quanbenwanjie.html\n玄幻::/xiaoshuofenlei/xuanhuan.html\n修真::/xiaoshuofenlei/xiuzhen.html\n武侠::/xiaoshuofenlei/wuxia.html\n都市::/xiaoshuofenlei/dushi.html\n穿越::/xiaoshuofenlei/chuanyue.html\n战争::/xiaoshuofenlei/zhanzheng.html\n网游::/xiaoshuofenlei/wangyou.html\n科幻::/xiaoshuofenlei/kehuan.html\n恐怖::/xiaoshuofenlei/kongbu.html\n其他::/xiaoshuofenlei/qita.html\n女生::/xiaoshuofenlei/nvsheng.html",
+        "lastUpdateTime":  1625411256338,
+        "respondTime":  7200,
+        "ruleBookInfo":  {
+                             "author":  "[property=\"og:novel:author\"]@content",
+                             "coverUrl":  "[property=\"og:image\"]@content",
+                             "intro":  "#intro p@html##各位书友要.*",
+                             "kind":  "[property=\"og:novel:category\"]@content\u0026\u0026[property=\"og:novel:status\"]@content\u0026\u0026[property=\"og:novel:update_time\"]@content##\\s.*",
+                             "lastChapter":  "[property=\"og:novel:latest_chapter_name\"]@content",
+                             "name":  "[property=\"og:novel:book_name\"]@content"
+                         },
+        "ruleContent":  {
+                            "content":  "#content@html",
+                            "replaceRegex":  "##天才一秒记住.*|种田文小说.*"
+                        },
+        "ruleExplore":  {
+                            "bookList":  ""
+                        },
+        "ruleSearch":  {
+                           "author":  ".s4@text",
+                           "bookList":  ".search-list li!0||.l li",
+                           "bookUrl":  ".s2 a@href",
+                           "coverUrl":  "",
+                           "kind":  ".s1@text\u0026\u0026.s6@text\u0026\u0026.s5@text##\\s.*",
+                           "lastChapter":  ".s3@text",
+                           "name":  ".s2@text"
+                       },
+        "ruleToc":  {
+                        "chapterList":  "#list dd@tag.a.-1",
+                        "chapterName":  "text",
+                        "chapterUrl":  "href"
+                    },
+        "searchUrl":  "/xiaoshuosousuo/jieguo.html?searchkey={{key}}",
+        "weight":  0
+    },
+    {
+        "bookSourceComment":  "不是幼稚园的车🚕",
+        "bookSourceGroup":  "校验可用",
+        "bookSourceName":  "飞速小说网",
+        "bookSourceType":  0,
+        "bookSourceUrl":  "http://www.feisuwx.org",
+        "customOrder":  62,
+        "enabled":  true,
+        "enabledCookieJar":  false,
+        "enabledExplore":  true,
+        "exploreUrl":  "玄幻魔法::/fenlei1/fenlei1-{{page}}.html\n武侠仙侠::/fenlei2/fenlei2-{{page}}.html\n都市言情::/fenlei3/fenlei3-{{page}}.html\n历史军事::/fenlei4/fenlei4-{{page}}.html\n科幻末世::/fenlei5/fenlei5-{{page}}.html\n网游动漫::/fenlei6/fenlei6-{{page}}.html",
+        "header":  "{\"User-Agent\":\" Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4292.2 Safari/537.36\"}",
+        "lastUpdateTime":  1603423158987,
+        "respondTime":  2350,
+        "ruleBookInfo":  {
+                             "author":  "class.s1.0@text",
+                             "intro":  "id.intro@tag.p.0@text",
+                             "name":  "tag.h1@text",
+                             "tocUrl":  "//a[text()=\u0027全文阅读\u0027]/@href"
+                         },
+        "ruleContent":  {
+                            "content":  "div#content@html"
+                        },
+        "ruleExplore":  {
+                            "bookList":  ""
+                        },
+        "ruleSearch":  {
+                           "author":  "class.s4@text",
+                           "bookList":  "div.novelslist3@ul@li!0||id.newscontent@li",
+                           "bookUrl":  "class.s2@a@href",
+                           "kind":  "class.s1@text",
+                           "lastChapter":  "class.s3@text",
+                           "name":  "class.s2@text",
+                           "wordCount":  "class.s5@text"
+                       },
+        "ruleToc":  {
+                        "chapterList":  "class.box_con@id.list@dl@dd",
+                        "chapterName":  "a@text",
+                        "chapterUrl":  "a@href"
+                    },
+        "searchUrl":  "http://www.feisuwx.org/modules/article/search.php?searchkey={{key}},{\"charset\":\"utf-8\"}",
+        "weight":  0
+    }
+]

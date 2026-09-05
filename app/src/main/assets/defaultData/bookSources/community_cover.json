@@ -1,0 +1,394 @@
+[
+  {
+    "bookSourceName": "若雨中文",
+    "bookSourceGroup": "社区精选",
+    "bookSourceType": 0,
+    "bookSourceUrl": "http://www.3yt.la",
+    "enabled": true,
+    "enabledExplore": false,
+    "enabledCookieJar": false,
+    "loginUrl": "",
+    "header": "{\"User-Agent\":\"Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 Chrome/136.0 Mobile Safari/537.36\"}",
+    "searchUrl": "/book/search.aspx?searchkey={{key}}&SeaButton=",
+    "bookSourceComment": "Legado 社区规则整理；2026-09-04 实测《腐朽世界》搜索、详情、真实封面、目录、首章及后段章节。",
+    "ruleSearch": {
+      "bookList": "tbody@tr",
+      "name": "td.1@text",
+      "author": "td.4@text",
+      "bookUrl": "a.1@href",
+      "coverUrl": "a.1@href##.*/Book/(\\d+)/index\\.html.*##http://www.3yt.la/DownFiles/Book/BookCover/$1.gif",
+      "kind": "td.0:5:3@text##小说",
+      "lastChapter": "td.2@text"
+    },
+    "ruleBookInfo": {
+      "name": ".w_530@em.0@text",
+      "author": ".w_530@a.0@text##作品集",
+      "coverUrl": ".img@img@src",
+      "intro": ".h_260@p@html",
+      "kind": ".path@a.1@text&&.w_200@li.0@text&&.h_260@em@text##.*：|\\s...:*|小说",
+      "lastChapter": ".h_260@a.0@text",
+      "tocUrl": ".w_200@a.1@href",
+      "wordCount": ".w_200@li.1@text##.*已完成\\s|\\s字"
+    },
+    "ruleToc": {
+      "chapterList": "#BookText@li@a",
+      "chapterName": "text",
+      "chapterUrl": "href"
+    },
+    "ruleContent": {
+      "content": "#BookText@textNodes"
+    }
+  },
+  {
+    "bookSourceName": "爱下文学",
+    "bookSourceGroup": "社区精选",
+    "bookSourceType": 0,
+    "bookSourceUrl": "http://www.aixiawx.com/",
+    "enabled": true,
+    "enabledExplore": false,
+    "enabledCookieJar": false,
+    "loginUrl": "",
+    "header": "{\"User-Agent\":\"Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 Chrome/136.0 Mobile Safari/537.36\"}",
+    "searchUrl": "/modules/article/search.php?searchkey={{key}}&searchtype=articlename",
+    "bookSourceComment": "Legado 社区源整理；搜索会跳转到当前 aixiashu.la 镜像。2026-09-04 实测真实封面、608 章目录及首章/后段章节。",
+    "ruleSearch": {
+      "bookList": "table.grid@tr!0",
+      "name": "td.0@a@text",
+      "author": "td.2@text",
+      "bookUrl": "td.0@a@href",
+      "coverUrl": "td.0@a@href##.*/(\\d+)/(\\d+)/.*##http://www.aixiashu.la/files/article/image/$1/$2/$2s.jpg",
+      "kind": "td.5@text",
+      "lastChapter": "td.1@a@text",
+      "wordCount": "td.3@text"
+    },
+    "ruleBookInfo": {
+      "name": "[property=og:novel:book_name]@content||[property=og:title]@content",
+      "author": "[property=og:novel:author]@content",
+      "coverUrl": "[property=og:image]@content||#fmimg@img@src",
+      "intro": "[property=og:description]@content||#intro@html",
+      "kind": "[property=og:novel:category]@content&&[property=og:novel:status]@content",
+      "lastChapter": "[property=og:novel:latest_chapter_name]@content"
+    },
+    "ruleToc": {
+      "chapterList": "#list@dd@a",
+      "chapterName": "text",
+      "chapterUrl": "href"
+    },
+    "ruleContent": {
+      "content": "#content@html"
+    }
+  },
+  {
+    "bookSourceName": "野天链小说",
+    "bookSourceGroup": "社区精选",
+    "bookSourceType": 0,
+    "bookSourceUrl": "http://www.yetianlian.info/",
+    "enabled": true,
+    "enabledExplore": false,
+    "enabledCookieJar": false,
+    "loginUrl": "",
+    "header": "{\"User-Agent\":\"Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 Chrome/136.0 Mobile Safari/537.36\"}",
+    "searchUrl": "/s.php?ie=utf-8&q={{key}}",
+    "bookSourceComment": "Legado 社区源整理；当前自动跳转 xyetianlian.com。2026-09-04 实测搜索、详情、真实封面、目录、首章及后段章节。",
+    "ruleSearch": {
+      "bookList": ".bookbox",
+      "name": ".bookname@a@text",
+      "author": ".author@text##作者：",
+      "bookUrl": ".bookname@a@href",
+      "coverUrl": ".bookimg@img@src",
+      "kind": ".cat@text##分类：",
+      "lastChapter": ".update@a@text"
+    },
+    "ruleBookInfo": {
+      "name": "[property=og:novel:book_name]@content||[property=og:title]@content",
+      "author": "[property=og:novel:author]@content",
+      "coverUrl": "[property=og:image]@content",
+      "intro": "[property=og:description]@content",
+      "kind": "[property=og:novel:category]@content&&[property=og:novel:status]@content",
+      "lastChapter": "[property=og:novel:latest_chapter_name]@content"
+    },
+    "ruleToc": {
+      "chapterList": ".listmain@dd@a",
+      "chapterName": "text",
+      "chapterUrl": "href"
+    },
+    "ruleContent": {
+      "content": "#content@html"
+    }
+  },
+  {
+    "bookSourceName": "笔趣阁A17",
+    "bookSourceGroup": "社区精选",
+    "bookSourceType": 0,
+    "bookSourceUrl": "https://www.biqusa.com/",
+    "enabled": true,
+    "enabledExplore": false,
+    "enabledCookieJar": false,
+    "loginUrl": "",
+    "header": "{\"User-Agent\":\"Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 Chrome/136.0 Mobile Safari/537.36\"}",
+    "searchUrl": "https://www.biqusa.com/search.html?name={{key}}",
+    "bookSourceComment": "Legado 社区源整理；2026-09-04 实测《腐朽世界》搜索、详情、真实封面、目录、首章及后段章节。",
+    "ruleSearch": {
+      "bookList": "class.novelslist2@ul@li",
+      "name": "class.s2@a@text##\\（.*|\\(.*|免费阅读|全文.*阅读|最新章节",
+      "author": "class.s4@a@text",
+      "bookUrl": "class.s2@a@href",
+      "coverUrl": "class.s2@a@href##.*/(\\d+)_(\\d+)/.*##https://www.biqusa.com/files/article/image/$1/$2/$2s.jpg",
+      "kind": "class.s6@text",
+      "lastChapter": "class.s3@a@text"
+    },
+    "ruleBookInfo": {
+      "name": "[property=og:novel:book_name]@content||[property=og:title]@content||id.bookdetail@id.info@h1@text",
+      "author": "[property=og:novel:author]@content||id.info@tag.p.0@a@text",
+      "coverUrl": "[property=og:image]@content||id.fmimg@img@src",
+      "intro": "[property=og:description]@content||id.intro@text",
+      "kind": "[property=og:novel:category]@content&&[property=og:novel:status]@content",
+      "lastChapter": "[property=og:novel:latest_chapter_name]@content"
+    },
+    "ruleToc": {
+      "chapterList": "//*[@id=\"list\"]//dt[2]/following-sibling::dd/a",
+      "chapterName": "text",
+      "chapterUrl": "href"
+    },
+    "ruleContent": {
+      "content": "id.content@textNodes##本小说.*无广告免费阅读。|：。："
+    }
+  },
+  {
+    "bookSourceName": "笔趣阁㉘",
+    "bookSourceGroup": "社区精选",
+    "bookSourceType": 0,
+    "bookSourceUrl": "https://www.yingsx.com/",
+    "enabled": true,
+    "enabledExplore": false,
+    "enabledCookieJar": false,
+    "loginUrl": "",
+    "header": "{\"User-Agent\":\"Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 Chrome/136.0 Mobile Safari/537.36\"}",
+    "searchUrl": "https://www.yingsx.com/cse/search?q={{key}}&s=",
+    "bookSourceComment": "Legado 社区源整理；2026-09-04 实测《腐朽世界》搜索、详情、真实封面、完整目录、首章及后段章节。",
+    "ruleSearch": {
+      "bookList": "class.novelslist2@ul@li",
+      "name": "class.s2@a@text",
+      "author": "class.s4@text",
+      "bookUrl": "class.s2@a@href",
+      "coverUrl": "class.s2@a@href##.*/(\\d+)_(\\d+)/.*##https://www.yingsx.com/files/article/image/$1/$2/$2s.jpg",
+      "kind": "class.s1@text",
+      "lastChapter": "class.s3@a@text"
+    },
+    "ruleBookInfo": {
+      "name": "[property=og:novel:book_name]@content||[property=og:title]@content",
+      "author": "[property=og:novel:author]@content",
+      "coverUrl": "[property=og:image]@content||#fmimg@img@src",
+      "intro": "[property=og:description]@content||#intro@text",
+      "kind": "[property=og:novel:category]@content&&[property=og:novel:status]@content",
+      "lastChapter": "[property=og:novel:latest_chapter_name]@content"
+    },
+    "ruleToc": {
+      "chapterList": "//*[@id=\"list\"]//dt[2]/following-sibling::dd/a",
+      "chapterName": "text",
+      "chapterUrl": "href"
+    },
+    "ruleContent": {
+      "content": "id.content@textNodes"
+    }
+  },
+  {
+    "bookSourceName": "14oz笔趣阁",
+    "bookSourceGroup": "社区精选",
+    "bookSourceType": 0,
+    "bookSourceUrl": "https://www.14oz.net/",
+    "enabled": true,
+    "enabledExplore": false,
+    "enabledCookieJar": false,
+    "loginUrl": "",
+    "header": "{\"User-Agent\":\"Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 Chrome/136.0 Mobile Safari/537.36\"}",
+    "searchUrl": "/search,{'method':'post','body':'searchkey={{key}}'}",
+    "bookSourceComment": "Legado 社区源整理；2026-09-04 实测真实封面、609 章分页目录；正文采用站点 AES-CBC/ZeroPadding 解密并只合并同章分页。",
+    "ruleSearch": {
+      "bookList": ".book-coverlist",
+      "name": ".name@a@text",
+      "author": ".author@text",
+      "bookUrl": ".name@a@href",
+      "coverUrl": ".cover@img@src",
+      "intro": ".intro@text",
+      "kind": ".status@span.0@text",
+      "wordCount": ".status@span.2@text"
+    },
+    "ruleBookInfo": {
+      "name": "[property=og:novel:book_name]@content||[property=og:title]@content",
+      "author": "[property=og:novel:author]@content",
+      "coverUrl": "[property=og:image]@content",
+      "intro": "[property=og:description]@content",
+      "kind": "[property=og:novel:category]@content",
+      "tocUrl": "class.panel-footer@a@href"
+    },
+    "ruleToc": {
+      "chapterList": ".panel-chapterlist@dd@a",
+      "chapterName": "text",
+      "chapterUrl": "href",
+      "nextTocUrl": "text.下一页@href"
+    },
+    "ruleContent": {
+      "content": "<js>\n(function(){\n  var html=String(result||'');\n  function decodeJs(s){\n    try{return eval('\"'+s+'\"');}catch(e){return s.replace(/\\\\\\//g,'/').replace(/\\\\u002b/ig,'+');}\n  }\n  var re=/\\.html\\(x\\(\"((?:\\\\.|[^\"])*)\"\\s*,\\s*\"((?:\\\\.|[^\"])*)\"\\s*,\\s*\"((?:\\\\.|[^\"])*)\"\\)\\)/g;\n  var m,best='',bestP=-1;\n  while((m=re.exec(html))!==null){\n    try{\n      var enc=decodeJs(m[1]);\n      var key=decodeJs(m[2]);\n      var iv=decodeJs(m[3]);\n      var plain=CryptoJS.AES.decrypt(\n        {ciphertext:CryptoJS.enc.Base64.parse(enc)},\n        CryptoJS.enc.Utf8.parse(key),\n        {iv:CryptoJS.enc.Base64.parse(iv),mode:CryptoJS.mode.CBC,padding:CryptoJS.pad.ZeroPadding}\n      ).toString(CryptoJS.enc.Utf8);\n      var p=(plain.match(/<p\\b/gi)||[]).length;\n      if(p>bestP||(p===bestP&&plain.length>best.length)){best=plain;bestP=p;}\n    }catch(e){}\n  }\n  return best;\n})()\n</js>",
+      "nextContentUrl": "<js>\n(function(){\n  var html=String(result||'');\n  var m=html.match(/\\bxlink\\s*=\\s*['\"]((?:\\\\.|[^'\"])*)['\"]/);\n  if(!m)return '';\n  var next;\n  try{next=eval('\"'+m[1]+'\"');}catch(e){next=m[1].replace(/\\\\\\//g,'/');}\n  var cur=String(baseUrl||'').replace(/[?#].*$/,'');\n  var cm=cur.match(/\\/([^\\/]+?)(?:_\\d+)?\\.html$/);\n  var nm=String(next).match(/\\/([^\\/]+?)(?:_\\d+)?\\.html$/);\n  return cm&&nm&&cm[1]===nm[1]?next:'';\n})()\n</js>"
+    }
+  },
+  {
+    "bookSourceName": "去读读小说网",
+    "bookSourceGroup": "社区精选",
+    "bookSourceType": 0,
+    "bookSourceUrl": "https://www.jrleaguepasadena.org/",
+    "enabled": true,
+    "enabledExplore": false,
+    "enabledCookieJar": false,
+    "loginUrl": "",
+    "header": "{\"User-Agent\":\"Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 Chrome/136.0 Mobile Safari/537.36\"}",
+    "searchUrl": "/search,{'method':'post','body':'searchkey={{key}}'}",
+    "bookSourceComment": "Legado 社区源整理；2026-09-04 实测真实封面、609 章分页目录；正文采用站点 AES-CBC/ZeroPadding 解密并只合并同章分页。",
+    "ruleSearch": {
+      "bookList": ".item",
+      "name": "dt@a@text",
+      "author": ".btm@a@text",
+      "bookUrl": "dt@a@href",
+      "coverUrl": ".image@img@data-original",
+      "intro": "dd@text",
+      "wordCount": ".btm@em.0@text"
+    },
+    "ruleBookInfo": {
+      "name": "[property=og:novel:book_name]@content||[property=og:title]@content",
+      "author": "[property=og:novel:author]@content",
+      "coverUrl": "[property=og:image]@content",
+      "intro": "[property=og:description]@content",
+      "kind": "[property=og:novel:category]@content",
+      "tocUrl": "class.chapterlist@href"
+    },
+    "ruleToc": {
+      "chapterList": "#list@dd@a",
+      "chapterName": "text",
+      "chapterUrl": "href",
+      "nextTocUrl": "text.下一页@href"
+    },
+    "ruleContent": {
+      "content": "<js>\n(function(){\n  var html=String(result||'');\n  function decodeJs(s){\n    try{return eval('\"'+s+'\"');}catch(e){return s.replace(/\\\\\\//g,'/').replace(/\\\\u002b/ig,'+');}\n  }\n  var re=/\\.html\\(x\\(\"((?:\\\\.|[^\"])*)\"\\s*,\\s*\"((?:\\\\.|[^\"])*)\"\\s*,\\s*\"((?:\\\\.|[^\"])*)\"\\)\\)/g;\n  var m,best='',bestP=-1;\n  while((m=re.exec(html))!==null){\n    try{\n      var enc=decodeJs(m[1]);\n      var key=decodeJs(m[2]);\n      var iv=decodeJs(m[3]);\n      var plain=CryptoJS.AES.decrypt(\n        {ciphertext:CryptoJS.enc.Base64.parse(enc)},\n        CryptoJS.enc.Utf8.parse(key),\n        {iv:CryptoJS.enc.Base64.parse(iv),mode:CryptoJS.mode.CBC,padding:CryptoJS.pad.ZeroPadding}\n      ).toString(CryptoJS.enc.Utf8);\n      var p=(plain.match(/<p\\b/gi)||[]).length;\n      if(p>bestP||(p===bestP&&plain.length>best.length)){best=plain;bestP=p;}\n    }catch(e){}\n  }\n  return best;\n})()\n</js>",
+      "nextContentUrl": "<js>\n(function(){\n  var html=String(result||'');\n  var m=html.match(/\\bxlink\\s*=\\s*['\"]((?:\\\\.|[^'\"])*)['\"]/);\n  if(!m)return '';\n  var next;\n  try{next=eval('\"'+m[1]+'\"');}catch(e){next=m[1].replace(/\\\\\\//g,'/');}\n  var cur=String(baseUrl||'').replace(/[?#].*$/,'');\n  var cm=cur.match(/\\/([^\\/]+?)(?:_\\d+)?\\.html$/);\n  var nm=String(next).match(/\\/([^\\/]+?)(?:_\\d+)?\\.html$/);\n  return cm&&nm&&cm[1]===nm[1]?next:'';\n})()\n</js>"
+    }
+  },
+  {
+    "bookSourceName": "华博文都",
+    "bookSourceGroup": "社区精选",
+    "bookSourceType": 0,
+    "bookSourceUrl": "https://m.huaboedu.com/",
+    "enabled": true,
+    "enabledExplore": false,
+    "enabledCookieJar": false,
+    "loginUrl": "",
+    "header": "{\"User-Agent\":\"Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 Chrome/136.0 Mobile Safari/537.36\"}",
+    "searchUrl": "/hbwd/search/,{'method':'post','body':'stxt={{key}}'}",
+    "bookSourceComment": "Legado 社区源整理；2026-09-04 实测《腐朽世界》真实 WebP 封面、608 章完整目录、首章及后段章节；使用 data-src 避免 nocover 懒加载占位图。",
+    "ruleSearch": {
+      "bookList": "class.book1@article",
+      "name": ".book_name@h1@text",
+      "author": ".over_flow_hidden@text##作者：|更新时间：.*",
+      "bookUrl": ".book_name@href",
+      "coverUrl": "img@data-src",
+      "intro": ".jianjie@text##简介：",
+      "lastChapter": ".book_chapter@a@text"
+    },
+    "ruleBookInfo": {
+      "name": "[property=og:novel:book_name]@content||[property=og:title]@content",
+      "author": "[property=og:novel:author]@content",
+      "coverUrl": "[property=og:image]@content||img.img_lazy_load@data-src",
+      "intro": "[property=og:description]@content||.book_intro@text",
+      "kind": "[property=og:novel:category]@content",
+      "lastChapter": ".book_chapter@a@text",
+      "tocUrl": "a[title=查看更多章节]@href"
+    },
+    "ruleToc": {
+      "chapterList": "-class.chapter_list@li@a",
+      "chapterName": "text",
+      "chapterUrl": "href"
+    },
+    "ruleContent": {
+      "content": "class.chapter_content@html"
+    }
+  },
+  {
+    "bookSourceName": "全本小说5300",
+    "bookSourceGroup": "社区精选",
+    "bookSourceType": 0,
+    "bookSourceUrl": "http://www.xs5300.org/",
+    "enabled": true,
+    "enabledExplore": false,
+    "enabledCookieJar": false,
+    "loginUrl": "",
+    "header": "{\"User-Agent\":\"Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 Chrome/136.0 Mobile Safari/537.36\"}",
+    "searchUrl": "/modules/article/search.php?s=10362325638345863231&q={{key}}",
+    "bookSourceComment": "Legado 社区源整理；2026-09-04 当前 xs5300 镜像实测《腐朽世界》真实封面、完整目录、首章及后段章节。",
+    "ruleSearch": {
+      "bookList": "table.grid@tr!0",
+      "name": "td.0@a@text",
+      "author": "td.2@text",
+      "bookUrl": "td.0@a@href",
+      "coverUrl": "td.0@a@href##.*/(\\d+)_(\\d+)/.*##http://www.xs5300.org/files/article/image/$1/$2/$2s.jpg",
+      "kind": "td.5@text",
+      "lastChapter": "td.1@a@text",
+      "wordCount": "td.3@text"
+    },
+    "ruleBookInfo": {
+      "name": "[property=og:novel:book_name]@content||#info@h1@text",
+      "author": "[property=og:novel:author]@content||#info@p.0@text##作.*者：",
+      "coverUrl": "[property=og:image]@content||#fmimg@img@src",
+      "intro": "[property=og:description]@content||#intro@p@text",
+      "kind": "[property=og:novel:category]@content&&[property=og:novel:status]@content",
+      "lastChapter": "[property=og:novel:latest_chapter_name]@content||#info@p.3@a@text"
+    },
+    "ruleToc": {
+      "chapterList": "//*[@id=\"list\"]//dt[2]/following-sibling::dd/a",
+      "chapterName": "text",
+      "chapterUrl": "href"
+    },
+    "ruleContent": {
+      "content": "#content@html"
+    }
+  },
+  {
+    "bookSourceName": "就爱文学",
+    "bookSourceGroup": "社区精选",
+    "bookSourceType": 0,
+    "bookSourceUrl": "http://www.92xs.info",
+    "enabled": true,
+    "enabledExplore": false,
+    "enabledCookieJar": false,
+    "loginUrl": "",
+    "header": "{\"User-Agent\":\"Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 Chrome/136.0 Mobile Safari/537.36\"}",
+    "searchUrl": "/modules/article/search.php,{'method':'post','body':'searchtype=articlename=author&searchkey={{key}}'}",
+    "bookSourceComment": "Legado 社区源整理；2026-09-04 实测《腐朽世界》搜索、真实封面、608 章完整目录、首章及后段章节。",
+    "ruleSearch": {
+      "bookList": "table#author@tr!0",
+      "name": "td.0@a@text",
+      "author": "td.2@text",
+      "bookUrl": "td.0@a@href",
+      "coverUrl": "td.0@a@href@js:var m=String(result).match(/\\/book\\/(\\d+)\\.html/);if(!m){'';}else{var id=m[1];'http://www.92xs.info/files/article/image/'+Math.floor(Number(id)/1000)+'/'+id+'/'+id+'s.jpg';}",
+      "kind": "td.5@text",
+      "lastChapter": "td.1@a@text",
+      "wordCount": "td.3@text"
+    },
+    "ruleBookInfo": {
+      "name": "[property=og:novel:book_name]@content||[property=og:title]@content",
+      "author": "[property=og:novel:author]@content",
+      "coverUrl": "[property=og:image]@content",
+      "intro": "[property=og:description]@content",
+      "kind": "[property=og:novel:category]@content&&[property=og:novel:status]@content",
+      "lastChapter": "[property=og:novel:latest_chapter_name]@content",
+      "tocUrl": "#newlist@strong@a@href"
+    },
+    "ruleToc": {
+      "chapterList": "//table[contains(@class,\"acss\")]//td[contains(@class,\"ccss\")]/a",
+      "chapterName": "text",
+      "chapterUrl": "href"
+    },
+    "ruleContent": {
+      "content": "#ccontent@html||#content@html"
+    }
+  }
+]

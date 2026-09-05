@@ -1,0 +1,236 @@
+[
+    {
+        "bookSourceGroup":  "精品",
+        "bookSourceName":  "零零小说",
+        "bookSourceType":  0,
+        "bookSourceUrl":  "https://www.00shu.la/",
+        "bookUrlPattern":  "https://www.00shu.la/\\d+/\\d+/",
+        "customOrder":  -216,
+        "enabled":  true,
+        "enabledCookieJar":  false,
+        "enabledExplore":  true,
+        "exploreUrl":  "[{\"title\":\"玄幻奇幻\",\"url\":\"/xuanhuan/{{page}}/\",\"style\":{\"layout_flexGrow\":0.25}},{\"title\":\"武侠仙侠\",\"url\":\"/wuxia/{{page}}/\",\"style\":{\"layout_flexGrow\":0.25}},{\"title\":\"都市言情\",\"url\":\"/dushi/{{page}}/\",\"style\":{\"layout_flexGrow\":0.25}},{\"title\":\"历史军事\",\"url\":\"/lishi/{{page}}/\",\"style\":{\"layout_flexGrow\":0.25}},{\"title\":\"游戏竞技\",\"url\":\"/youxi/{{page}}/\",\"style\":{\"layout_flexGrow\":0.25}},{\"title\":\"科幻灵异\",\"url\":\"/kehuan/{{page}}/\",\"style\":{\"layout_flexGrow\":0.25}}]",
+        "lastUpdateTime":  1690275219884,
+        "loginUrl":  "",
+        "respondTime":  13072,
+        "ruleBookInfo":  {
+                             "author":  "[property=og:novel:author]@content",
+                             "coverUrl":  "[property=og:image]@content",
+                             "init":  "",
+                             "intro":  "[property=og:description]@content",
+                             "kind":  "id.info@tag.p.2@text\u0026\u0026[property=og:novel:category]@content##最后更新：",
+                             "lastChapter":  "id.info@tag.p.3@a@text",
+                             "name":  "[property=og:novel:book_name]@content",
+                             "tocUrl":  "",
+                             "wordCount":  ""
+                         },
+        "ruleContent":  {
+                            "content":  "id.content@html##最新网址.*la"
+                        },
+        "ruleExplore":  {
+                            "author":  "class.s5@text",
+                            "bookList":  "class.l@li",
+                            "bookUrl":  "class.s2@a@href@js:\nvar id = result.match(/(\\d+)\\/?$/)[1];\nvar iid = parseInt(id/1000);\n\u0027https://www.00shu.la/\u0027+iid+\u0027/\u0027+id+\u0027/\u0027",
+                            "coverUrl":  "class.s2@a@href\u003cjs\u003e\nvar id = result.match(/(\\d+)\\/?$/)[1];\nvar iid = parseInt(id/1000);\n\u0027https://www.00shu.la/files/article/image/\u0027+iid+\u0027/\u0027+id+\u0027/\u0027+id+\u0027s.jpg\u0027;\n\u003c/js\u003e",
+                            "lastChapter":  "class.s3@text",
+                            "name":  "class.s2@a@text"
+                        },
+        "ruleReview":  {
+
+                       },
+        "ruleSearch":  {
+                           "author":  "tag.td.2@text",
+                           "bookList":  "class.grid@tr!0",
+                           "bookUrl":  "tag.td.0@a@href",
+                           "coverUrl":  "tag.td.0@a@href\u003cjs\u003e\nvar id = result.match(/(\\d+)\\/?$/)[1];\nvar iid = parseInt(id/1000);\n\u0027https://www.00shu.la/files/article/image/\u0027+iid+\u0027/\u0027+id+\u0027/\u0027+id+\u0027s.jpg\u0027;\n\u003c/js\u003e",
+                           "intro":  "",
+                           "kind":  "tag.td.4@text",
+                           "lastChapter":  "tag.td.1@a@text",
+                           "name":  "tag.td.0@a@text",
+                           "wordCount":  "tag.td.3@text"
+                       },
+        "ruleToc":  {
+                        "chapterList":  "id.list@dd",
+                        "chapterName":  "a@text",
+                        "chapterUrl":  "a@href"
+                    },
+        "searchUrl":  "https://www.00shu.la/modules/article/search.php?q={{key}}",
+        "weight":  0
+    },
+    {
+        "bookSourceComment":  "",
+        "bookSourceGroup":  "精品",
+        "bookSourceName":  "无极小说",
+        "bookSourceType":  0,
+        "bookSourceUrl":  "https://wujixsw.info/",
+        "bookUrlPattern":  "",
+        "customOrder":  -202,
+        "enabled":  true,
+        "enabledCookieJar":  false,
+        "enabledExplore":  true,
+        "exploreUrl":  "",
+        "header":  "",
+        "lastUpdateTime":  1687559243466,
+        "loginUrl":  "",
+        "respondTime":  5666,
+        "ruleBookInfo":  {
+                             "author":  "[property=og:novel:author]@content",
+                             "coverUrl":  "[property=og:image]@content",
+                             "init":  "",
+                             "intro":  "[property=og:description]@content",
+                             "kind":  "[property=og:novel:update_time]@content\u0026\u0026\n[property=og:novel:category]@content\u0026\u0026\n[property=og:novel:status]@content",
+                             "lastChapter":  "[property=og:novel:latest_chapter_name]@content##免费章节 |正文卷 |正文 |VIP章节 ",
+                             "name":  "[property=og:novel:book_name]@content##|\\（.*|\\(.*|免费阅读|全文.*阅读|最新章节|小说|笔趣阁|免费.*",
+                             "wordCount":  ""
+                         },
+        "ruleContent":  {
+                            "content":  "id.content@textNodes##全本小说网.*最新章节！|全本小说网.*最快更新|最新章节！|一秒记住.*免费阅读！|.*第.*章.*|笔趣阁.*最快更新.*",
+                            "replaceRegex":  ""
+                        },
+        "ruleExplore":  {
+                            "author":  "",
+                            "bookList":  "",
+                            "bookUrl":  "",
+                            "coverUrl":  "",
+                            "intro":  "",
+                            "kind":  "",
+                            "lastChapter":  "",
+                            "name":  ""
+                        },
+        "ruleReview":  {
+
+                       },
+        "ruleSearch":  {
+                           "author":  "class.s4@text",
+                           "bookList":  "class.novelslist2@tag.li!0",
+                           "bookUrl":  "class.s2@tag.a@href",
+                           "coverUrl":  "class.s2@tag.a@href\u003cjs\u003e\nvar id = result.match(/(\\d+)\\/?$/)[1];\nvar iid = parseInt(id/1000);\n\u0027/files/article/image/\u0027+iid+\u0027/\u0027+id+\u0027/\u0027+id+\u0027s.jpg\u0027;\n\u003c/js\u003e",
+                           "lastChapter":  "class.s3@tag.a@text##免费章节 |正文卷 |正文 |VIP章节 |卷1",
+                           "name":  "class.s2@tag.a@text"
+                       },
+        "ruleToc":  {
+                        "chapterList":  "id.list@tag.dd",
+                        "chapterName":  "tag.a@text",
+                        "chapterUrl":  "tag.a@href"
+                    },
+        "searchUrl":  "https://wujixsw.info/search.html?name={{key}}",
+        "weight":  0
+    },
+    {
+        "bookSourceComment":  "",
+        "bookSourceGroup":  "精品",
+        "bookSourceName":  "鬼吹灯",
+        "bookSourceType":  0,
+        "bookSourceUrl":  "http://www.gdbzkz.com/",
+        "bookUrlPattern":  "",
+        "customOrder":  -221,
+        "enabled":  true,
+        "enabledCookieJar":  false,
+        "enabledExplore":  true,
+        "exploreUrl":  "玄幻小说::/fenlei/1/{{page}}.html\n仙侠小说::/fenlei/2/{{page}}.html\n都市小说::/fenlei/3/{{page}}.html\n军史小说::/fenlei/4/{{page}}.html\n网游小说::/fenlei/5/{{page}}.html\n科幻小说::/fenlei/6/{{page}}.html\n恐怖小说::/fenlei/7/{{page}}.html",
+        "lastUpdateTime":  1687545309012,
+        "loginUrl":  "",
+        "respondTime":  17096,
+        "ruleBookInfo":  {
+                             "author":  "class.small@tag.span.0@text##作 者：",
+                             "coverUrl":  "class.cover@img@src",
+                             "init":  "",
+                             "intro":  "class.intro@textNodes##作者.*|无弹窗.*",
+                             "kind":  "[property=og:novel:update_time]@content\u0026\u0026\n[property=og:novel:category]@content\u0026\u0026\n[property=og:novel:status]@content ",
+                             "lastChapter":  "class.small@tag.span.5@a@text##百度搜索.*",
+                             "name":  "class.info@h2@text##\\（.*|\\(.*|免费阅读|全文.*阅读|最新章节|笔趣阁|小说",
+                             "wordCount":  "class.info@class.small@tag.span.3@text##字数："
+                         },
+        "ruleContent":  {
+                            "content":  "id.content@html##http.*html|天才一秒记住.*org|请记住本书首发域.*org"
+                        },
+        "ruleExplore":  {
+                            "author":  "class.s4@text",
+                            "bookList":  "class.l@li",
+                            "bookUrl":  "class.s2@a@href",
+                            "coverUrl":  "",
+                            "kind":  "class.s5@text",
+                            "lastChapter":  "class.s3@a@text",
+                            "name":  "class.s2@a@text##\\（.*|\\(.*|免费阅读|全文.*阅读|最新章节|笔趣阁|小说"
+                        },
+        "ruleReview":  {
+
+                       },
+        "ruleSearch":  {
+                           "author":  "class.author@text##作者：",
+                           "bookList":  "class.bookbox@class.p10",
+                           "bookUrl":  "class.bookname@tag.a@href",
+                           "coverUrl":  "class.bookimg@img@src",
+                           "intro":  "class.bookinfo@p@text",
+                           "kind":  "class.cat@text##分类：",
+                           "lastChapter":  "class.update@tag.a@text##百度搜索.*",
+                           "name":  "class.bookname@tag.a@text##\\（.*|\\(.*|免费阅读|全文.*阅读|最新章节|笔趣阁|小说"
+                       },
+        "ruleToc":  {
+                        "chapterList":  "class.listmain@dd!0:1:2:3:4:5:6:7:8:9:10:11",
+                        "chapterName":  "tag.a@text",
+                        "chapterUrl":  "tag.a@href"
+                    },
+        "searchUrl":  "http://www.gdbzkz.com/s.php?ie=utf-8\u0026q={{key}}",
+        "weight":  0
+    },
+    {
+        "bookSourceComment":  "",
+        "bookSourceGroup":  "精品",
+        "bookSourceName":  "笔趣阁㉒",
+        "bookSourceType":  0,
+        "bookSourceUrl":  "http://www.xinbqg.org/",
+        "bookUrlPattern":  "http://www.xinbqg.org/\\d+/\\d+/",
+        "customOrder":  -244,
+        "enabled":  true,
+        "enabledCookieJar":  false,
+        "enabledExplore":  true,
+        "exploreUrl":  "[{\"title\":\"玄幻小说\",\"url\":\"/xuanhuanxiaoshuo/1_{{page}}.html\",\"style\":{\"layout_flexGrow\":0.25}},{\"title\":\"修真小说\",\"url\":\"/xiuzhenxiaoshuo/2_{{page}}.html\",\"style\":{\"layout_flexGrow\":0.25}},{\"title\":\"都市小说\",\"url\":\"/dushixiaoshuo/3_{{page}}.html\",\"style\":{\"layout_flexGrow\":0.25}},{\"title\":\"穿越小说\",\"url\":\"/chuanyuexiaoshuo/4_{{page}}.html\",\"style\":{\"layout_flexGrow\":0.25}},{\"title\":\"网游小说\",\"url\":\"/wangyouxiaoshuo/5_{{page}}.html\",\"style\":{\"layout_flexGrow\":0.25}},{\"title\":\"科幻小说\",\"url\":\"/kehuanxiaoshuo/6_{{page}}.html\",\"style\":{\"layout_flexGrow\":0.25}}]",
+        "lastUpdateTime":  1692661475820,
+        "loginUrl":  "",
+        "respondTime":  15672,
+        "ruleBookInfo":  {
+                             "author":  "id.info@tag.p.0@text##作 者：",
+                             "coverUrl":  "id.fmimg@img@src",
+                             "init":  "",
+                             "intro":  "id.intro@text",
+                             "kind":  "id.info@tag.p.2@text\u0026\u0026\n[property=og:novel:category]@content##最后更新：",
+                             "lastChapter":  "id.info@tag.p.3@a@text##免费章节 |正文卷 |正文 |VIP章节 ",
+                             "name":  "id.info@tag.h1@text",
+                             "wordCount":  ""
+                         },
+        "ruleContent":  {
+                            "content":  "id.content@html##笔趣阁.*最新章节！|最快更新.*最新章节！|最新网址.*com"
+                        },
+        "ruleExplore":  {
+                            "author":  "class.s5@text",
+                            "bookList":  "class.l@li",
+                            "bookUrl":  "class.s2@a@href",
+                            "coverUrl":  "class.s2@a@href\u003cjs\u003e\nvar id = result.match(/(\\d+)\\/?$/)[1];\nvar iid = parseInt(id/1000);\n\u0027/files/article/image/\u0027+iid+\u0027/\u0027+id+\u0027/\u0027+id+\u0027s.jpg\u0027;\n\u003c/js\u003e",
+                            "intro":  "",
+                            "kind":  "",
+                            "lastChapter":  "class.s3@a@text",
+                            "name":  "class.s2@a@text"
+                        },
+        "ruleReview":  {
+
+                       },
+        "ruleSearch":  {
+                           "author":  "tag.td.2@text",
+                           "bookList":  "class.grid@tag.tr!0",
+                           "bookUrl":  "tag.td.0@tag.a@href",
+                           "coverUrl":  "tag.td.0@tag.a@href\u003cjs\u003e\nvar id = result.match(/(\\d+)\\/?$/)[1];\nvar iid = parseInt(id/1000);\n\u0027/files/article/image/\u0027+iid+\u0027/\u0027+id+\u0027/\u0027+id+\u0027s.jpg\u0027;\n\u003c/js\u003e",
+                           "kind":  "tag.td.4@text\u0026\u0026\ntag.td.5@text",
+                           "lastChapter":  "tag.td.1@tag.a@text##免费章节 |正文卷 |正文 |VIP章节 ",
+                           "name":  "tag.td.0@tag.a@text",
+                           "wordCount":  "tag.td.3@text"
+                       },
+        "ruleToc":  {
+                        "chapterList":  "id.list@tag.dd",
+                        "chapterName":  "tag.a@text",
+                        "chapterUrl":  "tag.a@href"
+                    },
+        "searchUrl":  "/modules/article/search.php?s=0000\u0026q={{key}}",
+        "weight":  0
+    }
+]

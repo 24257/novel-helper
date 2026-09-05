@@ -39,6 +39,30 @@ internal val NOVEL_HELPER_BUILTIN_SOURCE_URLS = listOf(
     "https://www.dingdian678.com",
     "https://www.xbiquge2345.com",
     "https://www.lengsk.com",
+    "https://www.00shu.la/",
+    "https://wujixsw.info/",
+    "http://www.gdbzkz.com/",
+    "http://www.xinbqg.org/",
+    "https://www.yeban360.com",
+    "https://zhongtianwen.cn",
+    "http://www.feisuwx.org",
+    "http://www.3yt.la",
+    "http://www.aixiawx.com/",
+    "http://www.yetianlian.info/",
+    "https://www.biqusa.com/",
+    "https://www.yingsx.com/",
+    "https://www.14oz.net/",
+    "https://www.jrleaguepasadena.org/",
+    "https://m.huaboedu.com/",
+    "http://www.xs5300.org/",
+    "http://www.92xs.info",
+    "http://wap.qiqixs.info",
+    "http://www.23uswx.la",
+    "https://www.shenhuazhihou.com",
+    "https://www.zhizhuxs.com",
+    "https://m.kudushu.org",
+    "http://wap.wangshuge.la",
+    "http://www.qudushu.com",
 )
 
 internal val NOVEL_HELPER_UNAVAILABLE_BUILTIN_SOURCE_URLS = setOf(
@@ -122,6 +146,16 @@ object DefaultData {
             Charsets.UTF_8,
         )
 
+        fun loadSourceJson(fileName: String): List<BookSource> {
+            val json = String(
+                appCtx.assets.open(
+                    "defaultData${File.separator}bookSources${File.separator}$fileName"
+                ).readBytes(),
+                Charsets.UTF_8,
+            )
+            return GSON.fromJsonArray<BookSource>(json).getOrThrow()
+        }
+
         val sto66Js = loadSourceJs("sto66.js")
         val bqqugeJs = loadSourceJs("bqquge.js")
         val biquge365Js = loadSourceJs("biquge365.js")
@@ -132,6 +166,54 @@ object DefaultData {
         val dingdian100Js = loadSourceJs("dingdian100.js")
         val dingdian678Js = loadSourceJs("dingdian678.js")
         val lengskJs = loadSourceJs("lengsk.js")
+        val communityPbSources = loadSourceJson("community_pb.json").map { source ->
+            source.copy(
+                bookSourceGroup = NOVEL_HELPER_BUILTIN_SOURCE_GROUP,
+                bookSourceComment = buildString {
+                    append("玄卷内置社区源；规则来源：PB-pobing/pobing。")
+                    source.bookSourceComment?.takeIf { it.isNotBlank() }?.let {
+                        append('\n')
+                        append(it)
+                    }
+                },
+            )
+        }
+        val communityExtraSources = loadSourceJson("community_extra.json").map { source ->
+            source.copy(
+                bookSourceGroup = NOVEL_HELPER_BUILTIN_SOURCE_GROUP,
+                bookSourceComment = buildString {
+                    append("玄卷内置社区源；规则来源：Legado 社区全量书源池。")
+                    source.bookSourceComment?.takeIf { it.isNotBlank() }?.let {
+                        append('\n')
+                        append(it)
+                    }
+                },
+            )
+        }
+        val communityCoverSources = loadSourceJson("community_cover.json").map { source ->
+            source.copy(
+                bookSourceGroup = NOVEL_HELPER_BUILTIN_SOURCE_GROUP,
+                bookSourceComment = buildString {
+                    append("玄卷内置封面实测社区源；已验证真实封面与多章节正文。")
+                    source.bookSourceComment?.takeIf { it.isNotBlank() }?.let {
+                        append('\n')
+                        append(it)
+                    }
+                },
+            )
+        }
+        val communityStrictSources = loadSourceJson("community_strict7.json").map { source ->
+            source.copy(
+                bookSourceGroup = NOVEL_HELPER_BUILTIN_SOURCE_GROUP,
+                bookSourceComment = buildString {
+                    append("玄卷内置严格实测社区源；已验证搜索、详情、真实封面、完整目录及前后段正文。")
+                    source.bookSourceComment?.takeIf { it.isNotBlank() }?.let {
+                        append('\n')
+                        append(it)
+                    }
+                },
+            )
+        }
         val userAgent =
             """{"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"}"""
         val sto66ExploreUrl =
@@ -315,7 +397,11 @@ object DefaultData {
                 bookSourceComment = "网文小助手内置公开网页源。目录与正文分页自动合并。",
                 mainJs = lengskJs,
             ),
-        ).also { sources ->
+        ).plus(communityPbSources)
+            .plus(communityExtraSources)
+            .plus(communityCoverSources)
+            .plus(communityStrictSources)
+            .also { sources ->
             check(sources.map { it.bookSourceUrl } == NOVEL_HELPER_BUILTIN_SOURCE_URLS) {
                 "内置书源清单与实际配置不一致"
             }
